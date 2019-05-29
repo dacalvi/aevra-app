@@ -9,6 +9,7 @@ import IconHeader from '../components/IconHeader';
 import validate from '../constants/validate_wrapper';
 import { connect } from 'react-redux';
 
+
 class RegistroProfesional2 extends React.Component {
 
     constructor(props){
@@ -65,11 +66,16 @@ class RegistroProfesional2 extends React.Component {
       dataset.fotofrente = ff;
       dataset.fotodnifrente = fdf;
       dataset.fotodnidorso = fdd;
-      console.log(dataset);
+      //console.log(dataset);
       let api = new RestApi();
-      let result = await api.registerProfesional(dataset);
-      console.log(result);
-      this.props.navigation.navigate('GraciasRegistroProfesional');
+      api.registerProfesional(dataset)
+      .then((response)=>{
+        this.props.navigation.navigate('GraciasRegistroProfesional');
+      })
+      .catch((error)=>{
+        alert(error.error);
+       //console.logog(error);
+      });
     }
 
     btnRegistrarmeClick(){

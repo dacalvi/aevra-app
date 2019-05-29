@@ -7,9 +7,7 @@ import  ACamera  from './ACamera';
 import { API_URL } from '../common/config';
 
 
-/*
-Props 
-*/
+
 export default class AvatarProfesional extends React.Component{
     
     constructor(props){
@@ -40,7 +38,7 @@ export default class AvatarProfesional extends React.Component{
                     {this.props.nombre}
                     </Text>
                     <Text style={{ marginTop: 10}}>
-                    {this.props.cantidadTrabajosFinalizados} trabajos finalizados.
+                    {this.props.cantidadTrabajosSolicitados} trabajos solicitados.
                     </Text>
                     <AevraStars rating={this.props.estrellas} size={30}/>
                 </View>

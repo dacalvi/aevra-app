@@ -19,7 +19,7 @@ export default class TrabajoSolicitado extends React.Component{
                 })
                 .catch((err)=>{
                     reject();
-                    console.log(err);
+                    //console.log(err);
                     alert(err);
                 });
             })
@@ -38,7 +38,7 @@ export default class TrabajoSolicitado extends React.Component{
                 })
                 .catch((err)=>{
                     reject();
-                    console.log(err);
+                    //console.log(err);
                     alert(err);
                 });
             })
@@ -64,7 +64,7 @@ export default class TrabajoSolicitado extends React.Component{
                                     'Realmente desea cancelar la solicitud de trabajo?',
                                     [
                                         {text: 'Si, Cancelar', onPress: () => {
-                                            console.log('Cancelando');
+                                            //console.log('Cancelando');
                                             this.cancelarTrabajo(this.props.solicitud.id)
                                             .then(()=>{
                                                 this.props.onChange();

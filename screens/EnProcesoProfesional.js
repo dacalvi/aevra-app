@@ -4,16 +4,12 @@ import  LogoTitle  from './LogoTitle';
 import RestApi from '../common/RestApi';
 import { isSignedIn } from '../common/auth';
 import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView, RefreshControl  } from 'react-native';
-import {IconHeader, OpenDrawerProfesional, EnProcesoClienteItem} from '../components';
-
-
-
-
+import {IconHeader, OpenDrawerProfesional, EnProcesoProfesionalItem} from '../components';
 
 const imageHeight = layout.window.height / 2.5;
 const imageWidth = layout.window.width;
 
-export default class EnprocesoCliente extends React.Component {
+export default class EnprocesoProfesional extends React.Component {
 
   static navigationOptions = {
     headerTitle: <LogoTitle />,
@@ -29,7 +25,7 @@ export default class EnprocesoCliente extends React.Component {
     super(props);
     this.state = {
       refreshing: false,
-      enprocesocliente : []
+      enprocesoprofesional : []
     };
   }
 
@@ -38,20 +34,21 @@ export default class EnprocesoCliente extends React.Component {
     .then(()=>{ 
       this.api = new RestApi();
       this.setState({refreshing: true});
-      this.api.enprocesocliente()
+      this.api.enprocesoprofesional()
         .then((responseJson)=>{
-          console.log(responseJson);
+          //console.log(responseJson);
           this.setState({refreshing: false});
-          this.setState({enprocesocliente : responseJson.data});
+
+          this.setState({enprocesoprofesional : responseJson.data});
         })
         .catch((err)=>{
-          console.log(err);
+          //console.log(err);
           this.setState({refreshing: false});
           alert(err);
         });
     })
     .catch(()=>{ 
-      console.log("NO ESTA LOGEADO en EnProcesoCliente");
+      //console.log("NO ESTA LOGEADO en EnProcesoCliente");
       this.props.navigation.navigate('Auth') 
     });
   }
@@ -79,12 +76,18 @@ export default class EnprocesoCliente extends React.Component {
           <IconHeader 
             source={require('../assets/images/icon-user-black.png')}
             topTitle=""
-            title="Trabajos en Proceso (P)"
+            title="Trabajos en Proceso"
             style={{marginBottom: 20}} />
           
-            {this.state.enprocesocliente.map((item, i)=>{
+            {this.state.enprocesoprofesional.map((item, i)=>{
                 return (
-                  <EnProcesoClienteItem item={item} key={i} />
+                  <EnProcesoProfesionalItem 
+                    onCancelTrabajo={()=>{
+                      this._onRefresh();
+                    }}
+                    item={item} 
+                    key={i} 
+                    navigation={navigation}/>
                 );
             })}
         </View>
@@ -93,10 +96,3 @@ export default class EnprocesoCliente extends React.Component {
     );
   }
 }
-
-
-
-
-
-
-

@@ -13,12 +13,14 @@ import GraciasRegistroCliente from '../screens/GraciasRegistroCliente';
 import GraciasRegistroProfesional from '../screens/GraciasRegistroProfesional';
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import OfertasTrabajo from '../screens/OfertasTrabajo';
+import MiPerfilProfesional from '../screens/MiPerfilProfesional';
 import PerfilProfesional from '../screens/PerfilProfesional';
 import EnProcesoProfesional from '../screens/EnProcesoProfesional';
 import EnProcesoCliente from '../screens/EnProcesoCliente';
 import TrabajosFinalizados from '../screens/TrabajosFinalizados';
 import Postulaciones from '../screens/Postulaciones';
 import PerfilCliente from '../screens/PerfilCliente';
+import MiPerfilCliente from '../screens/MiPerfilCliente';
 import TrabajosSolicitados from '../screens/TrabajosSolicitados';
 import Logout from '../screens/Logout';
 import ElegirServicio from '../screens/ElegirServicio';
@@ -29,12 +31,21 @@ import SolicitudServicioGracias from '../screens/SolicitudServicioGracias';
 import AdherirCategoriaProfesional from '../screens/AdherirCategoriaProfesional';
 import RegistroProfesionalValidado from '../screens/RegistroProfesionalValidado';
 import DescripcionTrabajoProfesional from '../screens/DescripcionTrabajoProfesional';
+import DescripcionTrabajoProfesionalReadOnly from '../screens/DescripcionTrabajoProfesionalReadOnly';
 import DescripcionTrabajoUbicacion from '../screens/DescripcionTrabajoUbicacion';
 import DescripcionTrabajoUbicacionReadOnly from '../screens/DescripcionTrabajoUbicacionReadOnly';
 import Postular from '../screens/Postular';
 import PostularGracias from '../screens/PostularGracias';
+import FinalizarTrabajo from '../screens/FinalizarTrabajo';
+import Chat from '../screens/Chat';
+import ModificarPresupuesto from '../screens/ModificarPresupuesto';
+import ElegirServicioFlete from '../screens/ElegirServicioFlete';
+import ElegirServicioMascota from '../screens/ElegirServicioMascota';
+import ElegirServicioProfesor from '../screens/ElegirServicioProfesor';
+import DetalleDeuda from '../screens/DetalleDeuda';
 
 //profesional autenticados stack
+/*
 const ProfesionalAppStack = createStackNavigator({
   OfertasTrabajo: OfertasTrabajo,
   PerfilProfesionalPrivado: PerfilProfesional,
@@ -48,17 +59,19 @@ const ProfesionalAppStack = createStackNavigator({
   Postular: Postular,
   PostularGracias: PostularGracias
 },{initialRouteName: 'OfertasTrabajo'});
-
+*/
 
 export default createAppContainer(createSwitchNavigator( {
   AuthLoading: AuthLoadingScreen,
   ProfesionalApp: createDrawerNavigator({
       PerfilProfesionalPrivadoStack: {navigationOptions: {drawerLabel: 'Mi perfil'}, screen: createStackNavigator({
-        PerfilProfesional123: PerfilProfesional
+        PerfilProfesional123: MiPerfilProfesional,
+        
+        DetalleDeuda: DetalleDeuda,
       },{initialRouteName: 'PerfilProfesional123'})},
       ProfesionalAppStack: {navigationOptions: {drawerLabel: 'Ofertas de trabajo'}, screen: createStackNavigator({
         OfertasTrabajo: OfertasTrabajo,
-        PerfilProfesionalPrivado: PerfilProfesional,
+        PerfilProfesionalPrivado: MiPerfilProfesional,
         EnProcesoProfesional: EnProcesoProfesional,
         TrabajosFinalizados: TrabajosFinalizados,
         Postulaciones: Postulaciones,
@@ -71,7 +84,11 @@ export default createAppContainer(createSwitchNavigator( {
         PostularGracias: PostularGracias
       },{initialRouteName: 'OfertasTrabajo'})},
       EnProceso: {navigationOptions: {drawerLabel: 'En proceso'}, screen: createStackNavigator({
-          EnProcesoProfesional: EnProcesoProfesional
+          EnProcesoProfesional: EnProcesoProfesional,
+          DescripcionTrabajoProfesionalReadOnly: DescripcionTrabajoProfesionalReadOnly,
+          DescripcionTrabajoUbicacionReadOnly: DescripcionTrabajoUbicacionReadOnly,
+          Chat: Chat,
+          ModificarPresupuesto: ModificarPresupuesto
         },{initialRouteName: 'EnProcesoProfesional'})},
       TrabajosFinalizadosStack: {navigationOptions: {drawerLabel: 'Trabajos finalizados'}, screen: createStackNavigator({
           TrabajosFinalizados, TrabajosFinalizados
@@ -80,24 +97,28 @@ export default createAppContainer(createSwitchNavigator( {
           Postulaciones: Postulaciones,
           DescripcionTrabajoProfesional: DescripcionTrabajoProfesional,
           DescripcionTrabajoUbicacion: DescripcionTrabajoUbicacionReadOnly,
+          DescripcionTrabajoUbicacionReadOnly: DescripcionTrabajoUbicacionReadOnly
         },{initialRouteName: 'Postulaciones'})},
       Logout: {screen: Logout, navigationOptions: {drawerLabel: 'Cerrar sesión'}},
     },{drawerPosition : 'right', drawerType : 'slide', drawerLabel: 'Profesional', initialRouteName: 'ProfesionalAppStack'}),
   ClienteApp: createDrawerNavigator({
       PerfilClienteStack: {navigationOptions: { drawerLabel: 'Mi perfil'}, screen: createStackNavigator({
-        PerfilCliente : PerfilCliente
-        },{initialRouteName: 'PerfilCliente'})},
+        MiPerfilCliente1 : MiPerfilCliente
+        },{initialRouteName: 'MiPerfilCliente1'})},
       ElegirServicio: {navigationOptions: {drawerLabel: 'Solicitar Servicio'}, screen: createStackNavigator({
         ElegirServicio: ElegirServicio,
+        ElegirServicioMascota: ElegirServicioMascota,
         PerfilProfesionalPublico: PerfilProfesional,
-        PerfilCliente: PerfilCliente,
+        MiPerfilCliente: MiPerfilCliente,
         TrabajosSolicitadosCliente: TrabajosSolicitados,
         EnProcesoCliente: EnProcesoCliente,
         TrabajosFinalizadosCliente: TrabajosFinalizados,
         SolicitarServicio: SolicitarServicio,
         SolicitarServicio2: SolicitarServicio2,
         SolicitarServicio3: SolicitarServicio3,
-        SolicitudServicioGracias: SolicitudServicioGracias
+        SolicitudServicioGracias: SolicitudServicioGracias,
+        ElegirServicioFlete: ElegirServicioFlete,
+        ElegirServicioProfesor: ElegirServicioProfesor,
         },{initialRouteName: 'ElegirServicio'})},
       TrabajosSolicitados: {navigationOptions: {drawerLabel: 'Trabajos Solicitados'}, screen: createStackNavigator({
           TrabajosSolicitadosCliente: TrabajosSolicitados,
@@ -106,7 +127,11 @@ export default createAppContainer(createSwitchNavigator( {
           initialRouteName: 'TrabajosSolicitadosCliente'
         })},
       EnProceso: {navigationOptions: {drawerLabel: 'Trabajos en proceso'}, screen: createStackNavigator({
-          EnProcesoCliente: EnProcesoCliente
+          EnProcesoCliente: EnProcesoCliente,
+          DescripcionTrabajoProfesionalReadOnly: DescripcionTrabajoProfesionalReadOnly,
+          DescripcionTrabajoUbicacionReadOnly: DescripcionTrabajoUbicacionReadOnly,
+          Chat: Chat,
+          FinalizarTrabajo: FinalizarTrabajo
         },{
           initialRouteName: 'EnProcesoCliente'
         })},

@@ -40,7 +40,7 @@ class RegistroCliente extends React.Component {
     };
 
     btnRegistrarClick(){
-      console.log("btnRegistrarClick");
+      //console.log("btnRegistrarClick");
       const emailError = validate('email', this.state.email);
       const nombreError = validate('nombre', this.state.nombre);
       const apellidoError = validate('apellido', this.state.apellido);
@@ -63,17 +63,17 @@ class RegistroCliente extends React.Component {
           "email": this.state.email,
           "password": this.state.password
         }
-        console.log(registrationData);
+       //console.logog(registrationData);
 
         let api = new RestApi();
         api.registerCliente(registrationData)
         .then((result)=>{
-          console.log(result);
+         //console.logog(result);
           this.props.navigation.navigate('GraciasRegistroCliente');
         })
         .catch((err)=>{
           if(err){
-            console.log(err);
+           //console.logog(err);
             this.setState({isVisible: true, errorMsg: err.error});
           }
         });

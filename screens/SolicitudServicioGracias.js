@@ -46,7 +46,7 @@ class SolicitudServicioGracias extends React.Component {
         this.inputPassword.focus();
       }else{
         this.props.login(responseJson.token);
-        console.log(responseJson);
+       //console.log(responseJson);
         this.props.navigation.navigate('ElegirServicio');
       }
     })
@@ -84,14 +84,23 @@ class SolicitudServicioGracias extends React.Component {
                 title={this.props.navigation.getParam('nombre')}
                 source={this.props.navigation.getParam('imagen')}
                 />
-                
-                <Text>Muchas Gracias</Text>
-        <Text>A la brevedad un trababajador</Text>
-        <Text>se pondra en contacto con usted</Text>
-          
-              <Button raised primary text="TERMINAR" style={styles.botonAevra} 
-              onPress={() => {this.props.navigation.navigate('ElegirServicio');}}
-              />
+                <View style={{
+                  flex: 1, 
+                  flexDirection: 'column', 
+                  justifyContent: 'center', 
+                  alignItems: 'center'
+                  }}>
+                  <Text>Muchas Gracias</Text>
+                  <Text>A la brevedad un trababajador</Text>
+                  <Text>se pondra en contacto con usted</Text>
+                  <Button 
+                    raised 
+                    primary 
+                    text="TERMINAR" 
+                    style={styles.botonAevra} 
+                    onPress={() => {this.props.navigation.navigate('ElegirServicio');}}
+                  />
+                </View>
                 
     
             

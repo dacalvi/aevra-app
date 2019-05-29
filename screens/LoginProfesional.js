@@ -29,18 +29,18 @@ export default class LoginProfesional extends React.Component {
   };
 
   btnIngresarClick(){
-    console.log(this.state);
+    //console.log(this.state);
     let api = new RestApi();
     api.login({
       "username": this.state.username,
       "password": this.state.password
     })
     .then((response)=>{
-      console.log(response);
+      //console.log(response);
       this.props.navigation.navigate('ProfesionalApp');
     })
     .catch((err)=>{
-      console.log("ERROR?"+err);
+      //console.log("ERROR?"+err);
       if(err && err.error){
         if(err.error == "Inactive"){
           alert("Su cuenta no se activa todavia, para activarla haga click en el link que le enviamos por email");

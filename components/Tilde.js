@@ -16,7 +16,7 @@ export default class Tilde extends React.Component {
     return (
       <View style={{flex: 1,flexDirection: 'row',maxHeight: 50,height: 50}}>
         <View style={{ 
-          //width: '15%'
+          width: '10%',
           marginRight: 10 
         }}>
           <Checkbox
@@ -30,7 +30,7 @@ export default class Tilde extends React.Component {
           />
         </View>
         <View style={{ 
-          //width: '85%' 
+          width: '80%' 
           }} >
           <Text
             style={{ marginBottom: 10, marginTop: 10  }}

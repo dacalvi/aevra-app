@@ -178,6 +178,16 @@ const validation = {
       }
     },
 
+    comentarios: {
+      presence: {
+        message: '^Por favor ingrese algun comentario'
+      },
+      length: {
+        minimum: 1,
+        message: '^Por favor ingrese algun comentario'
+      }
+    },
+
     costo_presupuesto_aceptado: {
       presence: {
         message: '^Debe marcar con un tilde que acepta las condiciones de presupuesto.'
@@ -197,6 +207,47 @@ const validation = {
         message: '^Por favor ingrese el monto'
       }
     },
+
+    nivel: {
+      presence: {
+        message: '^Por favor ingrese el nivel'
+      },
+      length: {
+        minimum: 1,
+        message: '^Por favor ingrese el nivel'
+      }
+    },
+
+    materia: {
+      presence: {
+        message: '^Por favor ingrese la materia'
+      },
+      length: {
+        minimum: 1,
+        message: '^Por favor ingrese la materia'
+      }
+    },
+
+    profesor_horas: {
+      presence: {
+        message: '^Por favor ingrese la cantidad de horas'
+      },
+      length: {
+        minimum: 1,
+        message: '^Por favor ingrese la cantidad de horas'
+      }
+    },
+
+    profesor_descripcion: {
+      presence: {
+        message: '^Por favor ingrese la descripcion de los temas'
+      },
+      length: {
+        minimum: 1,
+        message: '^Por favor ingrese la descripcion de los temas'
+      }
+    }
+
 
   }
   

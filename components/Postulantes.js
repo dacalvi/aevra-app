@@ -10,6 +10,20 @@ export default class Postulantes extends React.Component {
         return (
                 <View>
                     <GroupTitle label="Postulantes" />
+
+                    { this.props.postulantes.length == 0 ? 
+                    <View style={{
+                        flex:1,
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center'  
+                    }}>
+                    <Text>Todavia no se ha postulado nadie para este trabajo...</Text>
+                    
+                    </View>
+                    : <Text></Text>  
+                    }
+
                     { this.props.postulantes.map((postulante, i)=>{
                         return (
                             <View key={i}>

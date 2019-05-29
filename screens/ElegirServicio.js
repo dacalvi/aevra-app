@@ -9,6 +9,7 @@ import OpenDrawerProfesional from '../components/OpenDrawerProfesional';
 import RestApi from '../common/RestApi';
 import { isSignedIn } from '../common/auth';
 
+
 const imageHeight = layout.window.height / 2.5;
 const imageWidth = layout.window.width;
 
@@ -44,7 +45,7 @@ class ElegirServicio extends React.Component {
           this.setState({categorias : responseJson.data});
         })
         .catch((err)=>{
-          console.log(err);
+          //console.log(err);
           alert(err);
         });
     })
@@ -63,7 +64,19 @@ class ElegirServicio extends React.Component {
                     key={i} 
                     imagen={categoria.imagen} 
                     onPress={()=>{
-                      this.props.navigation.navigate('SolicitarServicio', categoria)
+
+                      if(categoria.id == 11){ //Mascotas
+                        this.props.navigation.navigate('ElegirServicioMascota', categoria);
+                      }else if(categoria.id == 14){ //Limpieza
+                        this.props.navigation.navigate('ElegirServicioLimpieza', categoria);
+                      }else if(categoria.id == 16){ //Fletes
+                        this.props.navigation.navigate('ElegirServicioFlete', categoria);
+                      }else if(categoria.id == 18){ //Profesor
+                        this.props.navigation.navigate('ElegirServicioProfesor', categoria);
+                      }else{
+                        this.props.navigation.navigate('SolicitarServicio', categoria)
+                      }
+
                     }}/>
                 );
             })}

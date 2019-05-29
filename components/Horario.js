@@ -6,6 +6,9 @@ export default class Horario extends React.Component {
     
     constructor(){
         super();
+        this.state = {
+            horario: '9a12'
+        }
     }
 
     createItems(itemsArray){
@@ -25,17 +28,18 @@ export default class Horario extends React.Component {
                 flex: 1,
                 justifyContent: 'flex-start',
                 flexDirection: 'row',
-                width: '100%',
+                
                 padding: 10,
                 maxHeight: 100 }}>
                 <Text style={{ marginRight: 10 }}>{this.props.label}</Text>
                 <Picker
-                    selectedValue={this.props.selectedValue}
-                    style={{height: 50, width: 300}}
-                    onValueChange={(itemValue, itemIndex) =>
-                        this.props.onValueChange(itemValue, itemIndex)
-                    }>
-                    {this.createItems(this.props.items)}
+                selectedValue={this.state.horario}
+                style={{height: 50, width: 200}}
+                onValueChange={(itemValue, itemIndex) =>
+                    this.setState({horario: itemValue})
+                }>
+                <Picker.Item label="9 a 12" value="9a12" />
+                <Picker.Item label="13 a 18" value="13a18" />
                 </Picker>
             </View>
         )

@@ -6,7 +6,7 @@ import {
         OpenDrawerProfesional, 
         GroupTitle, 
         MultilineText,
-        ATextinputWithIcon
+        ATextinputNumberWithIcon
 } from '../components';
 import validate from '../constants/validate_wrapper';
 import { View, Text, KeyboardAvoidingView, ScrollView } from 'react-native';
@@ -35,7 +35,8 @@ export default class Postular extends React.Component {
     this.state = {
         comentarioError: '',
         precio:'',
-        comentario:''
+        comentario:'',
+        buttondisabled : false
     }
   }
 
@@ -54,13 +55,16 @@ export default class Postular extends React.Component {
           "monto": this.state.precio,
           "comentario": this.state.comentario
         };
+        this.setState({buttondisabled: true});
         let api = new RestApi();
+
         api.postular(registrationData).then((result)=>{
+            this.setState({buttondisabled: false});
             if(result.status == "postuled"){
                 this.props.navigation.navigate('PostularGracias', {...this.props.navigation.state.params, precio: registrationData.monto});
             }
         }).catch((error)=>{
-            console.log(error);
+            //console.log(error);
         });
         
      
@@ -88,7 +92,7 @@ export default class Postular extends React.Component {
                         <Text style={{marginLeft: 30}}>tener una mejor oportunidad de realizarlo.</Text>
                         <GroupTitle title="Presupuesto"/>
                         <View style={{width: '90%'}}>
-                            <ATextinputWithIcon
+                            <ATextinputNumberWithIcon
                                 onChangeText={(precio)=> this.setState({precio})} 
                                 iconSource={require('../assets/images/icon-wallet.png')}
                                 placeholder="Monto"
@@ -107,7 +111,7 @@ export default class Postular extends React.Component {
                     </View>
                 </ScrollView>
                 <View style={{flexDirection: 'row',justifyContent: 'center', height: 40}}>
-                    <Button raised primary text="ENVIAR" style={{color: 'white',backgroundColor: '#00AAB4', borderRadius: 30}} 
+                    <Button disabled={this.state.buttondisabled} raised primary text="ENVIAR" style={{color: 'white',backgroundColor: '#00AAB4', borderRadius: 30}} 
                     onPress={ () => { this.btnEnviarClick() } }/>
                 </View>
             </KeyboardAvoidingView>

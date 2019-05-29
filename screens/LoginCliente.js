@@ -27,7 +27,7 @@ class LoginCliente extends React.Component {
       this.props.navigation.navigate('ClienteApp');
     })
     .catch((err)=>{
-      console.log("ERROR?"+err);
+      //console.log("ERROR?"+err);
       if(err && err.error){
         if(err.error == "Pending"){
           alert("Su cuenta se encuentra en proceso de revision, recibira un email con el resultado del proceso muy pronto");

@@ -6,7 +6,7 @@ export default class LocalStore {
         try {
             await AsyncStorage.setItem(key, value);
         } catch (error) {
-            console.log('Error Saving AsyncStorage Kye/Value ' + key + ':' + value + ' ' + error);
+            //console.log('Error Saving AsyncStorage Kye/Value ' + key + ':' + value + ' ' + error);
         }
     };
       
@@ -14,7 +14,7 @@ export default class LocalStore {
         try {
             return await AsyncStorage.getItem(key);
         } catch (error) {
-            console.log("Error Retrieving AsyncStorage Data Key: " + key);
+            //console.log("Error Retrieving AsyncStorage Data Key: " + key);
         }
     };
 
@@ -22,7 +22,7 @@ export default class LocalStore {
         try{
             return await AsyncStorage.getAllKeys();
         } catch (error){
-            console.log("Error Retrieving AsyncStorage Data");
+            //console.log("Error Retrieving AsyncStorage Data");
         }
     }
 }

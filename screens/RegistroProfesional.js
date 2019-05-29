@@ -131,6 +131,7 @@ class RegistroProfesional extends React.Component {
                   onChangeText={value => this.setState({email: value.trim()})}
                   autoCapitalize ={false}
                   onBlur={() => {
+                    console.log("blur");
                     this.setState({
                       emailError: validate('email', this.state.email)
                     })

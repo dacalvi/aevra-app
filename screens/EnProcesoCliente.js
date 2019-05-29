@@ -6,10 +6,6 @@ import { isSignedIn } from '../common/auth';
 import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView, RefreshControl  } from 'react-native';
 import {IconHeader, OpenDrawerProfesional, EnProcesoClienteItem} from '../components';
 
-
-
-
-
 const imageHeight = layout.window.height / 2.5;
 const imageWidth = layout.window.width;
 
@@ -40,12 +36,12 @@ export default class EnprocesoCliente extends React.Component {
       this.setState({refreshing: true});
       this.api.enprocesocliente()
         .then((responseJson)=>{
-          console.log(responseJson);
+          //console.log(responseJson);
           this.setState({refreshing: false});
           this.setState({enprocesocliente : responseJson.data});
         })
         .catch((err)=>{
-          console.log(err);
+          //console.log(err);
           this.setState({refreshing: false});
           alert(err);
         });
@@ -78,15 +74,33 @@ export default class EnprocesoCliente extends React.Component {
           <IconHeader 
             source={require('../assets/images/icon-user-black.png')}
             topTitle=""
-            title="Trabajos en Proceso (C)"
+            title="Trabajos en Proceso"
             style={{marginBottom: 20}} />
           
-          
+          {
+            this.state.enprocesocliente.length == 0 ?
+            <View style={{
+                flex:1,
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center'  
+              }}>
+              <Text>No hay trabajos en proceso todavia...</Text>
+              
+            </View>
+            : <Text></Text>  
+            }
           
 
           {this.state.enprocesocliente.map((item, i)=>{
                 return (
-                  <EnProcesoClienteItem item={item} key={i} />
+                  <EnProcesoClienteItem 
+                    onCancelTrabajo={()=>{
+                      this._onRefresh();
+                    }}
+                    navigation={navigation} 
+                    item={item} 
+                    key={i} />
                 );
             })}
 

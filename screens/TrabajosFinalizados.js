@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView, RefreshContro
 import IconHeader from '../components/IconHeader';
 import OpenDrawerProfesional from '../components/OpenDrawerProfesional';
 
-import  Postulacion  from '../components/Postulacion';
+import  TrabajoFinalizado  from '../components/TrabajoFinalizado';
 
 import RestApi from '../common/RestApi';
 import { isSignedIn } from '../common/auth';
@@ -37,7 +37,7 @@ export default class TrabajosFinalizados extends React.Component {
     super(props);
     this.state = {
       refreshing: false,
-      postulaciones : []
+      trabajos : []
     };
   }
 
@@ -46,19 +46,25 @@ export default class TrabajosFinalizados extends React.Component {
     isSignedIn()
     .then(()=>{ 
       this.api = new RestApi();
-      this.api.postulaciones()
+      this.api.trabajosterminados()
         .then((responseJson)=>{
-          console.log(responseJson);
+         //console.log(responseJson);
           this.setState({refreshing: false});
-          this.setState({postulaciones : responseJson.data});
+          this.setState({trabajos : responseJson.data});
         })
         .catch((err)=>{
-          console.log(err);
+         //console.log(err);
           this.setState({refreshing: false});
           alert(err);
         });
     })
     .catch(()=>{ this.props.navigation.navigate('Auth') });
+  }
+
+  componentDidMount () {
+    this._onFocusListener = this.props.navigation.addListener('didFocus', (payload) => {
+      this._onRefresh();
+    });
   }
 
   componentWillMount(){
@@ -87,11 +93,22 @@ export default class TrabajosFinalizados extends React.Component {
             title="Trabajos Finalizados"
             style={{marginBottom: 20}} />
           
-        
+          { this.state.trabajos.length == 0 ? 
+                    <View style={{
+                        flex:1,
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center'  
+                    }}>
+                    <Text>Todavia no tiene trabajos finalizados...</Text>
+                    
+                    </View>
+                    : <Text></Text>  
+                    }
 
-          {this.state.postulaciones.map((postulacion, i)=>{
+          {this.state.trabajos.map((trabajo, i)=>{
                 return (
-                  <Text key={i} >Trabajos Finalizados</Text>
+                  <TrabajoFinalizado trabajo={trabajo} key={i} />
                 );
             })}
 

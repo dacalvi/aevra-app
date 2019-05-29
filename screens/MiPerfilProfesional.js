@@ -4,17 +4,19 @@ import layout from '../constants/Layout';
 import IconHeader from '../components/IconHeader';
 import OpenDrawerProfesional from '../components/OpenDrawerProfesional';
 import { Image, View, Text, StyleSheet, 
-  KeyboardAvoidingView, Button, ScrollView, ImageEditor, ImageStore, RefreshControl } from 'react-native';
+  KeyboardAvoidingView, ScrollView, ImageEditor, ImageStore, RefreshControl } from 'react-native';
 import { GroupTitle, AevraRating } from '../components';
 import AvatarProfesional from '../components/AvatarProfesional';
 import RestApi from '../common/RestApi';
 
 import { isSignedIn } from '../common/auth';
 
+import { Button } from 'react-native-material-ui';
+
 const imageHeight = layout.window.height / 2.5;
 const imageWidth = layout.window.width;
 
-export default class PerfilProfesional extends React.Component {
+export default class MiPerfilProfesional extends React.Component {
 
   static navigationOptions = {
     headerTitle: <LogoTitle />,
@@ -46,12 +48,13 @@ export default class PerfilProfesional extends React.Component {
     }
   }
 
+
   _onRefresh = () => {
     isSignedIn()
     .then(()=>{ 
       let api = new RestApi();
       this.setState({refreshing: true});
-      api.perfilprofesional(this.props.navigation.state.params.user_id)
+      api.miperfilprofesional()
         .then((responseJson)=>{
           //console.log(">>>>>RESPONSE PERFIL>>>", responseJson);
           this.setState({refreshing: false, perfil : responseJson}, ()=>{   
@@ -69,6 +72,8 @@ export default class PerfilProfesional extends React.Component {
     });
   }
 
+
+  
   componentWillMount(){
     this._onRefresh();
   }
@@ -77,10 +82,10 @@ export default class PerfilProfesional extends React.Component {
     let api = new RestApi();
     api.actualizaravatarprofesional()
     .then((responseJson)=>{
-     //console.logog(">>>>>RESPONSE PERFIL>>>", responseJson);
+      //console.log(">>>>>RESPONSE PERFIL>>>", responseJson);
     })
     .catch((err)=>{
-     //console.logog(err);
+      //console.log(err);
       alert(err);
     });
   }
@@ -112,10 +117,10 @@ export default class PerfilProfesional extends React.Component {
     let api = new RestApi();
     api.actualizaravatarprofesional(avatarbase64)
     .then((responseJson)=>{
-     //console.logog(">>>>>RESPONSE PERFIL>>>", responseJson);
+      //console.log(">>>>>RESPONSE PERFIL>>>", responseJson);
     })
     .catch((err)=>{
-     //console.logog(err);
+      //console.log(err);
       alert(err);
     });
   }
@@ -136,7 +141,7 @@ export default class PerfilProfesional extends React.Component {
           <View style={{marginleft: 20, marginRight:20, marginTop:20, paddingLeft: 10, paddingRight: 10}} >
             <AvatarProfesional 
               avatar={this.state.perfil.avatar}
-              editable={false}
+              editable={true}
               onChangeAvatar={(avatar)=>{this.setState({avatar}, ()=>{ 
                 let apiPayload = {avatar: avatar};
                 this.resizeImagesAndSend(apiPayload);
@@ -156,7 +161,16 @@ export default class PerfilProfesional extends React.Component {
                 );
             })}
 
-
+            <View style={{ flex:1, flexDirection: 'column', alignItems: "center"}}>
+              <Button raised primary 
+                text="DETALLE DE DEUDA" 
+                style={styles.botonAevra} 
+                onPress={() => {this.props.navigation.navigate('DetalleDeuda')} } />
+              <Button raised primary 
+                text="INSCRIBIRSE A UN SERVICIO" 
+                style={styles.botonAevra} 
+                onPress={() => {this.props.navigation.navigate('AdherirCategoriaProfesional')} } />
+            </View>
               
               
           </View>
@@ -166,6 +180,14 @@ export default class PerfilProfesional extends React.Component {
   }
 }
 
+
+const styles = StyleSheet.create({
+  botonAevra: {
+    color: 'white',
+    backgroundColor: '#00AAB4', 
+    borderRadius: 30
+  }
+});
 
 
 

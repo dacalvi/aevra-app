@@ -12,7 +12,7 @@ export class MultiImagePicker extends React.Component {
   createCameras(num){
     let cameras = [];
     for (let i = 1; i <= num; i++) {
-      cameras.push(<ACamera key={i} onPictureTaken={(image) => this.props.onPictureTaken(i, image)} />);
+      cameras.push(<ACamera key={i} initialImage="" onPictureTaken={(image) => this.props.onPictureTaken(i, image)} />);
     }
     return cameras;
   }

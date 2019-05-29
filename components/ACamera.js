@@ -2,15 +2,20 @@ import React, {Component} from 'react';
 import {Modal, Text, TouchableHighlight, TouchableOpacity, View, Alert, Image} from 'react-native';
 import { Camera, Permissions } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
-
+import { Avatar } from 'react-native-paper';
+import { API_URL } from '../common/config';
 export default class ACamera extends Component {
-  
+    
     state = {
         modalVisible: false,
         hasCameraPermission: null,
         type: Camera.Constants.Type.back,
         image: ''
     };
+  
+    constructor(props){
+        super(props);
+    }
 
     setModalVisible(visible) {
         this.setState({modalVisible: visible});
@@ -46,7 +51,7 @@ export default class ACamera extends Component {
                     //Alert.alert('Modal has been closed.');
                 }}>
                 <View style={{flex: 1}}>
-
+                <Text>{this.props.initialImage}</Text>
                     <Camera 
                         style={{ flex: 1 }} type={this.state.type}
                         ref={ref => { this.camera = ref; }} 
@@ -88,8 +93,12 @@ export default class ACamera extends Component {
                 </Modal>
 
                 <TouchableHighlight onPress={() => { this.setModalVisible(true); }}>
+                
                     { this.state.image == '' ?
-                        <Image  style={{ width: 50, height: 50 }} source={require('../assets/images/camera.png')}/> : 
+                        this.props.initialImage == '' ?
+                            <Image  style={{ width: 50, height: 50 }} source={require('../assets/images/camera.png')}/> : 
+                            <Image  style={{ width: 50, height: 50 }} source={{uri: API_URL + this.props.initialImage}}/> : 
+
                         <TouchableHighlight onPress={
                             () => { Alert.alert(
                                 'Imagen',
@@ -116,7 +125,12 @@ export default class ACamera extends Component {
                                 {cancelable: true},
                               ) }
                         }>
-                            <Image  style={{ width: 50, height: 50 }} source={{uri: this.state.image, isStatic:true}}/> 
+                        
+                            { this.props.roundImage ?
+                                <Avatar.Image size={64} source={{uri: this.state.image, isStatic:true}} /> : 
+                                <Image  style={{ width: 50, height: 50 }} source={{uri: this.state.image, isStatic:true}}/> 
+                            }
+
                         </TouchableHighlight>
                     }
                 </TouchableHighlight>

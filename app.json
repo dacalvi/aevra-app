@@ -25,6 +25,19 @@
     "ios": {
       "supportsTablet": true
     },
-    "description": ""
+    "description": "",
+    "extra": {
+      "bugsnag": {
+        "apiKey": "70f83a298f7c7a8c8f0992fb340575ac"
+      }
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "@bugsnag/expo/hooks/post-publish.js",
+          "config": {}
+        }
+      ]
+    }
   }
 }

@@ -56,10 +56,11 @@ export default class OfertasTrabajo extends React.Component {
             this.api.ofertas()
             .then((responseJson)=>{
               this.setState({refreshing: false});
+              //console.log("OFERTAS!!!", responseJson.data);
               this.setState({ofertas : responseJson.data});
             })
             .catch((err)=>{
-              console.log(err);
+             //console.logog(err);
               this.setState({refreshing: false});
               alert(err);
             });
@@ -118,7 +119,21 @@ export default class OfertasTrabajo extends React.Component {
               <Text style={{width: '40%'}}>Servicio</Text>
               <Text style={{width: '60%'}}>Detalle</Text>
           </View>
-          
+
+          {this.state.ofertas.length == 0 ? 
+            <View style={{
+                flex:1,
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginLeft: 20  
+              }}>
+              <Text>No tenemos ofertas de trabajo en su area o especialidad todavia...</Text>
+              
+            </View>
+            : <Text></Text>  
+            }
+
 
           {this.state.ofertas.map((oferta, i)=>{
                 return (

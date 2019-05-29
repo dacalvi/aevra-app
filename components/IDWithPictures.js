@@ -35,7 +35,9 @@ export default IDWithPictures = (props) => {
                 </View>
                 <View style={{ width: `15%` }}>
                 <Text>Frente</Text>
-                    <ACamera onPictureTaken={(image)=>{ 
+                    <ACamera 
+                        initialImage=""
+                        onPictureTaken={(image)=>{ 
                             if(props.onPictureFrenteTaken){
                                 props.onPictureFrenteTaken(image);
                             }
@@ -43,7 +45,9 @@ export default IDWithPictures = (props) => {
                 </View>
                 <View style={{ width: `15%`, flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
                 <Text>Dorso</Text>
-                    <ACamera onPictureTaken={(image)=>{ 
+                    <ACamera 
+                        initialImage=""
+                        onPictureTaken={(image)=>{ 
                             if(props.onPictureDorsoTaken){
                                 props.onPictureDorsoTaken(image);
                             }

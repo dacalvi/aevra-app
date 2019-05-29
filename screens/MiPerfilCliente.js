@@ -6,15 +6,15 @@ import OpenDrawerProfesional from '../components/OpenDrawerProfesional';
 import { Image, View, Text, StyleSheet, 
   KeyboardAvoidingView, Button, ScrollView, ImageEditor, ImageStore, RefreshControl } from 'react-native';
 import { GroupTitle, AevraRating } from '../components';
-import AvatarProfesional from '../components/AvatarProfesional';
+import AvatarCliente from '../components/AvatarCliente';
 import RestApi from '../common/RestApi';
-
+import Tilde from '../components/Tilde';
 import { isSignedIn } from '../common/auth';
 
 const imageHeight = layout.window.height / 2.5;
 const imageWidth = layout.window.width;
 
-export default class PerfilProfesional extends React.Component {
+export default class MiPerfilCliente extends React.Component {
 
   static navigationOptions = {
     headerTitle: <LogoTitle />,
@@ -41,17 +41,22 @@ export default class PerfilProfesional extends React.Component {
         rating_amabilidad: 0,
         rating_calidad: 0,
         rating_orden: 0,
-        comentarios: []
+        comentarios: [],
+        recibir_notificaciones: true,
+        mensajes_privados: true
       }
     }
   }
+
+
+
 
   _onRefresh = () => {
     isSignedIn()
     .then(()=>{ 
       let api = new RestApi();
       this.setState({refreshing: true});
-      api.perfilprofesional(this.props.navigation.state.params.user_id)
+      api.miperfilcliente()
         .then((responseJson)=>{
           //console.log(">>>>>RESPONSE PERFIL>>>", responseJson);
           this.setState({refreshing: false, perfil : responseJson}, ()=>{   
@@ -69,6 +74,8 @@ export default class PerfilProfesional extends React.Component {
     });
   }
 
+
+  
   componentWillMount(){
     this._onRefresh();
   }
@@ -77,10 +84,10 @@ export default class PerfilProfesional extends React.Component {
     let api = new RestApi();
     api.actualizaravatarprofesional()
     .then((responseJson)=>{
-     //console.logog(">>>>>RESPONSE PERFIL>>>", responseJson);
+      //console.log(">>>>>RESPONSE PERFIL>>>", responseJson);
     })
     .catch((err)=>{
-     //console.logog(err);
+      //console.log(err);
       alert(err);
     });
   }
@@ -110,12 +117,12 @@ export default class PerfilProfesional extends React.Component {
   async resizeImagesAndSend(dataset){
     let avatarbase64 = dataset.avatar !== '' ? await this.resizeImage(dataset.avatar, 500, 500) : '';
     let api = new RestApi();
-    api.actualizaravatarprofesional(avatarbase64)
+    api.actualizaravatarcliente(avatarbase64)
     .then((responseJson)=>{
-     //console.logog(">>>>>RESPONSE PERFIL>>>", responseJson);
+      //console.log(">>>>>RESPONSE PERFIL>>>", responseJson);
     })
     .catch((err)=>{
-     //console.logog(err);
+      //console.log(err);
       alert(err);
     });
   }
@@ -134,31 +141,37 @@ export default class PerfilProfesional extends React.Component {
             />
           }>
           <View style={{marginleft: 20, marginRight:20, marginTop:20, paddingLeft: 10, paddingRight: 10}} >
-            <AvatarProfesional 
+            
+            <AvatarCliente 
               avatar={this.state.perfil.avatar}
-              editable={false}
+              editable={true}
               onChangeAvatar={(avatar)=>{this.setState({avatar}, ()=>{ 
                 let apiPayload = {avatar: avatar};
                 this.resizeImagesAndSend(apiPayload);
               })}}
               nombre={this.state.perfil.nombre}
-              cantidadTrabajosFinalizados={this.state.perfil.trabajos_finalizados} 
-              estrellas={this.state.perfil.rating_promedio}/>
-            <AevraRating label="Puntualidad" rating={this.state.perfil.rating_puntualidad}/>
-            <AevraRating label="Amabilidad" rating={parseInt(this.state.perfil.rating_amabilidad)}/>
-            <AevraRating label="Calidad de Servicio" rating={this.state.perfil.rating_calidad}/>
-            <AevraRating label="Orden Limpieza" rating={this.state.perfil.rating_orden}/>
-            <GroupTitle label="Comentarios de Clientes"/>
-              
-            {this.state.perfil.comentarios.map((comentario, i)=>{
-                return (
-                  <Comentario key={i} titulo={comentario.nombre} texto={comentario.comentarios}/>
-                );
-            })}
+              cantidadTrabajosSolicitados={this.state.perfil.trabajos_finalizados} 
+              estrellas={5}/>
+            
+            
+            <Tilde 
+              label="Recibir Notificaciones"
+              checked={this.state.recibir_notificaciones}
+              onPress={(checked) => {
+                this.setState({recibir_notificaciones: checked});
+                //console.log(this.state);
+              }}
+              />
 
-
-              
-              
+            <Tilde 
+              label="Mensajes privados"
+              checked={this.state.mensajes_privados}
+              onPress={(checked) => {
+                this.setState({mensajes_privados: checked});
+                //console.log(this.state);
+              }}
+              />
+          
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

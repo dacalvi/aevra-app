@@ -43,7 +43,7 @@ export default class TrabajosSolicitados extends React.Component {
         })
         .catch((err)=>{
           this.setState({refreshing: false});
-          console.log(err);
+         //console.log(err);
           alert(err);
         });
     })
@@ -68,7 +68,7 @@ export default class TrabajosSolicitados extends React.Component {
           this.setState({solicitudes : responseJson.data});
         })
         .catch((err)=>{
-          console.log(err);
+         //console.log(err);
           alert(err);
         });
     })
@@ -100,6 +100,19 @@ export default class TrabajosSolicitados extends React.Component {
             title="Trabajos Solicitados"
             style={{marginBottom: 20}} />
           
+            {this.state.solicitudes.length == 0 ? 
+            <View style={{
+                flex:1,
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center'  
+              }}>
+              <Text>No hay trabajos solicitados todavia...</Text>
+              
+            </View>
+            : <Text></Text>  
+            }
+
             {this.state.solicitudes.map((solicitud, i)=>{
               return (
                 <TrabajoSolicitado 
@@ -110,7 +123,6 @@ export default class TrabajosSolicitados extends React.Component {
               );
             })}
           
-
         </View>
 
         

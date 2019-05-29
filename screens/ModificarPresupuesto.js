@@ -6,16 +6,16 @@ import {
         OpenDrawerProfesional, 
         GroupTitle, 
         MultilineText,
-        ATextinputWithIcon
+        ATextinputNumberWithIcon
 } from '../components';
 import validate from '../constants/validate_wrapper';
-import { View, Text, KeyboardAvoidingView, ScrollView, Image } from 'react-native';
+import { View, Text, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { Button  } from 'react-native-material-ui';
 import RestApi from '../common/RestApi';
 const imageHeight = layout.window.height / 2.5;
 const imageWidth = layout.window.width;
 
-export default class PostularGracias extends React.Component {
+export default class ModificarPresupuesto extends React.Component {
 
   static navigationOptions = {
     headerTitle: <LogoTitle />,
@@ -55,11 +55,12 @@ export default class PostularGracias extends React.Component {
           "comentario": this.state.comentario
         };
         let api = new RestApi();
-        api.postular(registrationData).then((result)=>{
+        api.modificarpresupuesto(registrationData).then((result)=>{
             if(result.status == "postuled"){
                 this.props.navigation.navigate('PostularGracias', {...this.props.navigation.state.params, precio: registrationData.monto});
             }
         }).catch((error)=>{
+            //bugsnagClient.notify(new Error(error));
             //console.log(error);
         });
         
@@ -80,32 +81,34 @@ export default class PostularGracias extends React.Component {
 
                         <IconHeader 
                             source={require('../assets/images/icon-user-black.png')}
-                            topTitle="Descripcion del Trabajo"
+                            topTitle="Modificar presupuesto para trabajo"
                             title={this.props.navigation.state.params.nombre}
                             style={{marginBottom: 20}} />
+                         
+                        
+                        <GroupTitle title="Presupuesto"/>
+                        <View style={{width: '90%'}}>
+                            <ATextinputNumberWithIcon
+                                onChangeText={(precio)=> this.setState({precio})} 
+                                iconSource={require('../assets/images/icon-wallet.png')}
+                                placeholder="Monto"
+                                error={this.state.montoError}
+                                />
 
-                        <GroupTitle label="Descripcion del trabajo a realizar"/>
-                        <Text style={{marginLeft: 10, marginRight: 10}}>{this.props.navigation.state.params.descripcion}</Text>
-
-                        <View style={{flex: 1, flexDirection: 'column'}}>
-                            <GroupTitle label="Presupuesto"/>
-                            
-                            <View style={{flex:1, flexDirection:'row', marginLeft: 10}}>
-                              <Image style={{width: 20, height: 20 }} source={require('../assets/images/icon-wallet.png')}/>
-                              <Text style={{fontSize: 18, fontWeight: 'bold'}}> $ {this.props.navigation.state.params.precio}</Text>
-                            </View>
-                            
-                            <View style={{marginLeft: 10, marginTop: 20}}>
-                              <Text>Muchas Gracias.</Text>
-                              <Text>En caso de seleccionar su presupuesto para el trabajo le notificaremos</Text>
-                            </View>
                         </View>
- 
+                        <MultilineText 
+                            label="Añadir Comentario" 
+                            placeholder="Comentario explicando la razon de la modificacion del presupuesto"
+                            onChangeText={ (comentario)=>{this.setState({comentario}) } }
+                            error={this.state.comentarioError}
+                            />
+
+                        
                     </View>
                 </ScrollView>
                 <View style={{flexDirection: 'row',justifyContent: 'center', height: 40}}>
-                    <Button raised primary text="CERRAR" style={{color: 'white',backgroundColor: '#00AAB4', borderRadius: 30}} 
-                    onPress={ () => { this.props.navigation.navigate('OfertasTrabajo') } }/>
+                    <Button raised primary text="MODIFICAR PRESUPUESTO" style={{color: 'white',backgroundColor: '#00AAB4', borderRadius: 30}} 
+                    onPress={ () => { this.btnEnviarClick() } }/>
                 </View>
             </KeyboardAvoidingView>
     );

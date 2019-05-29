@@ -6,6 +6,7 @@ import GroupTitle from './GroupTitle';
 import IconText from './IconText';
 import MultilineText from './MultilineText';
 import ATextinputWithIcon from './ATextinputWithIcon';
+import ATextinputNumberWithIcon from './ATextinputNumberWithIcon';
 import TextoDosColumnas from './TextoDosColumnas';
 import TrabajoSolicitado from './TrabajoSolicitado';
 import Postulantes from './Postulantes';
@@ -34,5 +35,6 @@ export {
     AevraStars,
     Postulacion,
     EnProcesoClienteItem,
-    EnProcesoProfesionalItem
+    EnProcesoProfesionalItem,
+    ATextinputNumberWithIcon
 } ;

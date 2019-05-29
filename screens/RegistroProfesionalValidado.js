@@ -133,6 +133,7 @@ class RegistroProfesionalValidado extends React.Component {
       });
 
       this.sendAllRequests(categorias).then( (response) => {
+        //console.log(payload);
         this.saveWorkingArea(payload)
         .then( (response) => {
           this.props.navigation.navigate('OfertasTrabajo');
@@ -153,7 +154,7 @@ class RegistroProfesionalValidado extends React.Component {
       keyboardVerticalOffset={-200}
       enabled>  
       <ScrollView>
-        <View style={{ marginTop:20}} >
+        <View style={{ marginTop:20 , paddingRight: 10}} >
           <IconHeader 
             source={require('../assets/images/icon-user-black.png')}
             topTitle="Registro"
@@ -172,18 +173,15 @@ class RegistroProfesionalValidado extends React.Component {
           }
           }/>
 
-          <ADiaSemanaSelector onDayChange={(dayIndex, status)=> {
-            let { dias } = this.state;
-            dias[dayIndex] = status;
-            this.setState({dias});
-          }} />
+          <View style={{marginLeft: 10, paddingRight: 10, marginTop: 15, width: '90%'}}>
+            <ADiaSemanaSelector onDayChange={(dayIndex, status)=> {
+              let { dias } = this.state;
+              dias[dayIndex] = status;
+              this.setState({dias});
+            }} />
+          </View>
 
-          <Horario 
-            selectedValue="9a12"
-            onValueChange={(horario)=>{ 
-              this.setState( {horario})
-            }}
-            />
+          <Horario onChangeValue={(horario => this.setState({horario}))}/>
 
           <View style={{flexDirection: 'row',justifyContent: 'center', marginBottom: 40}}>      
             <Button raised primary text="TERMINAR" style={styles.botonAevra} 

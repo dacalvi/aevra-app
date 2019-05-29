@@ -14,8 +14,7 @@ import {MultiImagePicker} from '../components/MultiImagePicker';
 import GroupTitle from '../components/GroupTitle';
 import Tilde from '../components/Tilde';
 import { Constants, MapView } from 'expo';
-import { Ionicons } from '@expo/vector-icons';
-import IconText from '../components/IconText';
+
 
 class SolicitarServicio3 extends React.Component {
   
@@ -36,14 +35,12 @@ class SolicitarServicio3 extends React.Component {
         errorMsg: '',
         observaciones : '',
         costo_presupuesto_aceptado: false,
-        costo_presupuesto_aceptadoError: ''
+        costo_presupuesto_aceptadoError: '',
+        buttondisabled : false,
+        continuar_button_text: 'CONTINUAR'
     }
 
-    isSignedIn()
-    .then(()=>{ 
-      
-    })
-    .catch(()=>{ this.props.navigation.navigate('Auth') });
+    isSignedIn().then(()=>{ }).catch(()=>{ this.props.navigation.navigate('Auth') });
   }
 
   resizeImage(image, width, height){
@@ -70,32 +67,39 @@ class SolicitarServicio3 extends React.Component {
 
   async resizeImagesAndSend(dataset){
     //console.log("Dataset REACT", dataset);
-    dataset.image1 = dataset.image1 !== '' ? await this.resizeImage(dataset.image1, 500, 500) : '';
-    dataset.image2 = dataset.image2 !== '' ? await this.resizeImage(dataset.image2, 500, 500) : '';
-    dataset.image3 = dataset.image3 !== '' ? await this.resizeImage(dataset.image3, 500, 500) : '';
-    dataset.image4 = dataset.image4 !== '' ? await this.resizeImage(dataset.image4, 500, 500) : '';
-    dataset.image5 = dataset.image5 !== '' ? await this.resizeImage(dataset.image5, 500, 500) : '';
+    if(dataset.image1){dataset.image1 = dataset.image1 !== '' ? await this.resizeImage(dataset.image1, 500, 500) : '';}
+    if(dataset.image2){dataset.image2 = dataset.image2 !== '' ? await this.resizeImage(dataset.image2, 500, 500) : '';}
+    if(dataset.image3){dataset.image3 = dataset.image3 !== '' ? await this.resizeImage(dataset.image3, 500, 500) : '';}
+    if(dataset.image4){dataset.image4 = dataset.image4 !== '' ? await this.resizeImage(dataset.image4, 500, 500) : '';}
+    if(dataset.image5){dataset.image5 = dataset.image5 !== '' ? await this.resizeImage(dataset.image5, 500, 500) : '';}
     //console.log(dataset);
     let api = new RestApi();
-    let result = await api.serviceRequest(dataset);
+    this.setState({buttondisabled: true});
+    api.serviceRequest(dataset)
+    .then((result)=>{
+      this.setState({buttondisabled: false});
+     //console.log(result);
+      this.props.navigation.navigate('SolicitudServicioGracias', this.props.navigation.state.params);
+    })
+    .catch((error)=>{
+      //console.log(error)
+    });
     //console.log(result);
-    this.props.navigation.navigate('SolicitudServicioGracias', this.props.navigation.state.params);
   }
 
+  
 
   btnContinuarClick(){
     const costo_presupuesto_aceptadoError = validate('costo_presupuesto_aceptado', this.state.costo_presupuesto_aceptado);
-    this.setState({
-      costo_presupuesto_aceptadoError: costo_presupuesto_aceptadoError
-    })
+    this.setState({costo_presupuesto_aceptadoError: costo_presupuesto_aceptadoError,})
     if(!costo_presupuesto_aceptadoError){
+      this.setState({continuar_button_text: 'SOLICITANDO...'})
       //Save to store
       let serviceRequestData = {
         observaciones: this.state.observaciones,
         costo_presupuesto_aceptado: this.state.costo_presupuesto_aceptado,
       };
       this.props.saveSolicitudData(serviceRequestData);
-
       let apiPayload = { 
         ...this.state, 
         ...this.props.serviceRequest.serviceRequestData,
@@ -103,7 +107,7 @@ class SolicitarServicio3 extends React.Component {
         }
       delete apiPayload.costo_presupuesto_aceptadoError;
       delete apiPayload.errorMsg;
-
+      delete apiPayload.buttondisabled;
       apiPayload.categoria = this.props.navigation.state.params.id;
       
       apiPayload = this.renameDataSet(apiPayload);
@@ -134,7 +138,7 @@ class SolicitarServicio3 extends React.Component {
     const {isVisible} = this.state
     return (
         <ScrollView>
-        <View style={{marginleft: 20, marginRight:20, marginTop:20, paddingLeft: 10, paddingRight: 10}} >
+        <View style={{marginleft: 20, marginRight:20, marginTop:20, paddingLeft: 10, paddingRight: 20}} >
             <IconHeaderAndTopTitle 
                 topTitle="Servicio solicitado" 
                 title={this.props.navigation.getParam('nombre')}
@@ -142,6 +146,7 @@ class SolicitarServicio3 extends React.Component {
                 />
             <MultilineText 
                 label="Observaciones"
+
                 placeholder=""
                 onChangeText={(observaciones)=>{ this.setState({observaciones: observaciones}) }}
                 error={this.state.descripcionError}
@@ -159,10 +164,10 @@ class SolicitarServicio3 extends React.Component {
               }}
               />
 
-              <Text style={{marginLeft: 10, marginTop: 20}}>En caso de cancelar luego de pedir el presupuesto no seran reintegrados</Text>
+              <Text style={{marginLeft: 10, marginTop: 80}}>En caso de cancelar luego de pedir el presupuesto no seran reintegrados</Text>
 
             <View style={{flexDirection: `row`,justifyContent: `center`, marginBottom: 40}}>      
-                <Button raised primary text="CONTINUAR" style={styles.botonAevra} 
+                <Button disabled={this.state.buttondisabled} raised primary text={this.state.continuar_button_text} style={styles.botonAevra} 
                   onPress={() => { this.btnContinuarClick();}}/>
                 <Snackbar visible={isVisible} message={this.state.errorMsg} onRequestClose={() => this.setState({ isVisible: false })} />
               </View>
@@ -170,6 +175,7 @@ class SolicitarServicio3 extends React.Component {
         </ScrollView>
     );
   }
+
 }
 
 function mapStateToProps(state){

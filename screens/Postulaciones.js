@@ -27,12 +27,8 @@ export default class Postulaciones extends React.Component {
     headerTitleStyle: {flex: 1, textAlign: 'center'}
   };
 
-  
-
   api;
   
-
-
   constructor(props) {
     super(props);
     this.state = {
@@ -48,12 +44,12 @@ export default class Postulaciones extends React.Component {
       this.api = new RestApi();
       this.api.postulaciones()
         .then((responseJson)=>{
-          console.log(responseJson);
+          //console.log(responseJson);
           this.setState({refreshing: false});
           this.setState({postulaciones : responseJson.data});
         })
         .catch((err)=>{
-          console.log(err);
+         //console.logog(err);
           this.setState({refreshing: false});
           alert(err);
         });

@@ -45,7 +45,7 @@ class GraciasRegistroProfesional extends React.Component {
         this.inputPassword.focus();
       }else{
         this.props.login(responseJson.token);
-        console.log(responseJson);
+        //console.log(responseJson);
         this.props.navigation.navigate('ElegirServicio');
       }
     })

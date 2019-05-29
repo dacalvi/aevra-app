@@ -16,18 +16,18 @@ export default class Postulacion  extends React.Component{
     }
 
     cancelarPostulacion(id){
-        console.log("CANCELANDO POSTULACION:" + id);
+        //console.log("CANCELANDO POSTULACION:" + id);
         isSignedIn()
         .then(()=>{ 
         this.api = new RestApi();
         this.api.cancelarPostulacion(id)
             .then((responseJson)=>{
-            console.log(responseJson);
+            //console.log(responseJson);
             this.props.onCancel();
                 //this.setState({postulaciones : responseJson.data});
             })
             .catch((err)=>{
-                console.log(err);
+                //console.log(err);
                 this.setState({refreshing: false});
                 alert(err);
             });

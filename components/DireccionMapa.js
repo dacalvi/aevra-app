@@ -14,6 +14,7 @@ export default class DireccionMapa extends React.Component {
     
     state = {
         location: null,
+        ciudad: null,
         errorMessage: null,
         latitude: -34.6036991,
         longitude: -58.383566,
@@ -26,7 +27,7 @@ export default class DireccionMapa extends React.Component {
             this.setState({
               errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
             });
-            console.log('Oops, this will not work on Sketch in an Android emulator. Try it on your device!');
+            //console.log('Oops, this will not work on Sketch in an Android emulator. Try it on your device!');
           } else {
             Geocoder.init(MAPS_KEY); // use a valid API key
             this._getLocationAsync();
@@ -51,13 +52,17 @@ export default class DireccionMapa extends React.Component {
             
 
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 
     _attemptGeocode = () => {
-        
-        Geocoder.from(this.state.address)
+
+        //console.log("_attemptGeocode", this.state);
+        if(this.state.address === null  || this.state.ciudad === null){ return false; }
+
+
+        Geocoder.from(this.state.address + ', ' + this.state.ciudad + ', Argentina')
 		.then(json => {
             var location = json.results[0].geometry.location;
             this.setState({ latitude: location.lat, longitude: location.lng });
@@ -84,6 +89,31 @@ export default class DireccionMapa extends React.Component {
     render(){
         return (
             <View>
+
+                
+                <View style={{
+                    alignItems: 'center',
+                    backgroundColor: 'rgba(255, 255, 255, 1)',
+                    flex: 1,
+                    justifyContent: 'flex-start',
+                    flexDirection: 'row',
+                    width: '100%',
+                    padding: 10,
+                    maxHeight: 100 
+                    }}>
+                    <Text style={{ marginRight: 10 }}>Ciudad/Localidad</Text>
+                    <View style={{flex: 1, flexDirection: 'row'}}>
+                        <TextInput style={{ width: '80%', borderBottomWidth: 1, borderBottomColor: `rgba(143, 143, 143, 1)` }}
+                            placeholder="" 
+                            onChangeText={ ciudad => {
+                                this.setState({ciudad});
+                            }}
+                            onBlur={()=> this._attemptGeocode()}
+                            />
+
+                    </View>
+                </View>
+                { this.props.error ? <Text style={{color: 'red', marginLeft: 10}}>{this.props.error}</Text> : <Text> </Text> }
 
                 <View style={{
                     alignItems: 'center',
@@ -115,9 +145,9 @@ export default class DireccionMapa extends React.Component {
                                 <Avatar.Icon size={28} icon="arrow-forward" />
                             </TouchableOpacity>
 
-                        { this.props.error ? <Text style={{color: 'red'}}>{this.props.error}</Text> : <Text> </Text> }
                     </View>
                 </View>
+                { this.props.error ? <Text style={{color: 'red', marginLeft: 10}}>{this.props.error}</Text> : <Text> </Text> }
 
                 <Tilde 
                     label="Establecer esta direccion como permanente"

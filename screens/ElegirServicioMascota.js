@@ -12,9 +12,11 @@ import IconHeaderAndTopTitle  from '../components/IconHeaderAndTopTitle';
 import MultilineText from '../components/MultilineText';
 import {MultiImagePicker} from '../components/MultiImagePicker';
 import GroupTitle from '../components/GroupTitle';
-import DireccionMapa from '../components/DireccionMapa';
+import Tilde from '../components/Tilde';
+import { RadioButton } from 'react-native-paper';
 
-class ElegirServicioFlete extends React.Component {
+
+class ElegirServicioMascota extends React.Component {
   
   static navigationOptions = {
     headerTitle: <LogoTitle />,
@@ -25,7 +27,9 @@ class ElegirServicioFlete extends React.Component {
     headerTintColor: '#fff',
     headerTitleStyle: {flex: 1, textAlign: 'center'}
   };
-  
+
+  state = {};
+
   constructor(){
     super();
   
@@ -33,16 +37,8 @@ class ElegirServicioFlete extends React.Component {
         isVisible: false,
         errorMsg: '',
         descripcion: '',
-        image1: '',
-        image2: '',
-        image3: '',
-        image4: '',
-        image5: '',
-        dispone_materiales: false,
-        desea_traigan_materiales: false,
-        observaciones_materiales: '',
-        destino: '', 
-        destino_location: ''
+        tamanio: 'chico',
+        buscar_mascota: 'venir_a_buscar'
     }
 
     isSignedIn()
@@ -53,33 +49,30 @@ class ElegirServicioFlete extends React.Component {
   }
 
   btnContinuarClick(){
-    //console.log(this.state);
+
     const descripcionError = validate('descripcion', this.state.descripcion);
+    
     this.setState({
       descripcionError: descripcionError
     })
+
     if(!descripcionError){
       //Save to store
       let serviceRequestData = {
         descripcion: this.state.descripcion,
-        image1: this.state.image1,
-        image2: this.state.image2,
-        image3: this.state.image3,
-        image4: this.state.image4,
-        image5: this.state.image5,
-        dispone_materiales: this.state.dispone_materiales,
-        desea_traigan_materiales: this.state.desea_traigan_materiales,
-        observaciones_materiales: this.state.observaciones_materiales,
-        flete_destino: this.state.destino, 
-        flete_location: this.state.destino_location.latitude + ',' + this.state.destino_location.longitude
+        mascota_tamanio: this.state.tamanio,
+        mascota_buscar_mascota: this.state.buscar_mascota
       };
       this.props.saveSolicitudData(serviceRequestData);
       this.props.navigation.navigate('SolicitarServicio2', this.props.navigation.state.params);
     }
   }
 
+
+
+
   render() {
-    const {isVisible} = this.state
+    const {isVisible, tamanio, buscar_mascota} = this.state
     return (
 
       <KeyboardAvoidingView 
@@ -94,44 +87,73 @@ class ElegirServicioFlete extends React.Component {
                 title={this.props.navigation.getParam('nombre')}
                 source={this.props.navigation.getParam('imagen')}
                 />
-
-            <GroupTitle label="¿Qué desea trasladar?" />
-
+            
             <MultilineText 
-                label="Describa lo que desea trasladar"
-                placeholder="Cuanto mejor describa el cargamento mejor podremos orientar su servicio"
+                label="Descripcion de la tarea a realizar"
+                placeholder="Cuanto mejor describa el trabajo mejor podremos orientar su servicio"
                 onChangeText={(text)=>{ this.setState({descripcion: text}) }}
                 error={this.state.descripcionError}
                 />
-            <MultiImagePicker 
-              label="Adjuntar Imágenes" 
-              ImageAmount={5}
-              onPictureTaken={(imageIndex, imageBase64) => {
-                let newState = {};
-                newState['image'+imageIndex] = imageBase64;
-                this.setState(newState);
-                //console.log(this.state);
-                
-            }} />
 
-            <GroupTitle label="Destino del Flete" />
+            <GroupTitle label="Tamaño de la mascota" />
+            <View style={{ marginLeft: 10 }}>
+              <RadioButton.Group
+                onValueChange={tamanio => this.setState({ tamanio })}
+                value={this.state.tamanio} >
+                
+                <View>
+                  <View style={{flex:1, flexDirection: 'row'}}>
+                    <Text style={{width: '80%'}}>Chico (entre 1 a 13 kilos)</Text>
+                    <RadioButton  style={{width: '20%'}} value="chico" />
+                  </View>
+                </View>
+
+                <View>
+                  <View style={{flex:1, flexDirection: 'row'}}>
+                    <Text style={{width: '80%'}}>Mediano (entre 14 a 30 kilos)</Text>
+                    <RadioButton  style={{width: '20%'}} value="mediano" />
+                  </View>
+                </View>
+                
+                <View>
+                  <View style={{flex:1, flexDirection: 'row'}}>
+                    <Text style={{width: '80%'}}>Grande (entre 31 kilos o más)</Text>
+                    <RadioButton  style={{width: '20%'}} value="grande" />
+                  </View>
+                </View>
+              </RadioButton.Group>
+            </View>
             
-            <DireccionMapa 
-              onChangeAddress={(address)=>{this.setState({destino: address})}}
-              onChangeLocation={(destino_location)=>{ this.setState({destino_location}) }}
-              guardar_direccion={false}
-              error={this.state.direccionError}
-              onChangeGuardarDireccion={(guardar_direccion_flete) => {
-                this.setState({guardar_direccion_flete});
-              }} />
+            <GroupTitle label="Lugar del servicio" />
+            <View style={{ marginLeft: 10 }}>
+              <RadioButton.Group
+                onValueChange={buscar_mascota => this.setState({ buscar_mascota })}
+                value={this.state.buscar_mascota} >
+                
+                <View>
+                  <View style={{flex:1, flexDirection: 'row'}}>
+                    <Text style={{width: '80%'}}>¿Quiere que vayan a buscar a su mascota?</Text>
+                    <RadioButton  style={{width: '20%'}} value="venir_a_buscar" />
+                  </View>
+                </View>
+
+                <View>
+                  <View style={{flex:1, flexDirection: 'row'}}>
+                    <Text style={{width: '80%'}}>¿Puede llevar a su mascota?</Text>
+                    <RadioButton  style={{width: '20%'}} value="yo_llevo" />
+                  </View>
+                </View>
+                
+                <View>
+                  <View style={{flex:1, flexDirection: 'row'}}>
+                    <Text style={{width: '80%'}}>¿Quere realizar el servicio en su hogar?</Text>
+                    <RadioButton  style={{width: '20%'}} value="en_mi_casa" />
+                  </View>
+                </View>
+              </RadioButton.Group>
+            </View>
             
-            <MultilineText 
-                label="Observaciones"
-                placeholder=""
-                onChangeText={(text)=>{ 
-                    this.setState({observaciones_materiales: text});
-                    //console.log(this.state);
-                    }}/>
+            
               <View style={{flexDirection: `row`,justifyContent: `center`, marginBottom: 40}}>      
                 <Button raised primary text="CONTINUAR" style={styles.botonAevra} 
                   onPress={() => { this.btnContinuarClick();}}/>
@@ -154,4 +176,4 @@ function mapDispatchToProps(dispatch){
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ElegirServicioFlete);
+export default connect(mapStateToProps, mapDispatchToProps)(ElegirServicioMascota);

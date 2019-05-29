@@ -39,7 +39,7 @@ class SolicitarServicio2 extends React.Component {
         urgente: false,
         horario: '9a12',
         direccion: '',
-        guardar_direccion: false,
+        guardar_direccion: true,
         direccionError: ''
     }
 
@@ -80,15 +80,12 @@ class SolicitarServicio2 extends React.Component {
                 topTitle="Servicio solicitado" 
                 title={this.props.navigation.getParam('nombre')}
                 source={this.props.navigation.getParam('imagen')}
-                //title="Carpinteria"
-                //source="http://192.168.0.12/aevra_api/assets/uploads/categorias/2f906-aire.fw.png"
                 />
             <Tilde 
               label="Es una urgencia? (Realizarse inmediatamente)"
               checked={this.state.urgente}
               onPress={(checked) => {
                 this.setState({urgente: checked});
-                console.log(this.state);
               }} />
             
             <IconText text="Seleccione los dias en los que puede realizar el trabajo" icon="perm-contact-calendar" />
@@ -110,9 +107,6 @@ class SolicitarServicio2 extends React.Component {
               onChangeGuardarDireccion={(guardar_direccion) => {
                 this.setState({guardar_direccion: guardar_direccion});
               }} />
-
-            
-
 
               <View style={{flexDirection: `row`,justifyContent: `center`, marginBottom: 40}}>      
                 <Button raised primary text="CONTINUAR" style={styles.botonAevra} 

@@ -5,8 +5,6 @@ import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView, RefreshContro
 import IconHeader from '../components/IconHeader';
 import OpenDrawerProfesional from '../components/OpenDrawerProfesional';
 
-import  Postulacion  from '../components/Postulacion';
-
 import RestApi from '../common/RestApi';
 import { isSignedIn } from '../common/auth';
 
@@ -14,11 +12,12 @@ import { isSignedIn } from '../common/auth';
 const imageHeight = layout.window.height / 2.5;
 const imageWidth = layout.window.width;
 
-export default class TrabajosFinalizados extends React.Component {
+export default class PerfilCliente extends React.Component {
 
   static navigationOptions = {
     headerTitle: <LogoTitle />,
     headerRight: <OpenDrawerProfesional/>,
+    headerLeft: <Text></Text>,
     headerStyle: {
       backgroundColor: '#00AAB4',
     },
@@ -27,12 +26,8 @@ export default class TrabajosFinalizados extends React.Component {
     headerTitleStyle: {flex: 1, textAlign: 'center'}
   };
 
-  
-
   api;
   
-
-
   constructor(props) {
     super(props);
     this.state = {
@@ -48,12 +43,12 @@ export default class TrabajosFinalizados extends React.Component {
       this.api = new RestApi();
       this.api.postulaciones()
         .then((responseJson)=>{
-          console.log(responseJson);
+          //console.log(responseJson);
           this.setState({refreshing: false});
           this.setState({postulaciones : responseJson.data});
         })
         .catch((err)=>{
-          console.log(err);
+         //console.logog(err);
           this.setState({refreshing: false});
           alert(err);
         });
@@ -84,7 +79,7 @@ export default class TrabajosFinalizados extends React.Component {
           <IconHeader 
             source={require('../assets/images/icon-user-black.png')}
             topTitle=""
-            title="Perfil Cliente"
+            title="Perfil Cliente XX"
             style={{marginBottom: 20}} />
           
     

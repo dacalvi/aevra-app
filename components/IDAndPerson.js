@@ -12,7 +12,8 @@ export default IDAndPerson = (props) => {
                     <Image style={{ width: 20, height: 20 }} source={ require('../assets/images/icon-user.png') }/>
                 </View>
                 <View style={{ width: `15%` }}>
-                    <ACamera  
+                    <ACamera
+                        initialImage=""  
                         onPictureTaken={(image)=>{ 
                             if(props.onPictureTaken){
                                 props.onPictureTaken(image);

@@ -28,7 +28,9 @@ class HomeScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
-            <Image source={ require('../assets/images/home_header.png') } style={{ height: imageHeight, width: imageWidth}} />
+            <Image 
+              source={ require('../assets/images/home_header.png') } 
+              style={{ height: imageHeight, width: imageWidth}} />
             <Image source={ require('../assets/images/logo.jpeg') } />
             <Text style={{ fontSize: 18, color: '#777777' }}>La red de servicios para tu</Text>
             <Text style={{ fontSize: 18, color: '#777777' }}>hogar o empresa {this.props.userType} </Text>
@@ -67,8 +69,10 @@ function mapDispatchToProps(dispatch){
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
 
 const dimensions = Dimensions.get('window');
-const imageHeight = dimensions.height / 2.1;
-const imageWidth = dimensions.width;
+
+const imageHeight = 390;
+//const imageHeight = dimensions.height / 2.1;
+const imageWidth = dimensions.width / 1;
 
 
 const styles = StyleSheet.create({
@@ -93,7 +97,7 @@ const styles = StyleSheet.create({
   },
   welcomeContainer: {
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: -20,
     marginBottom: 20,
   },
   welcomeImage: {

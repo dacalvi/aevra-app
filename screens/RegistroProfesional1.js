@@ -91,6 +91,7 @@ class RegistroProfesional1 extends React.Component {
                   placeholder="DNI"
                   errorFrente={this.state.fotodnifrenteError}
                   errorDorso={this.state.fotodnidorsoError}
+                  keyboardType="numeric"
                   errorDNI={this.state.dniError}
                   onChangeText={(dni)=>{this.setState({dni})}}
                   onPictureFrenteTaken={(fotodnifrente)=>{this.setState({fotodnifrente})}}

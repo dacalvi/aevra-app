@@ -1,10 +1,24 @@
 import { AsyncStorage } from 'react-native';
 import { isSignedIn } from './auth';
 import { API_URL } from './config';
+import { Permissions, Notifications } from 'expo';
+//import bugsnag from '@bugsnag/expo';
 
 export default class RestApi {
 
+
+  handleErrors(response) {
+    //console.log(response);
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+    return response;
+  }
+
   post(endpoint, params){
+
+    //console.log(">>>POST API CALL: ", endpoint, params);
+
     return new Promise((resolve, reject)=>{
       let headers = {
         Accept: 'application/json', 
@@ -29,11 +43,10 @@ export default class RestApi {
 
 
 
-
-
   }
 
   get(endpoint){
+    //console.log(">>>GET API CALL: ", endpoint);
     return new Promise((resolve, reject)=>{
       let headers = {
         Accept: 'application/json', 
@@ -54,6 +67,27 @@ export default class RestApi {
           method: 'GET',
           headers: headers
         }));
+      });
+    });
+  }
+
+  comisiones(){
+    return new Promise((resolve, reject)=>{
+      let api = this.get(API_URL + 'comisiones');
+      api
+      //.then(this.handleErrors)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if(responseJson.error){
+          //console.log("<<<<<<API GET RESPONSE:", responseJson);
+          reject(responseJson);
+        }else{
+          // console.log("<<<<<<API GET RESPONSE:", responseJson);
+          resolve(responseJson);
+        }
+      })
+      .catch((error) => {
+        reject(error);
       });
     });
   }
@@ -88,13 +122,50 @@ export default class RestApi {
       })
       .catch((error) => {
         reject(error.error);
+        //bugsnag.notify(error.error);
       });
+    });
+  }
+
+  async registerForPushNotificationsAsync() {
+    const { status: existingStatus } = await Permissions.getAsync(
+      Permissions.NOTIFICATIONS
+    );
+    let finalStatus = existingStatus;
+  
+    // only ask if permissions have not already been determined, because
+    // iOS won't necessarily prompt the user a second time.
+    if (existingStatus !== 'granted') {
+      // Android remote notification permissions are granted during the app
+      // install, so this will only ask on iOS
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+  
+    // Stop here if the user did not grant permissions
+    if (finalStatus !== 'granted') {
+      return;
+    }
+  
+    // Get the token that uniquely identifies this device
+    let token = await Notifications.getExpoPushTokenAsync();
+  
+    // POST the token to your backend server from where you can retrieve it to send push notifications.
+
+    return this.saveexpotoken({expotoken: token})
+    .then((responseJson)=>{
+      //console.log(responseJson);
+      //this.setState({categorias : responseJson.data});
+    })
+    .catch((err)=>{
+      //console.log(err);
+      alert(err);
     });
   }
 
   
   login(params){
-    console.log(params);
+    //console.log(params);
     return new Promise((resolve, reject) => {
       let api = this.post(API_URL + 'auth/login', params);
       api.then((response) => response.json())
@@ -104,9 +175,15 @@ export default class RestApi {
         }else{
           if(responseJson.token && responseJson.token != ''){
             //Save token to store
-            AsyncStorage.multiSet([['token', responseJson.token],['type', responseJson.type]], ()=> {
+            AsyncStorage.multiSet([
+              ['token', responseJson.token],
+              ['type', responseJson.type],
+              ['user_id', responseJson.user_id]
+            ], ()=> {
               resolve(responseJson);
             });
+
+            this.registerForPushNotificationsAsync();
           }else{
             resolve(responseJson);
           }
@@ -114,6 +191,7 @@ export default class RestApi {
       })
       .catch((error) => {
         reject(error.error);
+        //bugsnag.notify(error.error);
       });
     });
   }
@@ -124,8 +202,10 @@ export default class RestApi {
       api.then((response) => response.json())
       .then((responseJson) => {
         if(responseJson.error){
+          //console.log("<<<<<<API GET RESPONSE:", responseJson);
           reject(responseJson);
         }else{
+          //console.log("<<<<<<API GET RESPONSE:", responseJson);
           resolve(responseJson);
         }
       })
@@ -153,20 +233,26 @@ export default class RestApi {
   }
 
   serviceRequest(params){
+    //console.log('service request', params);
     return new Promise((resolve, reject)=>{
       let api = this.post(API_URL + 'servicerequest', params);
-      api.then((response) =>  response.json() )
+      api
+      .then(this.handleErrors)
+      .then((response) =>  response.json() )
       .then((responseJson) => {
-        console.log("service request then", responseJson);
+        //console.log("service request then", responseJson);
         if(responseJson.error){
+          //console.log("<<<<<<API GET RESPONSE:", responseJson);
           reject(responseJson);
         }else{
+          //console.log("<<<<<<API GET RESPONSE:", responseJson);
           resolve(responseJson);
         }
       })
       .catch((error) => {
-        console.log("service request catch", error);
+        //console.log("service request catch", error);
         reject(error.error);
+        //bugsnag.notify(error.error);
       });
     });
   }
@@ -177,7 +263,7 @@ export default class RestApi {
       let api = this.post(API_URL + 'adherircategoria', params);
       api.then((response) =>  response.json() )
       .then((responseJson) => {
-        console.log("service request then", responseJson);
+        //console.log("service request then", responseJson);
         if(responseJson.error){
           reject(responseJson);
         }else{
@@ -185,18 +271,21 @@ export default class RestApi {
         }
       })
       .catch((error) => {
-        console.log("service request catch", error);
+        //console.log("service request catch", error);
         reject(error.error);
+        //bugsnag.notify(error.error);
       });
     });
   }
 
   disponibilidad(params){
     return new Promise((resolve, reject)=>{
+      //console.log(params);
+
       let api = this.post(API_URL + 'disponibilidad', params);
       api.then((response) =>  response.json() )
       .then((responseJson) => {
-        console.log("service request then", responseJson);
+        //console.log("service request then", responseJson);
         if(responseJson.error){
           reject(responseJson);
         }else{
@@ -204,8 +293,9 @@ export default class RestApi {
         }
       })
       .catch((error) => {
-        console.log("service request catch", error, params);
+        //console.log("service request catch", error, params);
         reject(error.error);
+        //bugsnag.notify(error.error);
       });
     });
   }
@@ -213,15 +303,20 @@ export default class RestApi {
   ofertas(){
     return new Promise((resolve, reject)=>{
       let api = this.get(API_URL + 'ofertas');
-      api.then((response) => response.json())
+      api
+      //.then(this.handleErrors)
+      .then((response) => response.json())
       .then((responseJson) => {
         if(responseJson.error){
+          //console.log("then", responseJson);
           reject(responseJson);
         }else{
+          //console.log("<<<<<<API GET RESPONSE:", responseJson);
           resolve(responseJson);
         }
       })
       .catch((error) => {
+        //console.log("catch", error);
         reject(error);
       });
     });
@@ -230,9 +325,11 @@ export default class RestApi {
   postular(params){
     return new Promise((resolve, reject)=>{
       let api = this.post(API_URL + 'ofertas', params);
-      api.then((response) =>  response.json() )
+      api
+      //.then(this.handleErrors)
+      .then((response) =>  response.json() )
       .then((responseJson) => {
-        console.log("service request then", responseJson);
+        //console.log("service request then", responseJson);
         if(responseJson.error){
           reject(responseJson);
         }else{
@@ -240,8 +337,29 @@ export default class RestApi {
         }
       })
       .catch((error) => {
-        console.log("service request catch", error, params);
+        //console.log("service request catch", error, params);
         reject(error.error);
+        //bugsnag.notify(error.error);
+      });
+    });
+  }
+
+  modificarpresupuesto(params){
+    return new Promise((resolve, reject)=>{
+      let api = this.post(API_URL + 'modificarpresupuesto', params);
+      api.then((response) =>  response.json() )
+      .then((responseJson) => {
+        //console.log("service request then", responseJson);
+        if(responseJson.error){
+          reject(responseJson);
+        }else{
+          resolve(responseJson);
+        }
+      })
+      .catch((error) => {
+        //console.log("service request catch", error, params);
+        reject(error.error);
+        //bugsnag.notify(error.error);
       });
     });
   }
@@ -269,7 +387,7 @@ export default class RestApi {
       let api = this.post(API_URL + 'servicerequest/cancel', params);
       api.then((response) =>  response.json() )
       .then((responseJson) => {
-        console.log("service request then", responseJson);
+        //console.log("service request then", responseJson);
         if(responseJson.error){
           reject(responseJson);
         }else{
@@ -277,8 +395,9 @@ export default class RestApi {
         }
       })
       .catch((error) => {
-        console.log("service request catch", error, params);
+        //console.log("service request catch", error, params);
         reject(error.error);
+        //bugsnag.notify(error.error);
       });
     });
   }
@@ -294,7 +413,7 @@ export default class RestApi {
       let api = this.post(API_URL + 'postulaciones/aceptar', params);
       api.then((response) =>  response.json() )
       .then((responseJson) => {
-        console.log("service request then", responseJson);
+        //console.log("service request then", responseJson);
         if(responseJson.error){
           reject(responseJson);
         }else{
@@ -302,8 +421,9 @@ export default class RestApi {
         }
       })
       .catch((error) => {
-        console.log("service request catch", error, params);
+        //console.log("service request catch", error, params);
         reject(error.error);
+        //bugsnag.notify(error.error);
       });
     });
   }
@@ -331,7 +451,7 @@ export default class RestApi {
       let api = this.post(API_URL + 'postulaciones/cancelar', params);
       api.then((response) =>  response.json() )
       .then((responseJson) => {
-        console.log("service request then", responseJson);
+        //console.log("service request then", responseJson);
         if(responseJson.error){
           reject(responseJson);
         }else{
@@ -339,8 +459,9 @@ export default class RestApi {
         }
       })
       .catch((error) => {
-        console.log("service request catch", error, params);
+        //console.log("service request catch", error, params);
         reject(error.error);
+        //bugsnag.notify(error.error);
       });
     });
   }
@@ -348,6 +469,63 @@ export default class RestApi {
   enprocesocliente(){
     return new Promise((resolve, reject)=>{
       let api = this.get(API_URL + 'enproceso');
+      api
+      //.then(this.handleErrors)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if(responseJson.error){
+          reject(responseJson);
+        }else{
+          resolve(responseJson);
+        }
+      })
+      .catch((error) => {
+        reject(error);
+      });
+    });
+  }
+
+  enprocesoprofesional(){
+    return new Promise((resolve, reject)=>{
+      let api = this.get(API_URL + 'enproceso/profesional');
+      api.then((response) => response.json())
+      .then((responseJson) => {
+        //console.log(responseJson);
+        if(responseJson.error){
+          reject(responseJson);
+        }else{
+          resolve(responseJson);
+        }
+      })
+      .catch((error) => {
+        reject(error);
+      });
+    });
+  }
+
+  terminartrabajo(params){
+    return new Promise((resolve, reject)=>{
+      let api = this.post(API_URL + 'finishservice', params);
+      api.then((response) =>  response.json() )
+      .then((responseJson) => {
+        //console.log("service request then", responseJson);
+        if(responseJson.error){
+          reject(responseJson);
+        }else{
+          resolve(responseJson);
+        }
+      })
+      .catch((error) => {
+        //console.log("service request catch", error, params);
+        reject(error.error);
+        //bugsnag.notify(error.error);
+      });
+    });
+  }
+
+  trabajosterminados(params){
+    return new Promise((resolve, reject)=>{
+      let api = this.get(API_URL + 'finishedservices');
       api.then((response) => response.json())
       .then((responseJson) => {
         if(responseJson.error){
@@ -362,4 +540,234 @@ export default class RestApi {
     });
   }
 
+  /* params: expotoken: String */
+  saveexpotoken(params){
+    return new Promise((resolve, reject)=>{
+      let api = this.post(API_URL + 'user/saveexpotoken', params);
+      api.then((response) =>  response.json() )
+      .then((responseJson) => {
+        //console.log("Expo token saved:", responseJson);
+        if(responseJson.error){
+          //console.log("<<<<<<API GET RESPONSE:", responseJson);
+          reject(responseJson);
+        }else{
+          //console.log("<<<<<<API GET RESPONSE:", responseJson);
+          resolve(responseJson);
+        }
+      })
+      .catch((error) => {
+        //console.log("Problem saving expo token", error, params);
+        reject(error.error);
+        //bugsnag.notify(error.error);
+      });
+    });
+  }
+  
+  cancelarTrabajoProfesional(id){
+    //console.log(">>>>>>>ITEM", id);
+    let params = {"solicitud_id": id};
+    return new Promise((resolve, reject)=>{
+      let api = this.post(API_URL + 'ofertas/cancelartrabajoprofesional', params);
+      api
+      //.then(this.handleErrors)
+      .then((response) =>  response.json() )
+      .then((responseJson) => {
+        //console.log("service request then", responseJson);
+        if(responseJson.error){
+          reject(responseJson);
+        }else{
+          resolve(responseJson);
+        }
+      })
+      .catch((error) => {
+        //console.log("service request catch", error, params);
+        reject(error.error);
+        //bugsnag.notify(error.error);
+      });
+    });
+  }
+
+  cancelarTrabajoCliente(id){
+    let params = {"solicitud_id": id};
+    return new Promise((resolve, reject)=>{
+      let api = this.post(API_URL + 'ofertas/cancelartrabajocliente', params);
+      api
+      .then(this.handleErrors)
+      .then((response) =>  response.json() )
+      .then((responseJson) => {
+        //console.log("service request then", responseJson);
+        if(responseJson.error){
+          reject(responseJson);
+        }else{
+          resolve(responseJson);
+        }
+      })
+      .catch((error) => {
+        //console.log("service request catch", error, params);
+        reject(error.error);
+        //bugsnag.notify(error.error);
+      });
+    });
+  }
+
+  miperfilprofesional(){
+    return new Promise((resolve, reject)=>{
+      let api = this.get(API_URL + 'perfil/miperfilprofesional');
+      api
+      //.then(this.handleErrors)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if(responseJson.error){
+          //console.log("then", responseJson);
+          reject(responseJson);
+        }else{
+          //console.log("<<<<<<API GET RESPONSE:", responseJson);
+          resolve(responseJson);
+        }
+      })
+      .catch((error) => {
+        //console.log("catch", error);
+        reject(error);
+      });
+    });
+  }
+
+  miperfilcliente(){
+    return new Promise((resolve, reject)=>{
+      let api = this.get(API_URL + 'perfil/miperfilcliente');
+      api
+      .then(this.handleErrors)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if(responseJson.error){
+          //console.log("then", responseJson);
+          reject(responseJson);
+        }else{
+          //console.log("<<<<<<API GET RESPONSE:", responseJson);
+          resolve(responseJson);
+        }
+      })
+      .catch((error) => {
+        //console.log("catch", error);
+        reject(error);
+      });
+    });
+  }
+
+  perfilprofesional(profesional_id){
+    return new Promise((resolve, reject)=>{
+      let api = this.get(API_URL + 'perfil/perfilprofesional/'+ profesional_id);
+      api
+      //.then(this.handleErrors)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if(responseJson.error){
+          //console.log("then", responseJson);
+          reject(responseJson);
+        }else{
+          //console.log("<<<<<<API GET RESPONSE:", responseJson);
+          resolve(responseJson);
+        }
+      })
+      .catch((error) => {
+        //console.log("catch", error);
+        reject(error);
+      });
+    });
+  }
+
+  actualizaravatarprofesional(avatarbase64){
+    let params = {"avatar": avatarbase64};
+    return new Promise((resolve, reject)=>{
+      let api = this.post(API_URL + 'perfil/actualizaravatarprofesional', params);
+      api
+      //.then(this.handleErrors)
+      .then((response) =>  response.json() )
+      .then((responseJson) => {
+        //console.log("service request then", responseJson);
+        if(responseJson.error){
+          reject(responseJson);
+        }else{
+          resolve(responseJson);
+        }
+      })
+      .catch((error) => {
+        //console.log("service request catch", error, params);
+        reject(error.error);
+        //bugsnag.notify(error.error);
+      });
+    });
+  }
+
+  actualizaravatarcliente(avatarbase64){
+    let params = {"avatar": avatarbase64};
+    return new Promise((resolve, reject)=>{
+      let api = this.post(API_URL + 'perfil/actualizaravatarcliente', params);
+      api
+      //.then(this.handleErrors)
+      .then((response) =>  response.json() )
+      .then((responseJson) => {
+        //console.log("service request then", responseJson);
+        if(responseJson.error){
+          reject(responseJson);
+        }else{
+          resolve(responseJson);
+        }
+      })
+      .catch((error) => {
+        //console.log("service request catch", error, params);
+        reject(error.error);
+        //bugsnag.notify(error.error);
+      });
+    });
+  }
+
+
+  getChatMessages(chat_id){
+    return new Promise((resolve, reject)=>{
+      let api = this.get(API_URL + 'chat/messages/'+ chat_id);
+      api
+      .then(this.handleErrors)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if(responseJson.error){
+          //console.log("then", responseJson);
+          reject(responseJson);
+        }else{
+          //console.log("<<<<<<API GET RESPONSE:", responseJson);
+          resolve(responseJson);
+        }
+      })
+      .catch((error) => {
+        //console.log("catch", error);
+        reject(error);
+      });
+    });
+  }
+
+
+  sendChat(params){
+    return new Promise((resolve, reject)=>{
+      let api = this.post(API_URL + 'chat/sendChat', params);
+      api
+      .then(this.handleErrors)
+      .then((response) =>  response.json() )
+      .then((responseJson) => {
+        //console.log("Expo token saved:", responseJson);
+        if(responseJson.error){
+          //console.log("<<<<<<API GET RESPONSE:", responseJson);
+          reject(responseJson);
+        }else{
+          //console.log("<<<<<<API GET RESPONSE:", responseJson);
+          resolve(responseJson);
+        }
+      })
+      .catch((error) => {
+        //console.log("Problem saving expo token", error, params);
+        reject(error.error);
+        //bugsnag.notify(error.error);
+      });
+    });
+  }
+  
 };

@@ -12,7 +12,7 @@ export default class CategoriaCredencial extends React.Component{
         super(props);
         this.state = {
             image: null,
-            checked: false,
+            checked: this.props.checked,
             id: props.id
         }
     }
@@ -53,7 +53,7 @@ export default class CategoriaCredencial extends React.Component{
 
 
                 { this.state.checked? 
-                    <ACamera onPictureTaken={(image)=>{ this.addImage(image) }}/> :
+                    <ACamera initialImage="" onPictureTaken={(image)=>{ this.addImage(image) }}/> :
                     <View></View>
                 }
                 

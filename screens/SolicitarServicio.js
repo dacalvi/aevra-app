@@ -52,7 +52,7 @@ class SolicitarServicio extends React.Component {
   }
 
   btnContinuarClick(){
-    console.log(this.props.navigation.state.params);
+    //console.log(this.props.navigation.state.params);
     const descripcionError = validate('descripcion', this.state.descripcion);
     this.setState({
       descripcionError: descripcionError
@@ -106,7 +106,7 @@ class SolicitarServicio extends React.Component {
                 let newState = {};
                 newState['image'+imageIndex] = imageBase64;
                 this.setState(newState);
-                console.log(this.state);
+               //console.log(this.state);
                 
             }} />
 
@@ -116,7 +116,7 @@ class SolicitarServicio extends React.Component {
               checked={this.state.dispone_materiales}
               onPress={(checked) => {
                 this.setState({dispone_materiales: checked});
-                console.log(this.state);
+               //console.log(this.state);
               }}
               />
             <Tilde 
@@ -124,7 +124,7 @@ class SolicitarServicio extends React.Component {
               checked={this.state.terminos}
               onPress={(checked) => {
                 this.setState({desea_traigan_materiales: checked});
-                console.log(this.state);
+               //console.log(this.state);
               }}
               />
             <MultilineText 
@@ -132,7 +132,7 @@ class SolicitarServicio extends React.Component {
                 placeholder=""
                 onChangeText={(text)=>{ 
                     this.setState({observaciones_materiales: text});
-                    console.log(this.state);
+                   //console.log(this.state);
                     }}/>
               <View style={{flexDirection: `row`,justifyContent: `center`, marginBottom: 40}}>      
                 <Button raised primary text="CONTINUAR" style={styles.botonAevra} 

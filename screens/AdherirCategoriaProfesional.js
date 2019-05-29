@@ -55,7 +55,7 @@ class TrabajosSolicitados extends React.Component {
           this.setState({loading: false});
         })
         .catch((err)=>{
-          console.log(err);
+          //console.log(err);
           alert(err);
         });
     })
@@ -148,7 +148,8 @@ class TrabajosSolicitados extends React.Component {
                     <CategoriaCredencial
                       key={i}
                       id={categoria.id} 
-                      nombre={categoria.nombre} 
+                      nombre={categoria.nombre}
+                      checked={categoria.suscrito}
                       imagen={categoria.imagen}
                       onChange={(categoria)=>{
                         this.toggleCategoria(categoria);
