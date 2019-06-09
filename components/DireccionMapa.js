@@ -2,7 +2,12 @@ import React from 'react';
 import {View, Text, TextInput, Platform, Button, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import Tilde from '../components/Tilde';
-import { Constants, MapView, Permissions, Location } from 'expo';
+import { 
+    Constants, 
+    MapView, 
+    Permissions, 
+    Location 
+} from 'expo';
 import { ErrorRecovery } from 'expo';
 import Geocoder from 'react-native-geocoding';
 import { Avatar } from 'react-native-paper';
@@ -179,6 +184,8 @@ export default class DireccionMapa extends React.Component {
                     coordinate={{latitude: this.state.latitude,
                         longitude: this.state.longitude}}
                     title={this.state.address}
+                    image={require('../assets/images/marker.png')}
+                    
                     description={"Ubicacion de la direccion indicada"}
                     />
                     </MapView>
