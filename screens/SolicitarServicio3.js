@@ -14,8 +14,9 @@ import {MultiImagePicker} from '../components/MultiImagePicker';
 import GroupTitle from '../components/GroupTitle';
 import Tilde from '../components/Tilde';
 import { Constants, MapView } from 'expo';
-
-
+import { RadioButton } from 'react-native-paper';
+import { API_URL } from '../common/config';
+import { Avatar } from 'react-native-paper';
 class SolicitarServicio3 extends React.Component {
   
   static navigationOptions = {
@@ -37,7 +38,10 @@ class SolicitarServicio3 extends React.Component {
         costo_presupuesto_aceptado: false,
         costo_presupuesto_aceptadoError: '',
         buttondisabled : false,
-        continuar_button_text: 'CONTINUAR'
+        continuar_button_text: 'CONTINUAR',
+        rango_presupuesto: '',
+        prestador_favorito: '',
+        recomendados : []
     }
 
     isSignedIn().then(()=>{ }).catch(()=>{ this.props.navigation.navigate('Auth') });
@@ -130,8 +134,24 @@ class SolicitarServicio3 extends React.Component {
     delete dataset.urgente;
     dataset.guardar_direccion_permanente = dataset.guardar_direccion;
     delete dataset.guardar_direccion;
-    dataset.prestador_favorito = ''; //TODO
+    delete dataset.recomendados;
     return dataset;
+  }
+
+  componentWillMount(){
+
+    //console.log(this.props.serviceRequest.serviceRequestData);
+
+    let api = new RestApi();
+    api.recomendedpros({
+      categoria: this.props.navigation.state.params.id
+      })
+    .then((recomendados)=>{
+      this.setState({recomendados});
+    })
+    .catch((error)=>{
+      //console.log(error)
+    });
   }
 
   render() {
@@ -154,18 +174,128 @@ class SolicitarServicio3 extends React.Component {
             
             <GroupTitle label="Presupuesto a domicilio" />
             
+            <View style={{marginBottom: 20}}>
+              <Tilde 
+                label="Este presupuesto tiene un valor de $200 que se descuentan al finalizar el trabajo."
+                checked={false}
+                error={this.state.costo_presupuesto_aceptadoError}
+                onPress={(presupuesto_aceptado) => {
+                  this.setState({costo_presupuesto_aceptado: presupuesto_aceptado});
+                }}
+                />
+            </View>
+
+            <Text style={{marginLeft: 10, marginTop: 20, marginBottom: 20}}>En caso de cancelar luego de pedir el presupuesto no seran reintegrados</Text>
             
-            <Tilde 
-              label="Este presupuesto tiene un valor de $200 que se descuentan al finalizar el trabajo."
-              checked={false}
-              error={this.state.costo_presupuesto_aceptadoError}
-              onPress={(presupuesto_aceptado) => {
-                this.setState({costo_presupuesto_aceptado: presupuesto_aceptado});
-              }}
-              />
+            <GroupTitle label="Rango de Presupuestos" />
+              <View style={{ marginLeft: 10 }}>
+                <Text>Indique cuanto considera que deberia costar un trabajo de este tipo.</Text>
+                <Text>(Esta informacion no sera compartida con nadie y tiene como fin incentivar al profesional a proponer presupuestos reales)</Text>
+                <View>
+                  <RadioButton.Group
+                    onValueChange={rango_presupuesto => this.setState({ rango_presupuesto })}
+                    value={this.state.rango_presupuesto} >
+                    
+                    <View>
+                      <View style={{flex:1, flexDirection: 'row'}}>
+                        <Text style={{width: '80%'}}>$500 a $1.500</Text>
+                        <RadioButton  style={{width: '20%'}} value="500a1500" />
+                      </View>
+                    </View>
 
-              <Text style={{marginLeft: 10, marginTop: 80}}>En caso de cancelar luego de pedir el presupuesto no seran reintegrados</Text>
+                    <View>
+                      <View style={{flex:1, flexDirection: 'row'}}>
+                        <Text style={{width: '80%'}}>$1.500 a $3.000</Text>
+                        <RadioButton  style={{width: '20%'}} value="1500a3000" />
+                      </View>
+                    </View>
 
+                    <View>
+                      <View style={{flex:1, flexDirection: 'row'}}>
+                        <Text style={{width: '80%'}}>$3.000 a $5.000</Text>
+                        <RadioButton  style={{width: '20%'}} value="3000a5000" />
+                      </View>
+                    </View>
+
+                    <View>
+                      <View style={{flex:1, flexDirection: 'row'}}>
+                        <Text style={{width: '80%'}}>$5.000 a $10.000</Text>
+                        <RadioButton  style={{width: '20%'}} value="5000a10000" />
+                      </View>
+                    </View>
+
+                    <View>
+                      <View style={{flex:1, flexDirection: 'row'}}>
+                        <Text style={{width: '80%'}}>$10.000 a $20.000</Text>
+                        <RadioButton  style={{width: '20%'}} value="10000a20000" />
+                      </View>
+                    </View>
+
+                    <View>
+                      <View style={{flex:1, flexDirection: 'row'}}>
+                        <Text style={{width: '80%'}}>$20.000 a $40.000</Text>
+                        <RadioButton  style={{width: '20%'}} value="20000a40000" />
+                      </View>
+                    </View>
+
+                    <View>
+                      <View style={{flex:1, flexDirection: 'row'}}>
+                        <Text style={{width: '80%'}}>$40.000 a $70.000</Text>
+                        <RadioButton  style={{width: '20%'}} value="40000a70000" />
+                      </View>
+                    </View>
+
+                    <View>
+                      <View style={{flex:1, flexDirection: 'row'}}>
+                        <Text style={{width: '80%'}}>$70.000 o mas</Text>
+                        <RadioButton  style={{width: '20%'}} value="70000omas" />
+                      </View>
+                    </View>
+                  </RadioButton.Group>
+                </View>
+
+              </View>
+
+              <GroupTitle label="Elegir un prestador conocido" />
+
+              {this.state.recomendados.length == 0 ? 
+                <View style={{
+                    flex:1,
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginLeft: 20  
+                  }}>
+                  <Text>No ha contratado ningun profesional de esta categoria todavia...</Text>
+                  
+                </View>
+                : <Text></Text>  
+              }
+
+
+              <View style={{marginLeft: 10, marginRight: 10}}>
+                <RadioButton.Group
+                  onValueChange={ prestador_favorito => this.setState({ prestador_favorito }) }
+                  value={this.state.prestador_favorito}>
+                  {this.state.recomendados.map((recomendado, i)=>{
+                      return (
+                        <View key={i} style={{flex:1, flexDirection: 'row'}}>
+                          <Avatar.Image 
+                            size={40} 
+                            source={{uri: API_URL + recomendado.avatar}} />
+                          <Text style={{width: '65%', marginLeft: 10, marginTop:10}}>{recomendado.nombre}</Text>
+                          <RadioButton
+                            style={{width: '20%'}} 
+                            value={recomendado.user_id} />
+                        </View>
+                      );
+                  })}
+
+                  
+                </RadioButton.Group>
+              </View>
+
+  
             <View style={{flexDirection: `row`,justifyContent: `center`, marginBottom: 40}}>      
                 <Button disabled={this.state.buttondisabled} raised primary text={this.state.continuar_button_text} style={styles.botonAevra} 
                   onPress={() => { this.btnContinuarClick();}}/>

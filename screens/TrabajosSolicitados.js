@@ -63,8 +63,9 @@ export default class TrabajosSolicitados extends React.Component {
     isSignedIn()
     .then(()=>{ 
       this.api = new RestApi();
-      this.api.requestedServices()
+      this.api.requestedPendingServices()
         .then((responseJson)=>{
+          console.log(responseJson.data);
           this.setState({solicitudes : responseJson.data});
         })
         .catch((err)=>{

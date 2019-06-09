@@ -36,12 +36,10 @@ export default class EnprocesoCliente extends React.Component {
       this.setState({refreshing: true});
       this.api.enprocesocliente()
         .then((responseJson)=>{
-          //console.log(responseJson);
           this.setState({refreshing: false});
           this.setState({enprocesocliente : responseJson.data});
         })
         .catch((err)=>{
-          //console.log(err);
           this.setState({refreshing: false});
           alert(err);
         });

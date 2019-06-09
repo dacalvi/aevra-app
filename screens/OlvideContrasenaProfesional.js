@@ -7,9 +7,9 @@ import {
 	StyleSheet,
 	View,
 	Text,
-    KeyboardAvoidingView,
-    Alert,
-    StatusBar
+  KeyboardAvoidingView,
+  Alert,
+  StatusBar
 } from 'react-native';
 import { TextInput, Colors } from 'react-native-paper';
 import { connect } from 'react-redux';
@@ -50,6 +50,7 @@ class OlvideContrasenaProfesional extends React.Component {
   
   static navigationOptions = {
     headerTitle: <LogoTitle />,
+    headerRight: <Text></Text>,
     headerStyle: {
       backgroundColor: '#00AAB4',
     },

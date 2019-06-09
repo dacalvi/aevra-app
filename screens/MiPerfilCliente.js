@@ -3,8 +3,18 @@ import  LogoTitle  from './LogoTitle';
 import layout from '../constants/Layout';
 import IconHeader from '../components/IconHeader';
 import OpenDrawerProfesional from '../components/OpenDrawerProfesional';
-import { Image, View, Text, StyleSheet, 
-  KeyboardAvoidingView, Button, ScrollView, ImageEditor, ImageStore, RefreshControl } from 'react-native';
+import { 
+  Image, 
+  View, 
+  Text, 
+  StyleSheet, 
+  KeyboardAvoidingView, 
+  Button, 
+  ScrollView, 
+  ImageEditor, 
+  ImageStore, 
+  RefreshControl 
+} from 'react-native';
 import { GroupTitle, AevraRating } from '../components';
 import AvatarCliente from '../components/AvatarCliente';
 import RestApi from '../common/RestApi';
@@ -142,6 +152,13 @@ export default class MiPerfilCliente extends React.Component {
           }>
           <View style={{marginleft: 20, marginRight:20, marginTop:20, paddingLeft: 10, paddingRight: 10}} >
             
+
+          <IconHeader 
+            source={require('../assets/images/icon-user-black.png')}
+            topTitle=""
+            title="Mi Perfil"
+            style={{marginBottom: 20}} />
+
             <AvatarCliente 
               avatar={this.state.perfil.avatar}
               editable={true}
@@ -151,8 +168,14 @@ export default class MiPerfilCliente extends React.Component {
               })}}
               nombre={this.state.perfil.nombre}
               cantidadTrabajosSolicitados={this.state.perfil.trabajos_finalizados} 
-              estrellas={5}/>
+              estrellas={this.state.perfil.rating_promedio}/>
             
+            
+            <Text style={{
+              textDecorationLine: 'underline',
+              marginBottom: 20
+              
+              }}>Cambiar contraseña</Text>
             
             <Tilde 
               label="Recibir Notificaciones"

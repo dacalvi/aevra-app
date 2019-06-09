@@ -56,6 +56,7 @@ class GraciasRegistroCliente extends React.Component {
   
   static navigationOptions = {
     headerTitle: <LogoTitle />,
+    headerRight: <Text></Text>,
     headerStyle: {
       backgroundColor: '#00AAB4',
     },

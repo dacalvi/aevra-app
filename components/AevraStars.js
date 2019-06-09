@@ -14,22 +14,30 @@ export default class AevraStars extends React.Component{
     
     createStars(amount){
         let table = []
-        for (let i = 1; i <= this.props.rating; i++) {
+        for (let i = 1; i <= 5; i++) {
             if(this.props.editable){
                 table.push(
                     <TouchableHighlight key={i} onPress={ ()=> { 
                         this.setState({currentRating: i});
                         this.props.onChange(i); 
                     }}>
-                        {this.state.currentRating >= i? 
-                            <Ionicons name="ios-star" size={this.props.size} color="yellow" /> : 
-                            <Ionicons name="ios-star" size={this.props.size} color="gray" />
+                        {this.props.rating >= i? 
+                            <Image  style={{ width: 20, height: 20 }} source={require('../assets/images/on.png')}/> : 
+                            <Image  style={{ width: 20, height: 20 }} source={require('../assets/images/off.png')}/>
                         }
                     </TouchableHighlight>
                 )
             }else{
                 table.push(
-                    <Ionicons key={i} name="ios-star" size={this.props.size} color="yellow" />
+                    <View key={i}>
+                        {i <= this.props.rating ? 
+                            <Image style={{ width: 20, height: 20 }} source={require('../assets/images/on.png')}/>: 
+                            <Image style={{ width: 20, height: 20 }} source={require('../assets/images/off.png')}/>
+                        }
+                    </View>
+                    
+
+                    
                 )
             }
         }

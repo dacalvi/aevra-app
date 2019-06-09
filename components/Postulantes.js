@@ -4,6 +4,8 @@ import TextoDosColumnas from './TextoDosColumnas';
 import GroupTitle from './GroupTitle';
 import { Button } from 'react-native-material-ui';
 import styles from '../constants/Styles';
+import { API_URL } from '../common/config';
+import { Avatar } from 'react-native-paper';
 export default class Postulantes extends React.Component {
 
     render(){
@@ -27,6 +29,8 @@ export default class Postulantes extends React.Component {
                     { this.props.postulantes.map((postulante, i)=>{
                         return (
                             <View key={i}>
+                                <Avatar.Image size={64} source={{uri: API_URL + postulante.avatar}} /> 
+                                
                                 <TextoDosColumnas columna1="Prestador" columna2={postulante.first_name} />
                                 <TextoDosColumnas columna1="Presupuesto" columna2={'$' + postulante.monto} />
                                 <TextoDosColumnas columna1="Comentario" columna2={postulante.comentario} />

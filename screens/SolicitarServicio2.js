@@ -88,7 +88,9 @@ class SolicitarServicio2 extends React.Component {
                 this.setState({urgente: checked});
               }} />
             
-            <IconText text="Seleccione los dias en los que puede realizar el trabajo" icon="perm-contact-calendar" />
+            <IconText 
+              text="Seleccione los dias en los que puede realizar el trabajo" 
+              icon="perm-contact-calendar" />
             
             <Horario label="Horarios"
               onValueChange={(itemValue, itemIndex)=>{

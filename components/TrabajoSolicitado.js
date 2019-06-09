@@ -56,8 +56,14 @@ export default class TrabajoSolicitado extends React.Component{
                     <Text style={{padding: 10, color: 'red'}}>Estado: {this.props.solicitud.status}</Text>:
                     <View>
                         <Text style={{padding: 10}}>Estado: {this.props.solicitud.status}</Text>
-                        <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginBottom: 10}}>      
-                            <Button raised primary text="CANCELAR TRABAJO" style={styles.botonAevra} 
+                        <View style={{flexDirection: 'row',justifyContent: 'center', marginBottom: 10}}>      
+                            <Button raised text="CANCELAR TRABAJO"  
+                                style={
+                                    {
+                                        container: { backgroundColor: '#888888'},
+                                        text: {color: 'white'},
+                                    }
+                                }
                                 onPress={() => { 
                                 Alert.alert(
                                     'Cancelar Trabajo',

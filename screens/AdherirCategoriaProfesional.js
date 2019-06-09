@@ -7,7 +7,16 @@ import IconHeader from '../components/IconHeader';
 import GroupTitle from '../components/GroupTitle';
 import {CategoriaCredencial} from '../components';
 
-import {Dimensions, View, ScrollView, KeyboardAvoidingView, Text, Alert , ActivityIndicator, StyleSheet} from 'react-native';
+import {
+  Dimensions, 
+  View, 
+  ScrollView, 
+  KeyboardAvoidingView, 
+  Text, 
+  Alert, 
+  ActivityIndicator, 
+  StyleSheet
+} from 'react-native';
 import { Button } from 'react-native-material-ui';
 import RestApi from '../common/RestApi';
 import { isSignedIn } from '../common/auth';
@@ -56,7 +65,7 @@ class TrabajosSolicitados extends React.Component {
         })
         .catch((err)=>{
           //console.log(err);
-          alert(err);
+          Alert.alert("Error", err);
         });
     })
     .catch(()=>{ this.props.navigation.navigate('Auth') });

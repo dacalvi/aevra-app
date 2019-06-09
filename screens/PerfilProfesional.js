@@ -3,8 +3,17 @@ import  LogoTitle  from './LogoTitle';
 import layout from '../constants/Layout';
 import IconHeader from '../components/IconHeader';
 import OpenDrawerProfesional from '../components/OpenDrawerProfesional';
-import { Image, View, Text, StyleSheet, 
-  KeyboardAvoidingView, Button, ScrollView, ImageEditor, ImageStore, RefreshControl } from 'react-native';
+import { 
+  Image, 
+  View, 
+  Text, 
+  StyleSheet, 
+  KeyboardAvoidingView, 
+  Button, 
+  ScrollView, 
+  ImageEditor, 
+  ImageStore, 
+  RefreshControl } from 'react-native';
 import { GroupTitle, AevraRating } from '../components';
 import AvatarProfesional from '../components/AvatarProfesional';
 import RestApi from '../common/RestApi';

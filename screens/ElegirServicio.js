@@ -67,8 +67,8 @@ class ElegirServicio extends React.Component {
 
                       if(categoria.id == 11){ //Mascotas
                         this.props.navigation.navigate('ElegirServicioMascota', categoria);
-                      }else if(categoria.id == 14){ //Limpieza
-                        this.props.navigation.navigate('ElegirServicioLimpieza', categoria);
+                      //}else if(categoria.id == 14){ //Limpieza
+                        //this.props.navigation.navigate('ElegirServicioLimpieza', categoria);
                       }else if(categoria.id == 16){ //Fletes
                         this.props.navigation.navigate('ElegirServicioFlete', categoria);
                       }else if(categoria.id == 18){ //Profesor

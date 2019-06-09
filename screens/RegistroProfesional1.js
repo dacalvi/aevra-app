@@ -1,6 +1,14 @@
 import React from "react";
 import  LogoTitle  from './LogoTitle';
-import { Dimensions, StyleSheet, View, ScrollView, KeyboardAvoidingView, DatePickerAndroid } from 'react-native';
+import { 
+  Dimensions, 
+  StyleSheet, 
+  View, 
+  ScrollView, 
+  KeyboardAvoidingView,
+  DatePickerAndroid,
+  Text 
+} from 'react-native';
 import { Button } from 'react-native-material-ui';
 import IconHeader from '../components/IconHeader';
 import IDAndPerson from '../components/IDAndPerson';
@@ -31,6 +39,7 @@ class RegistroProfesional1 extends React.Component {
 
     static navigationOptions = {
         headerTitle: <LogoTitle />,
+        headerRight: <Text></Text>,
         headerStyle: {
             backgroundColor: '#00AAB4',
         },

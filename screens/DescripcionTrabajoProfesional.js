@@ -4,7 +4,7 @@ import layout from '../constants/Layout';
 import {IconHeader, OpenDrawerProfesional, GroupTitle, IconText} from '../components';
 import { Image, View, Text, StyleSheet, KeyboardAvoidingView, ScrollView, TouchableHighlight } from 'react-native';
 import { Button  } from 'react-native-material-ui';
-import ImageView from 'react-native-image-view';
+import  ImageView   from 'react-native-image-view';
 import { API_URL } from '../common/config';
 import { Constants, MapView, Permissions, Location } from 'expo';
 
@@ -26,8 +26,6 @@ export default class DescripcionTrabajoProfesional extends React.Component {
 
   images = [];
 
-
-
   constructor(props){
     super(props);
 
@@ -42,19 +40,14 @@ export default class DescripcionTrabajoProfesional extends React.Component {
         });
     });
 
-
-   //console.log("DESC TRABAJO PANTALLA DESCR", this.props.navigation.state.params);
-
-
-
     this.state = {
         isImageViewVisible : false
     }
-
   }
 
   render() {
     return (
+
 <KeyboardAvoidingView 
     style={{ flex: 1, backgroundColor: '#fff' }} 
     behavior="position" 
@@ -71,6 +64,7 @@ export default class DescripcionTrabajoProfesional extends React.Component {
             <GroupTitle label="Descripcion del trabajo a realizar"/>
             
             <Text style={{marginLeft: 10, marginRight: 10}}>{this.props.navigation.state.params.descripcion}</Text>
+            
             
             <GroupTitle label="Imagenes"/>
             { 

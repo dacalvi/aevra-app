@@ -1,6 +1,13 @@
 import React from "react";
 import  LogoTitle  from './LogoTitle';
-import { Dimensions, StyleSheet, View, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { 
+  Dimensions, 
+  StyleSheet, 
+  View, 
+  ScrollView, 
+  KeyboardAvoidingView,
+  Text
+} from 'react-native';
 import { Button, Snackbar  } from 'react-native-material-ui';
 import RestApi from '../common/RestApi';
 import ATextInput from '../components/ATextInput';
@@ -33,6 +40,7 @@ class RegistroProfesional extends React.Component {
 
     static navigationOptions = {
         headerTitle: <LogoTitle />,
+        headerRight: <Text></Text>,
         headerStyle: {
             backgroundColor: '#00AAB4',
         },
@@ -131,7 +139,6 @@ class RegistroProfesional extends React.Component {
                   onChangeText={value => this.setState({email: value.trim()})}
                   autoCapitalize ={false}
                   onBlur={() => {
-                    console.log("blur");
                     this.setState({
                       emailError: validate('email', this.state.email)
                     })

@@ -26,48 +26,68 @@ export default class EnProcesoClienteItem extends React.Component{
                     cantidadTrabajosFinalizados={this.props.item.trabajos_finalizados}
                     estrellas={this.props.item.rating_promedio}/>
             
-                <View style={{flex: 1, flexDirection: 'row', marginLeft: 10}}>
+                <View style={{flex: 1, flexDirection: 'column'}}>
                     <View style={{width: '30%'}}>
                         <Text>$ {this.props.item.monto}</Text>
                     </View>
-                    <View style={{width: '70%', flex: 1, flexDirection: 'column'}}>
-                        <Button raised primary text="VER DETALLE" style={styles.botonAevra} 
-                            onPress={() => { 
-                                this.props.navigation.navigate("DescripcionTrabajoProfesionalReadOnly", this.props.item);
-                            }}/>
+                    <View style={{width: '100%', flex: 1, flexDirection: 'column'}}>
 
-                        <Button raised primary text="MENSAJES" style={styles.botonAevra} 
-                            onPress={() => { 
-                                this.props.navigation.navigate("Chat", {'chat_id': this.props.item.id});
-                            }}/>
-
-                        <Button raised primary text="CANCELAR TRABAJO" style={styles.botonAevra} 
-                            onPress={() => { 
-                                Alert.alert(
-                                    'Cancelar trabajo',
-                                    'Esta seguro que desea cancelar este trabajo?',
-                                    [
-                                        {text: 'Si, cancelar', onPress: () => {
-                                            
-                                            this.api = new RestApi();
-                                            this.api.cancelarTrabajoCliente(this.props.item.id)
-                                              .then((responseJson)=>{
-                                                  this.props.onCancelTrabajo();
-                                              })
-                                              .catch((err)=>{
-                                                //console.log(err);
-                                                alert(err);
-                                              });
-                                        }},
-                                    ],
-                                    {cancelable: true},
-                                );
-                            }}/>
+                        <View style={{ flex: 1, flexDirection: 'row'}}>
+                            <View style={{width: '50%'}}>
+                                <Button raised primary text="VER DETALLE" style={styles.botonAevra} 
+                                    onPress={() => { 
+                                        this.props.navigation.navigate("DescripcionTrabajoProfesionalReadOnly", this.props.item);
+                                    }}/>
+                            </View>
                             
-                        <Button raised primary text="TRABAJO TERMINADO" style={styles.botonAevra} 
-                            onPress={() => {
-                                this.props.navigation.navigate('FinalizarTrabajo', {'solicitud': this.props.item});
-                            }}/>
+                            <View style={{width: '50%'}}>
+                                <Button raised primary text="MENSAJES" style={{
+                                        container: { backgroundColor: 'red'},
+                                        text: {color: 'white'},
+                                    }} 
+                                    onPress={() => { 
+                                        this.props.navigation.navigate("Chat", {'chat_id': this.props.item.id});
+                                    }}/>
+                            </View>
+                        </View>
+
+                        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+                            <View style={{width: '100%'}}>
+                                <Button raised primary text="CANCELAR TRABAJO" style={{
+                                        container: { backgroundColor: '#888888'},
+                                        text: {color: 'white'},
+                                    }} 
+                                    onPress={() => { 
+                                        Alert.alert(
+                                            'Cancelar trabajo',
+                                            'Esta seguro que desea cancelar este trabajo?',
+                                            [
+                                                {text: 'Si, cancelar', onPress: () => {
+                                                    
+                                                    this.api = new RestApi();
+                                                    this.api.cancelarTrabajoCliente(this.props.item.id)
+                                                    .then((responseJson)=>{
+                                                        this.props.onCancelTrabajo();
+                                                    })
+                                                    .catch((err)=>{
+                                                        alert(err);
+                                                    });
+                                                }},
+                                            ],
+                                            {cancelable: true},
+                                        );
+                                    }}/>
+                            </View>  
+                            <View style={{width: '100%'}}>  
+                                <Button raised primary text="TRABAJO TERMINADO" style={{
+                                        container: { backgroundColor: '#000000'},
+                                        text: {color: 'white'},
+                                    }} 
+                                    onPress={() => {
+                                        this.props.navigation.navigate('FinalizarTrabajo', {'solicitud': this.props.item});
+                                    }}/>
+                            </View>
+                        </View>            
                             
                     </View>
                 </View>

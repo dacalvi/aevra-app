@@ -10,14 +10,14 @@ export default class RestApi {
   handleErrors(response) {
     //console.log(response);
     if (!response.ok) {
-        throw Error(response.statusText);
+        //throw Error(response.statusText);
     }
     return response;
   }
 
   post(endpoint, params){
 
-    //console.log(">>>POST API CALL: ", endpoint, params);
+    console.log(">>>POST", endpoint, params);
 
     return new Promise((resolve, reject)=>{
       let headers = {
@@ -46,7 +46,7 @@ export default class RestApi {
   }
 
   get(endpoint){
-    //console.log(">>>GET API CALL: ", endpoint);
+    console.log(">>>GET", endpoint);
     return new Promise((resolve, reject)=>{
       let headers = {
         Accept: 'application/json', 
@@ -110,10 +110,14 @@ export default class RestApi {
   }
 
   registerCliente(params){
+    //console.log("registro");
     return new Promise((resolve, reject)=>{
       let api = this.post(API_URL + 'register/cliente', params);
-      api.then((response) => response.json())
+      api
+      .then(this.handleErrors)
+      .then((response) => response.json())
       .then((responseJson) => {
+        //console.log(responseJson);
         if(responseJson.error){
           reject(responseJson);
         }else{
@@ -121,7 +125,8 @@ export default class RestApi {
         }
       })
       .catch((error) => {
-        reject(error.error);
+        //console.log(error);
+        reject(error);
         //bugsnag.notify(error.error);
       });
     });
@@ -381,6 +386,27 @@ export default class RestApi {
     });
   }
 
+  requestedPendingServices(){
+    return new Promise((resolve, reject)=>{
+      let api = this.get(API_URL + 'requestedpendingservices');
+      api
+      .then(this.handleErrors)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if(responseJson.error){
+          reject(responseJson);
+        }else{
+          resolve(responseJson);
+        }
+      })
+      .catch((error) => {
+        reject(error);
+      });
+    });
+  }
+  
+
+
   cancelServiceRequest(id){
     return new Promise((resolve, reject)=>{
       let params = {"solicitud_id": id};
@@ -465,6 +491,8 @@ export default class RestApi {
       });
     });
   }
+
+
 
   enprocesocliente(){
     return new Promise((resolve, reject)=>{
@@ -637,7 +665,7 @@ export default class RestApi {
       let api = this.get(API_URL + 'perfil/miperfilcliente');
       api
       .then(this.handleErrors)
-      .then((response) => response.json())
+      .then((response) => response.json()) 
       .then((responseJson) => {
         if(responseJson.error){
           //console.log("then", responseJson);
@@ -760,6 +788,30 @@ export default class RestApi {
         }else{
           //console.log("<<<<<<API GET RESPONSE:", responseJson);
           resolve(responseJson);
+        }
+      })
+      .catch((error) => {
+        //console.log("Problem saving expo token", error, params);
+        reject(error.error);
+        //bugsnag.notify(error.error);
+      });
+    });
+  }
+
+  recomendedpros(params){
+    return new Promise((resolve, reject)=>{
+      let api = this.post(API_URL + 'recomendedpros/byrequesterandcategory', params);
+      api
+      .then(this.handleErrors)
+      .then((response) =>  response.json() )
+      .then((responseJson) => {
+        //console.log("Expo token saved:", responseJson);
+        if(responseJson.error){
+          //console.log("<<<<<<API GET RESPONSE:", responseJson);
+          reject(responseJson);
+        }else{
+          //console.log("<<<<<<API GET RESPONSE:", responseJson);
+          resolve(responseJson.data);
         }
       })
       .catch((error) => {

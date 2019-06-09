@@ -30,7 +30,10 @@ export default class AvatarProfesional extends React.Component{
                                 }
                             }}
                         /> :
-                        <Avatar.Image size={64} source={{uri: API_URL + this.props.avatar}} /> 
+                        this.props.avatar == ''? 
+                            <Avatar.Image style={{backgroundColor: 'white'}} size={64} source={require('../assets/images/icon-user-black.png')} />: 
+                            <Avatar.Image size={64} source={{uri: API_URL + this.props.avatar}} />
+                        
                     
                 }
                     

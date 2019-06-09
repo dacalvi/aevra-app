@@ -1,12 +1,11 @@
 import React from "react";
 import  LogoTitle  from './LogoTitle';
 import { GiftedChat } from "react-native-gifted-chat";
-import { View, Platform, AsyncStorage } from 'react-native';
+import { View, Platform, AsyncStorage, Text } from 'react-native';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import RestApi from '../common/RestApi';
 import { isSignedIn, getStorageData } from '../common/auth';
-import {OpenDrawerProfesional} from '../components';
-
+import {IconHeader, OpenDrawerProfesional} from '../components';
 export default class Chat extends React.Component {
 
   static navigationOptions = {
@@ -93,6 +92,12 @@ export default class Chat extends React.Component {
   render() {
     return (
       <View style={{flex: 1}}>
+        <IconHeader 
+          source={require('../assets/images/icon-user-black.png')}
+          topTitle=""
+          title="Trabajo en proceso"
+          style={{marginBottom: 20}} />
+        <Text style={{marginHorizontal: 20 }}>Este chat se cerrara luego de 7 dias de que se finalice el trabajo.</Text>
         <GiftedChat
           messages={this.state.messages}
           onSend={messages => this.onSend(messages)}

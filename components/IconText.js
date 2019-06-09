@@ -19,7 +19,9 @@ export default IconText = (props) => {
               width: `10%`
             }}
           >
-            <Avatar.Icon size={24} icon={props.icon} />
+            <Avatar.Icon size={32} style={{ 
+              backgroundColor: '#00AAB4'
+              }} color='white' icon={props.icon} />
           </View>
           <View
             style={{
@@ -28,7 +30,8 @@ export default IconText = (props) => {
           >
             <Text
               style={{
-                marginBottom: 10
+                marginBottom: 10,
+                marginLeft: 10
               }}
               numberOfLines={4}
               childrenString={props.text}

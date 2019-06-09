@@ -1,10 +1,19 @@
 import React from "react";
 import  LogoTitle  from './LogoTitle';
-import { Dimensions, StyleSheet, View, ScrollView, KeyboardAvoidingView, Text } from 'react-native';
+import { 
+  Dimensions, 
+  StyleSheet, 
+  View, 
+  ScrollView, 
+  KeyboardAvoidingView, 
+  Text,
+  Alert 
+} from 'react-native';
 import { Button, Snackbar  } from 'react-native-material-ui';
 import RestApi from '../common/RestApi';
 import ATextInput from '../components/ATextInput';
 import IconHeader from '../components/IconHeader';
+import Tilde from '../components/Tilde';
 import validate from '../constants/validate_wrapper';
 import { connect } from 'react-redux';
 
@@ -26,6 +35,8 @@ class RegistroCliente extends React.Component {
             apellidoError: '',
             passwordError: '',
             repasswordError: '',
+            terminos: false,
+            terminosError: '',
         }
     }
 
@@ -46,34 +57,35 @@ class RegistroCliente extends React.Component {
       const apellidoError = validate('apellido', this.state.apellido);
       const passwordError = validate('password', this.state.password);
       const repasswordError = validate('repassword', this.state.repassword);
-
+      const terminosError = validate('terminos', this.state.terminos);
     
       this.setState({
         emailError: emailError,
         nombreError: nombreError,
         apellidoError: apellidoError,
         passwordError: passwordError,
-        repasswordError: repasswordError
+        repasswordError: repasswordError,
+        terminosError: terminosError
       })
 
-      if (!emailError && !nombreError && !apellidoError && !passwordError && !repasswordError) {
+      if (!emailError && !nombreError && !apellidoError && !passwordError && !repasswordError && !terminosError) {
         let registrationData = {
           "nombre": this.state.nombre,
           "apellido": this.state.apellido,
           "email": this.state.email,
           "password": this.state.password
         }
-       //console.logog(registrationData);
+       
 
         let api = new RestApi();
         api.registerCliente(registrationData)
         .then((result)=>{
-         //console.logog(result);
           this.props.navigation.navigate('GraciasRegistroCliente');
         })
         .catch((err)=>{
           if(err){
-           //console.logog(err);
+            //console.log(err);
+            Alert.alert("Aviso", err.error);
             this.setState({isVisible: true, errorMsg: err.error});
           }
         });
@@ -159,11 +171,21 @@ class RegistroCliente extends React.Component {
                   error={this.state.repasswordError}/>
               </View>
 
-              <View style={{flexDirection: `row`,justifyContent: `center`}}>      
+              <View style={{marginLeft: 20}}>
+                <Tilde 
+                  label="Acepta terminos y condiciones de Aevra?" 
+                  checked={this.state.terminos}
+                  error={this.state.terminosError}
+                  onPress={(terminos) => { 
+                    this.setState({ terminos }) 
+                    }}/>
+              </View>    
+
+              <View style={{flexDirection: `row`,justifyContent: `center`, marginTop: 20}}>      
                 <Button raised primary text="REGISTRARME" style={styles.botonAevra} 
                   onPress={() => { this.btnRegistrarClick();}}/>
-                <Snackbar visible={isVisible} message={this.state.errorMsg} onRequestClose={() => this.setState({ isVisible: false })} />
               </View>
+                <Snackbar visible={isVisible} message={this.state.errorMsg} onRequestClose={() => this.setState({ isVisible: false })} />
             </ScrollView>
       
           </KeyboardAvoidingView>

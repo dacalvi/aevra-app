@@ -1,7 +1,14 @@
 import React from 'react';
 import { Dimensions } from "react-native";
 import { Button } from 'react-native-material-ui';
-import { Image, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { 
+  Image, 
+  Platform, 
+  ScrollView, 
+  StyleSheet, 
+  Text, 
+  View
+} from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import LocalStore from '../common/localstore';
 import { connect } from 'react-redux';
@@ -26,6 +33,7 @@ class HomeScreen extends React.Component {
     
     return (
       <View style={styles.container}>
+        
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
             <Image 

@@ -1,7 +1,7 @@
 import React from 'react';
 import  LogoTitle  from './LogoTitle';
 import { Button } from 'react-native-material-ui';
-import { Image, View, Text, KeyboardAvoidingView } from 'react-native';
+import { Image, View, Text, KeyboardAvoidingView, Alert } from 'react-native';
 import { TextInput, Colors } from 'react-native-paper';
 import styles from '../constants/Styles';
 import layout from '../constants/Layout';
@@ -43,13 +43,13 @@ export default class LoginProfesional extends React.Component {
       //console.log("ERROR?"+err);
       if(err && err.error){
         if(err.error == "Inactive"){
-          alert("Su cuenta no se activa todavia, para activarla haga click en el link que le enviamos por email");
+          Alert.alert("Aviso", "Su cuenta no se activa todavia, para activarla haga click en el link que le enviamos por email");
         }else if(err.error == "Pending"){
-          alert("Su cuenta se encuentra en proceso de revision, recibira un email con el resultado del proceso muy pronto");
+          Alert.alert("Aviso", "Su cuenta se encuentra en proceso de revision, recibira un email con el resultado del proceso muy pronto");
         }else if(err.error == "Unauthorized"){
-          alert("Usuario o clave incorrectas");
+          Alert.alert("Error", "Usuario o clave incorrectas");
         }else{
-          alert(err.error);
+          Alert.alert("Error", err.error);
         }
       }
     });
@@ -63,24 +63,63 @@ export default class LoginProfesional extends React.Component {
               style={{ overflow: 'hidden', width: '100%', zIndex: 0, height: 500 }}
               source={ require('../assets/images/home_header.png') } />
           </View>
-			    <TextInput
-            textContentType='emailAddress'
-            label='Email'
-            mode='flat'
-            value={this.state.username}
-            onChangeText={username => this.setState({ username })}
-            style={{backgroundColor: Colors.white, marginHorizontal: 40,  marginBottom: 20}}
-          />
 
-          <TextInput
-            textContentType='password'
-            label='Contraseña'
-            mode='flat'
-            value={this.state.password}
-            onChangeText={password => this.setState({ password })}
-            secureTextEntry={true}
-            style={{backgroundColor: Colors.white, marginHorizontal: 40, marginBottom: 20 }}
-          />
+          <View style={{}}>
+            
+            <Image style={{ 
+              height: 25, 
+              width: 25, 
+              marginTop: 25,
+              marginLeft: 30,
+              position: 'absolute'
+            }} source={require('../assets/images/icon-user.png')} />
+
+            <TextInput
+              textContentType='emailAddress'
+              label='Email'
+              mode='flat'
+              value={this.state.username}
+              theme={{
+                colors: {
+                  placeholder: 'gray', text: 'darkgray', primary: 'gray',
+                  underlineColor: 'gray', background: '#003489'
+                }
+              }}
+              onChangeText={username => this.setState({ username })}
+              style={{backgroundColor: Colors.white, marginHorizontal: 70,  marginBottom: 20}}
+            />
+
+          </View>
+
+          <View style={{}}>
+
+            <Image style={{ 
+              height: 25, 
+              width: 25, 
+              marginTop: 25,
+              marginLeft: 30,
+              position: 'absolute'
+            }} source={require('../assets/images/icon-check.png')} />
+
+            <TextInput
+              textContentType='password'
+              label='Contraseña'
+              mode='flat'
+              value={this.state.password}
+              theme={{
+                colors: {
+                  placeholder: 'gray', text: 'darkgray', primary: 'gray',
+                  underlineColor: 'gray', background: '#003489'
+                }
+              }}
+              onChangeText={password => this.setState({ password })}
+              secureTextEntry={true}
+              style={{backgroundColor: Colors.white, marginHorizontal: 70, marginBottom: 20 }}
+            />
+          </View>
+
+
+        
 
         
           <View style={styles.welcomeContainer}>

@@ -30,20 +30,23 @@ class LoginCliente extends React.Component {
       //console.log("ERROR?"+err);
       if(err && err.error){
         if(err.error == "Pending"){
-          alert("Su cuenta se encuentra en proceso de revision, recibira un email con el resultado del proceso muy pronto");
+          Alert.alert("Importante", "Su cuenta se encuentra en proceso de revision, recibira un email con el resultado del proceso muy pronto");
         }else if(err.error == "Unauthorized"){
-          Alert.alert('Usuario o contrasena incorrectas');
+          Alert.alert("Importante", 'Usuario o contrasena incorrectas');
           this.state.password = '';
           this.inputPassword.focus();
         }else{
-          alert(err.error);
+          Alert.alert("Importante", err.error);
         }
       }
     });
   }
   
+  
+
   static navigationOptions = {
     headerTitle: <LogoTitle />,
+    headerRight: <Text></Text>,
     headerStyle: {
       backgroundColor: '#00AAB4',
     },
@@ -65,26 +68,57 @@ class LoginCliente extends React.Component {
         enabled>    
     		<Image source={ require('../assets/images/home_header_cliente.png') } style={{ height: imageHeight, width: imageWidth, marginTop: 0}} />
             
-			      <TextInput
-              textContentType='emailAddress'
-              label='Email'
-              mode='flat'
-              value={this.state.username}
-              onChangeText={username => this.setState({ username })}
-              style={{backgroundColor: Colors.white, marginHorizontal: 40,  marginBottom: 20}}
-            />
 
-            <TextInput
-              textContentType='password'
-              label='Contraseña'
-              mode='flat'
-              ref={ref => (this.inputPassword = ref)}
-              value={this.state.password}
-              onChangeText={password => this.setState({ password })}
-              secureTextEntry={true}
-              value={this.state.password}
-              style={{backgroundColor: Colors.white, marginHorizontal: 40, marginBottom: 20 }}
-            />
+            <View style={{}}>
+              <Image style={{ 
+                height: 25, 
+                width: 25, 
+                marginTop: 25,
+                marginLeft: 30,
+                position: 'absolute'
+              }} source={require('../assets/images/icon-user.png')} />
+              <TextInput
+                textContentType='emailAddress'
+                label='Email'
+                mode='flat'
+                value={this.state.username}
+                theme={{
+                  colors: {
+                    placeholder: 'gray', text: 'darkgray', primary: 'gray',
+                    underlineColor: 'gray', background: '#003489'
+                  }
+                }}
+                onChangeText           ={username => this.setState({ username })}
+                style={{backgroundColor: Colors.white, marginHorizontal: 70,  marginBottom: 20}}
+              />
+            </View>
+
+            <View style={{}}>
+              <Image style={{ 
+                height: 25, 
+                width: 25, 
+                marginTop: 25,
+                marginLeft: 30,
+                position: 'absolute'
+              }} source={require('../assets/images/icon-check.png')} />
+              <TextInput
+                textContentType='password'
+                label='Contraseña'
+                mode='flat'
+                ref={ref => (this.inputPassword = ref)}
+                value={this.state.password}
+                onChangeText={password => this.setState({ password })}
+                secureTextEntry={true}
+                value={this.state.password}
+                theme={{
+                  colors: {
+                    placeholder: 'gray', text: 'darkgray', primary: 'gray',
+                    underlineColor: 'gray', background: '#003489'
+                  }
+                }}
+                style={{backgroundColor: Colors.white, marginHorizontal: 70, marginBottom: 20 }}
+              />
+            </View>
 
             <View style={styles.welcomeContainer}>
             	<Button raised primary text="INGRESAR" style={styles.botonAevra} onPress={this.btnIngresarClick} />
@@ -100,6 +134,8 @@ class LoginCliente extends React.Component {
     );
   }
 }
+
+
 
 
 function mapStateToProps(state){

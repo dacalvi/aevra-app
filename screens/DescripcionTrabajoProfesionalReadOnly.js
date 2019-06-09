@@ -4,12 +4,12 @@ import layout from '../constants/Layout';
 import {IconHeader, OpenDrawerProfesional, GroupTitle, IconText} from '../components';
 import { Image, View, Text, StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { Button  } from 'react-native-material-ui';
-
+import { ImageView }  from 'react-native-image-view';
 
 const imageHeight = layout.window.height / 2.5;
 const imageWidth = layout.window.width;
 
-export default class DescripcionTrabajoProfesional extends React.Component {
+export default class DescripcionTrabajoProfesionalReadOnly extends React.Component {
 
   static navigationOptions = {
     headerTitle: <LogoTitle />,
@@ -22,6 +22,10 @@ export default class DescripcionTrabajoProfesional extends React.Component {
     headerTitleStyle: {flex: 1, textAlign: 'center'}
   };
 
+
+  state = {
+    isImageViewVisible : false
+  }
 
   constructor(){
     super();
@@ -41,16 +45,18 @@ export default class DescripcionTrabajoProfesional extends React.Component {
     });
     
     */
+
+    
   }
 
   render() {
     return (
-<KeyboardAvoidingView 
-    style={{ flex: 1, backgroundColor: '#fff' }} 
-    behavior="position" 
-    keyboardVerticalOffset={-200}
-    enabled>  
-    <ScrollView>
+        <KeyboardAvoidingView 
+            style={{ flex: 1, backgroundColor: '#fff' }} 
+            behavior="position" 
+            keyboardVerticalOffset={-200}
+            enabled>  
+            <ScrollView>
         <View style={{marginleft: 20, marginRight:20, marginTop:20}} >
             <IconHeader 
                 source={require('../assets/images/icon-user-black.png')}
@@ -62,13 +68,8 @@ export default class DescripcionTrabajoProfesional extends React.Component {
             
             <Text style={{marginLeft: 10, marginRight: 10}}>{this.props.navigation.state.params.descripcion}</Text>
             
-            <GroupTitle label="Imagenes"/>
-            
-            <ImageView
-                images={this.images}
-                imageIndex={0}
-                isVisible={this.state.isImageViewVisible}  
-            />
+            <GroupTitle label="Monto acordado"/>
+            <Text style={{marginLeft: 10, marginRight: 10}}>{this.props.navigation.state.params.monto}</Text>
 
             <GroupTitle label="Materiales"/>
 

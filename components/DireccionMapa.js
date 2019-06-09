@@ -142,7 +142,12 @@ export default class DireccionMapa extends React.Component {
                             onBlur={()=> this._attemptGeocode()}
                             />
                             <TouchableOpacity onPress={()=> this._attemptGeocode() }>
-                                <Avatar.Icon size={28} icon="arrow-forward" />
+                                <Avatar.Icon 
+                                size={32} style={{ 
+                                    backgroundColor: '#00AAB4'
+                                }} 
+                                color='white' 
+                                icon="arrow-forward" />
                             </TouchableOpacity>
 
                     </View>

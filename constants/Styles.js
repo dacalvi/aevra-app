@@ -12,6 +12,11 @@ const styles = StyleSheet.create({
       backgroundColor: '#00AAB4', 
       borderRadius: 30
     },
+    botonAevraGris: {
+      color: 'white',
+      backgroundColor: '#888888', 
+      borderRadius: 30
+    },
     container: {
       flex: 1,
       backgroundColor: '#fff',
