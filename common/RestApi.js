@@ -8,7 +8,7 @@ export default class RestApi {
 
 
   handleErrors(response) {
-    //console.log(response);
+    console.log(response);
     if (!response.ok) {
         //throw Error(response.statusText);
     }
@@ -821,5 +821,32 @@ export default class RestApi {
       });
     });
   }
+
+  olvideContrasenaCliente(params){
+    return new Promise((resolve, reject)=>{
+      let api = this.post(API_URL + 'auth/forgotpassword', params);
+      api
+      .then(this.handleErrors)
+      .then((response) =>  response.json() )
+      .then((responseJson) => {
+        //console.log("Expo token saved:", responseJson);
+        if(responseJson.error){
+          //console.log("<<<<<<API GET RESPONSE:", responseJson);
+          reject(responseJson);
+        }else{
+          //console.log("<<<<<<API GET RESPONSE:", responseJson);
+          resolve(responseJson.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        //console.log("Problem saving expo token", error, params);
+        reject(error.error);
+        //bugsnag.notify(error.error);
+      });
+    });
+  }
+
+  olvideContrasenaCliente
   
 };
