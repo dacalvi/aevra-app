@@ -4,12 +4,21 @@ import  LogoTitle  from './LogoTitle';
 import { GroupTitle, AvatarProfesional, AevraRating, MultilineText } from '../components';
 import RestApi from '../common/RestApi';
 import { isSignedIn } from '../common/auth';
-import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView, Dimensions, Alert  } from 'react-native';
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  KeyboardAvoidingView, 
+  ScrollView, 
+  Dimensions, 
+  Alert,
+  Platform  
+} from 'react-native';
 import { Button } from 'react-native-material-ui';
 import {IconHeader, OpenDrawerProfesional, EnProcesoClienteItem} from '../components';
 import styles from '../constants/Styles';
 import validate from '../constants/validate_wrapper';
-
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 const imageHeight = layout.window.height / 2.5;
 const imageWidth = layout.window.width;
 const dimensions = Dimensions.get('window');
@@ -87,7 +96,7 @@ export default class EnprocesoCliente extends React.Component {
                 this.api.terminartrabajo(finalizarTrabajoData)
                     .then((responseJson)=>{
                     //console.log(responseJson);
-                    this.props.navigation.navigate('TrabajosFinalizados');
+                    this.props.navigation.navigate('TrabajosFinalizadosStack');
                     //this.setState({refreshing: false});
                     //this.setState({postulaciones : responseJson.data});
                     })
@@ -110,12 +119,8 @@ export default class EnprocesoCliente extends React.Component {
     const { navigation } = this.props;
     const { solicitud } = this.props.navigation.state.params;
     return (
-      <KeyboardAvoidingView 
-      style={{ flex: 1, backgroundColor: '#fff' }} 
-      behavior="position" 
-      keyboardVerticalOffset={-200}
-      enabled>  
-      <ScrollView style={{height: dimensions.height - 180}}>
+
+      <ScrollView>
         <View style={{marginleft: 10, marginRight:10, marginTop:20}} >
             <IconHeader 
             source={require('../assets/images/icon-user-black.png')}
@@ -126,11 +131,12 @@ export default class EnprocesoCliente extends React.Component {
             <GroupTitle label={solicitud.categoria_nombre}/>
             <Text style={{marginLeft: 10}}>{solicitud.descripcion}</Text>
 
-            <AvatarProfesional 
-              avatar={require('../assets/images/avatar.png')}
-              nombre="Daniel Calvi"
-              cantidadTrabajosFinalizados={215} 
-              estrellas={5}/>
+            <AvatarProfesional
+                    editable={false}
+                    avatar={solicitud.avatar}
+                    nombre={solicitud.nombre_profesional + ' ' + solicitud.apellido_profesional}
+                    cantidadTrabajosFinalizados={solicitud.trabajos_finalizados}
+                    estrellas={solicitud.rating_promedio}/>
 
             <AevraRating label="Puntualidad" rating={5} editable={true} onChange={(puntualidad) => {this.setState({puntualidad})}} />
             <AevraRating label="Amabilidad" rating={5} editable={true} onChange={(amabilidad) => {this.setState({amabilidad})}} />
@@ -142,7 +148,6 @@ export default class EnprocesoCliente extends React.Component {
                 error={this.state.comentariosError}
                 />
         </View>
-      </ScrollView>
       <View style={{flexDirection: 'row',justifyContent: 'center', marginBottom: 40}}>      
           <Button 
             raised 
@@ -153,7 +158,10 @@ export default class EnprocesoCliente extends React.Component {
               
             }}/>
         </View>
-    </KeyboardAvoidingView>
+        {Platform.OS === 'android' ? <KeyboardSpacer /> : null }
+      </ScrollView>
+        
+
     );
   }
 }

@@ -55,7 +55,7 @@ export default class ACamera extends Component {
                     <Camera 
                         style={{ flex: 1 }} type={this.state.type}
                         ref={ref => { this.camera = ref; }} 
-                        
+                        autoFocus="off"
                         >
                         
                         <View

@@ -21,7 +21,7 @@ export default class AevraStars extends React.Component{
                         this.setState({currentRating: i});
                         this.props.onChange(i); 
                     }}>
-                        {this.props.rating >= i? 
+                        {this.state.currentRating >= i? 
                             <Image  style={{ width: 20, height: 20 }} source={require('../assets/images/on.png')}/> : 
                             <Image  style={{ width: 20, height: 20 }} source={require('../assets/images/off.png')}/>
                         }

@@ -6,7 +6,8 @@ import {
   View, 
   ScrollView, 
   KeyboardAvoidingView,
-  Text
+  Text,
+  Platform
 } from 'react-native';
 import { Button, Snackbar  } from 'react-native-material-ui';
 import RestApi from '../common/RestApi';
@@ -14,7 +15,7 @@ import ATextInput from '../components/ATextInput';
 import IconHeader from '../components/IconHeader';
 import validate from '../constants/validate_wrapper';
 import { connect } from 'react-redux';
-
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 class RegistroProfesional extends React.Component {
 
@@ -171,6 +172,7 @@ class RegistroProfesional extends React.Component {
                     })
                   }}
                   error={this.state.repasswordError}/>
+                  {Platform.OS === 'android' ? <KeyboardSpacer /> : null }
               </View>
 
               <View style={{flexDirection: `row`,justifyContent: `center`}}>      
@@ -178,6 +180,8 @@ class RegistroProfesional extends React.Component {
                   onPress={() => { this.btnRegistrarClick();}}/>
                 <Snackbar visible={isVisible} message={this.state.errorMsg} onRequestClose={() => this.setState({ isVisible: false })} />
               </View>
+
+
             </ScrollView>
       
           </KeyboardAvoidingView>

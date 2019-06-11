@@ -6,7 +6,14 @@ import OpenDrawerProfesional from '../components/OpenDrawerProfesional';
 import RestApi from '../common/RestApi';
 import { isSignedIn } from '../common/auth';
 import validate from '../constants/validate_wrapper';
-import { Image, View, ScrollView, Text, TextInput, Picker} from 'react-native';
+import { 
+  Image, 
+  View, 
+  ScrollView, 
+  Text, 
+  TextInput, 
+  Picker
+} from 'react-native';
 import { Button, Snackbar  } from 'react-native-material-ui';
 import IconHeaderAndTopTitle  from '../components/IconHeaderAndTopTitle';
 import MultilineText from '../components/MultilineText';
@@ -18,7 +25,7 @@ import { Ionicons } from '@expo/vector-icons';
 import IconText from '../components/IconText';
 import Horario from '../components/Horario';
 import DireccionMapa from '../components/DireccionMapa';
-
+import ADiaSemanaSelector from '../components/Semana/ADiaSemanaSelector';
 class SolicitarServicio2 extends React.Component {
   
   static navigationOptions = {
@@ -40,7 +47,17 @@ class SolicitarServicio2 extends React.Component {
         horario: '9a12',
         direccion: '',
         guardar_direccion: true,
-        direccionError: ''
+        direccionError: '',
+        dias: [
+          false, //dom
+          false, //lun
+          false, //mar
+          false, //mier
+          false, //juev
+          false, //vier
+          false //Sabado
+        ],
+        diasError: ''
     }
 
     isSignedIn()
@@ -51,21 +68,24 @@ class SolicitarServicio2 extends React.Component {
   }
 
   btnContinuarClick(){
+    let nombreDias = ['domingo','lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+    const dias = this.state.dias.map( (item, index) => { return item? nombreDias[index] : false} ).filter(Boolean).join(',');
+    const diasError = dias == '' ? "Ingrese al menos un día" : false;
+    this.setState({diasError});
+
+
     const direccionError = validate('direccion', this.state.direccion);
-    this.setState({
-      direccionError: direccionError
-    })
-    if(!direccionError){
-      //Save to store
+    this.setState({direccionError});
+
+    if(!direccionError && !diasError){
       let serviceRequestData = {
         direccion: this.state.direccion,
         urgente: this.state.urgente,
         horario: this.state.horario,
         guardar_direccion: this.state.guardar_direccion,
-        coordenadas: this.state.location.latitude + ',' + this.state.location.longitude
+        coordenadas: this.state.location.latitude + ',' + this.state.location.longitude,
+        dias
       };
-      //console.log(serviceRequestData);
-
       this.props.saveSolicitudData(serviceRequestData);
       this.props.navigation.navigate('SolicitarServicio3', this.props.navigation.state.params);
     }
@@ -92,6 +112,16 @@ class SolicitarServicio2 extends React.Component {
               text="Seleccione los dias en los que puede realizar el trabajo" 
               icon="perm-contact-calendar" />
             
+            <View style={{marginHorizontal:10, marginTop: 10}}>
+              <ADiaSemanaSelector onDayChange={(dayIndex, status)=> {
+                let { dias } = this.state;
+                dias[dayIndex] = status;
+                this.setState({dias});
+                console.log(dias);
+              }}/>
+              { this.state.diasError!=='' ? <Text style={{color: 'red'}}>{this.state.diasError}</Text> : <Text> </Text> }
+            </View>
+
             <Horario label="Horarios"
               onValueChange={(itemValue, itemIndex)=>{
                 this.setState({horario: itemValue});
