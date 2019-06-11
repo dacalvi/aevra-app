@@ -43,7 +43,7 @@ class OlvideContrasenaCliente extends React.Component {
       api.olvideContrasenaCliente({'email': this.state.email})
       .then((response) => response.json())
       .then((responseJson) => {
-        Alert.alert('Listo!', 'Hemos enviado un email con informacion para que pueda acceder nuevamente');
+        Alert.alert('Listo!', responseJson.status);
         this.setState({
           buttonRecuperarDisabled: true,
           buttonRecuperarText: "ENVIADO"
