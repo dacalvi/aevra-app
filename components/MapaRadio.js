@@ -69,6 +69,7 @@ export default class MapaRadio extends React.Component{
                     onRegionChangeComplete={this._handleMapRegionChange}
                     >
                     <MapView.Marker
+                        image={require('../assets/images/marker.png')}
                         coordinate={this.state.markerLatLng}
                     />
                     <MapView.Circle

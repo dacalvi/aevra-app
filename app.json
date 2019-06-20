@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "Aevra",
+    "scheme": "aevra",
     "slug": "aevra",
     "privacy": "public",
     "sdkVersion": "32.0.0",

@@ -826,16 +826,12 @@ export default class RestApi {
     return new Promise((resolve, reject)=>{
       let api = this.post(API_URL + 'auth/forgotpassword', params);
       api
-      .then(this.handleErrors)
       .then((response) =>  response.json() )
       .then((responseJson) => {
-        //console.log("Expo token saved:", responseJson);
         if(responseJson.error){
-          //console.log("<<<<<<API GET RESPONSE:", responseJson);
           reject(responseJson);
         }else{
-          //console.log("<<<<<<API GET RESPONSE:", responseJson);
-          resolve(responseJson.data);
+          resolve(responseJson.status);
         }
       })
       .catch((error) => {
@@ -846,7 +842,6 @@ export default class RestApi {
       });
     });
   }
-
-  olvideContrasenaCliente
   
+
 };

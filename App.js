@@ -3,7 +3,7 @@ const bugsnagClient = bugsnag();
 
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { AppLoading, Asset, Font, Icon } from 'expo';
+import { AppLoading, Asset, Font, Icon, Linking, Notifications } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import { COLOR, ThemeContext, getTheme } from 'react-native-material-ui';
 import { Provider } from 'react-redux';
@@ -12,6 +12,8 @@ import rootReducer from './reducers';
 import { LocalStore } from './common/localstore';
 import throttle from 'lodash.throttle';
 import { AsyncStorage } from 'react-native';
+import { NavigationActions } from 'react-navigation';
+import NavigationService from './NavigationService';
 
 let store;
 
@@ -35,6 +37,55 @@ AsyncStorage.getItem('state', (err, persistedState)=>{
 
 export default class App extends React.Component {
 
+  _handleNotification = (notification) => {
+
+    if(typeof notification !== 'undefined'){
+      if(typeof notification.data !== 'undefined' && notification.data !== null){
+        if(typeof notification.data.page !== 'undefined' && notification.data.page !== null ){
+          if(notification.data.page !== ''){
+            
+            if(typeof notification.data.payload !== 'undefined' && notification.data.payload !== null){
+              $payload = notification.data.payload;
+            }else{
+              $payload = {};
+            }
+
+            switch (notification.data.page) {
+              
+              case 'solicitar_servicio':
+                NavigationService.navigate({
+                  routeName: 'ClienteApp',
+                  action: NavigationActions.navigate({routeName: 'TrabajosSolicitados'})
+                });
+                break;
+            
+              case 'pro_ver_solicitud':
+                  NavigationService.navigate({
+                    routeName: 'ProfesionalApp',
+                    action: NavigationActions.navigate({
+                      routeName: 'ProfesionalAppStack',
+                      action: NavigationActions.navigate({
+                        routeName: 'DescripcionTrabajoProfesional'
+                      })
+                    })
+                  }, $payload);
+                  break;
+
+              default:
+                break;
+            }
+          }
+        }
+      }  
+    }
+  };
+
+
+  constructor(props){
+    super(props);
+    Notifications.addListener(this._handleNotification);
+  }
+
   state = {
     isLoadingComplete: false,
   };
@@ -54,7 +105,12 @@ export default class App extends React.Component {
           <ThemeContext.Provider value={getTheme(uiTheme)}>
             {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
             <Provider store={store}>
-              <AppNavigator />
+              <AppNavigator 
+                ref={navigatorRef => {
+                  NavigationService.setTopLevelNavigator(navigatorRef);
+                }}
+              />
+
             </Provider>
           </ThemeContext.Provider>
         </View>
