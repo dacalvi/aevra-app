@@ -49,40 +49,41 @@ export default class TrabajoSolicitado extends React.Component{
     render(){
         const { navigation } = this.props;
         return (
-            <View style={{ marginTop: 20, borderTopWidth: 1, borderColor: `rgba(133, 133, 133, 1)`}}>
-                <GroupTitle label={this.props.solicitud.nombre} />
+            <View style={{marginLeft: 10, marginTop: 20, borderTopWidth: 1, borderColor: `rgba(133, 133, 133, 1)`}}>
+                
+                <Text style={{fontWeight: 'bold', marginLeft: 10, marginTop: 10}}>{this.props.solicitud.categoria_nombre}</Text>
                 <Text style={{padding: 10}}>{this.props.solicitud.descripcion}</Text>
-                { this.props.solicitud.status == 'cancelada'? 
-                    <Text style={{padding: 10, color: 'red'}}>Estado: {this.props.solicitud.status}</Text>:
-                    <View>
-                        <Text style={{padding: 10}}>Estado: {this.props.solicitud.status}</Text>
-                        <View style={{flexDirection: 'row',justifyContent: 'center', marginBottom: 10}}>      
-                            <Button raised text="CANCELAR TRABAJO"  
-                                style={
-                                    {
-                                        container: { backgroundColor: '#888888'},
-                                        text: {color: 'white'},
-                                    }
+
+                <View>
+                    
+                    <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginBottom: 10}}>      
+                        <Button raised text="CANCELAR TRABAJO"  
+                            style={
+                                {
+                                    container: { backgroundColor: '#888888'},
+                                    text: {color: 'white'},
                                 }
-                                onPress={() => { 
-                                Alert.alert(
-                                    'Cancelar Trabajo',
-                                    'Realmente desea cancelar la solicitud de trabajo?',
-                                    [
-                                        {text: 'Si, Cancelar', onPress: () => {
-                                            //console.log('Cancelando');
-                                            this.cancelarTrabajo(this.props.solicitud.id)
-                                            .then(()=>{
-                                                this.props.onChange();
-                                            });
-                                        }},
-                                    ],
-                                    {cancelable: true},
-                                );
-                                }}/>
-                        </View>
+                            }
+                            onPress={() => { 
+                            Alert.alert(
+                                'Cancelar Trabajo',
+                                'Realmente desea cancelar la solicitud de trabajo?',
+                                [
+                                    {text: 'Si, Cancelar', onPress: () => {
+                                        //console.log('Cancelando');
+                                        this.cancelarTrabajo(this.props.solicitud.id)
+                                        .then(()=>{
+                                            this.props.onChange();
+                                        });
+                                    }},
+                                ],
+                                {cancelable: true},
+                            );
+                            }}/>
                     </View>
-                }
+                </View>
+
+                
                     
                 
 

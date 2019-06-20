@@ -39,15 +39,17 @@ class OlvideContrasenaCliente extends React.Component {
         buttonRecuperarDisabled: true,
         buttonRecuperarText: "ENVIANDO..."
       });
+      console.log("test");
       let api = new RestApi();
-      api.olvideContrasenaCliente({'email': this.state.email})
-      .then((response) => response.json())
+      api.olvideContrasenaCliente({'email': this.state.email })
       .then((responseJson) => {
-        Alert.alert('Listo!', responseJson.status);
+        
+        Alert.alert('Listo!', responseJson);
         this.setState({
           buttonRecuperarDisabled: true,
-          buttonRecuperarText: "ENVIADO"
+          buttonRecuperarText: "ENVIADO" 
         });
+
       })
       .catch((error)=>{
         Alert.alert('Error!', error);
@@ -56,6 +58,7 @@ class OlvideContrasenaCliente extends React.Component {
           buttonRecuperarText: "RECUPERAR CONTRASEÑA"
         });
       })
+      
     }
 
   }

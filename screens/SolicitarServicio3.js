@@ -13,7 +13,7 @@ import MultilineText from '../components/MultilineText';
 import {MultiImagePicker} from '../components/MultiImagePicker';
 import GroupTitle from '../components/GroupTitle';
 import Tilde from '../components/Tilde';
-import { Constants, MapView } from 'expo';
+import { Constants, MapView, Linking } from 'expo';
 import { RadioButton } from 'react-native-paper';
 import { API_URL } from '../common/config';
 import { Avatar } from 'react-native-paper';
@@ -77,6 +77,10 @@ class SolicitarServicio3 extends React.Component {
     if(dataset.image4){dataset.image4 = dataset.image4 !== '' ? await this.resizeImage(dataset.image4, 500, 500) : '';}
     if(dataset.image5){dataset.image5 = dataset.image5 !== '' ? await this.resizeImage(dataset.image5, 500, 500) : '';}
     //console.log(dataset);
+
+    //Lets add the deep_link_base for push notifications
+    dataset.deep_link_base = Expo.Linking.makeUrl();
+
     let api = new RestApi();
     this.setState({buttondisabled: true});
     api.serviceRequest(dataset)

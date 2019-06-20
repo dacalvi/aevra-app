@@ -10,7 +10,6 @@ import OfertaTrabajoItem from '../components/OfertaTrabajoItem';
 import RestApi from '../common/RestApi';
 import { isSignedIn } from '../common/auth';
 
-
 const imageHeight = layout.window.height / 2.5;
 const imageWidth = layout.window.width;
 
@@ -129,21 +128,20 @@ export default class OfertasTrabajo extends React.Component {
                 marginLeft: 20  
               }}>
               <Text>No tenemos ofertas de trabajo en su area o especialidad todavia...</Text>
-              
             </View>
             : <Text></Text>  
             }
 
-
           {this.state.ofertas.map((oferta, i)=>{
                 return (
-                  <OfertaTrabajoItem
+                   oferta.distancia <= oferta.radio? <OfertaTrabajoItem
                     onPress={()=>{
                       this.props.navigation.navigate("DescripcionTrabajoProfesional", oferta);
                     }}
                     key={i}
                     categoria={oferta.nombre} 
-                    descripcion={oferta.descripcion} />
+                    descripcion={oferta.descripcion}
+                    oferta={oferta} />: null
                 );
             })}
 

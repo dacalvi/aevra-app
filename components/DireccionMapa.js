@@ -1,5 +1,13 @@
 import React from 'react';
-import {View, Text, TextInput, Platform, Button, TouchableOpacity } from 'react-native';
+import {
+    View, 
+    Text, 
+    TextInput, 
+    Platform,
+    Button, 
+    TouchableOpacity,
+    AsyncStorage
+} from 'react-native';
 import PropTypes from 'prop-types';
 import Tilde from '../components/Tilde';
 import { 
@@ -26,21 +34,56 @@ export default class DireccionMapa extends React.Component {
         address: null
     };
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         if (Platform.OS === 'android' && !Constants.isDevice) {
             this.setState({
-              errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
+                errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
             });
             //console.log('Oops, this will not work on Sketch in an Android emulator. Try it on your device!');
-          } else {
+        } else {
             Geocoder.init(MAPS_KEY); // use a valid API key
             this._getLocationAsync();
-          }
+            
+        }
+        //Get saved address
+
     }
 
+    componentDidMount(){
+        this._getSavedAddressAsync();
+    }
 
+    _getSavedAddressAsync = async () => {
+        const direccion_guardadas = await AsyncStorage.getItem('direccion_guardadas');
+        const coordenadas_guardadas = await AsyncStorage.getItem('coordenadas_guardadas');
+        const ciudad_guardadas = await AsyncStorage.getItem('ciudad_guardadas');
+        
 
+        if(direccion_guardadas){
+            let address = direccion_guardadas.split(';')[0];
+            let ciudad = direccion_guardadas.split(';')[1];
+            if(address !== ''){
+                this.setState({address});
+            }
+            this.props.onChangeAddress(address);
+        }
+        
+        if(coordenadas_guardadas){
+            let coordenadas = coordenadas_guardadas.split(',');
+            let latitude = parseFloat(coordenadas[0]);
+            let longitude = parseFloat(coordenadas[1]);
+            this.setState({latitude, longitude});
+        }
+        
+        
+        if(ciudad_guardadas){
+            let ciudad = ciudad_guardadas;
+            this.setState({ciudad});
+            this.props.onChangeCiudad(ciudad);
+        }
+
+    };
 
     _addressLookup = async (address) => {
         let { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -67,7 +110,7 @@ export default class DireccionMapa extends React.Component {
         if(this.state.address === null  || this.state.ciudad === null){ return false; }
 
 
-        Geocoder.from(this.state.address + ', ' + this.state.ciudad + ', Argentina')
+        Geocoder.from(this.state.address + '; ' + this.state.ciudad + '; Argentina')
 		.then(json => {
             var location = json.results[0].geometry.location;
             this.setState({ latitude: location.lat, longitude: location.lng });
@@ -109,9 +152,11 @@ export default class DireccionMapa extends React.Component {
                     <Text style={{ marginRight: 10 }}>Ciudad/Localidad</Text>
                     <View style={{flex: 1, flexDirection: 'row'}}>
                         <TextInput style={{ width: '80%', borderBottomWidth: 1, borderBottomColor: `rgba(143, 143, 143, 1)` }}
-                            placeholder="" 
+                            placeholder=""
+                            value={this.state.ciudad}
                             onChangeText={ ciudad => {
                                 this.setState({ciudad});
+                                this.props.onChangeCiudad(ciudad)
                             }}
                             onBlur={()=> this._attemptGeocode()}
                             />
@@ -133,6 +178,7 @@ export default class DireccionMapa extends React.Component {
                     <Text style={{ marginRight: 10 }}>Dirección</Text>
                     <View style={{flex: 1, flexDirection: 'row'}}>
                         <TextInput
+                            value={this.state.address}
                             style={{
                                 width: '80%',
 

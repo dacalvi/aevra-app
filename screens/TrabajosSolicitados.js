@@ -37,7 +37,7 @@ export default class TrabajosSolicitados extends React.Component {
     isSignedIn()
     .then(()=>{ 
       this.api = new RestApi();
-      this.api.requestedServices()
+      this.api.requestedPendingServices()
         .then((responseJson)=>{
           this.setState({solicitudes : responseJson.data, refreshing: false});
         })
@@ -109,7 +109,6 @@ export default class TrabajosSolicitados extends React.Component {
                 alignItems: 'center'  
               }}>
               <Text>No hay trabajos solicitados todavia...</Text>
-              
             </View>
             : <Text></Text>  
             }

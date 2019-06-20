@@ -54,6 +54,7 @@ export default class DescripcionTrabajoUbicacionReadOnly extends React.Component
                             }}
                             >
                             <MapView.Marker
+                                image={require('../assets/images/marker.png')}
                                 coordinate={{
                                     latitude: parseFloat(this.props.navigation.state.params.coordenadas.split(",")[0]),
                                     longitude: parseFloat(this.props.navigation.state.params.coordenadas.split(",")[1])

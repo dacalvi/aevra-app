@@ -12,7 +12,8 @@ import {
   ScrollView, 
   Text, 
   TextInput, 
-  Picker
+  Picker,
+  AsyncStorage
 } from 'react-native';
 import { Button, Snackbar  } from 'react-native-material-ui';
 import IconHeaderAndTopTitle  from '../components/IconHeaderAndTopTitle';
@@ -48,6 +49,7 @@ class SolicitarServicio2 extends React.Component {
         direccion: '',
         guardar_direccion: true,
         direccionError: '',
+        ciudad: '',
         dias: [
           false, //dom
           false, //lun
@@ -68,6 +70,9 @@ class SolicitarServicio2 extends React.Component {
   }
 
   btnContinuarClick(){
+
+    
+
     let nombreDias = ['domingo','lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
     const dias = this.state.dias.map( (item, index) => { return item? nombreDias[index] : false} ).filter(Boolean).join(',');
     const diasError = dias == '' ? "Ingrese al menos un día" : false;
@@ -87,6 +92,17 @@ class SolicitarServicio2 extends React.Component {
         dias
       };
       this.props.saveSolicitudData(serviceRequestData);
+
+      //Save Address for future uses
+      if(this.state.guardar_direccion){
+        AsyncStorage.multiSet([
+            ['direccion_guardadas', this.state.direccion],
+            ['ciudad_guardadas', this.state.ciudad],
+            ['coordenadas_guardadas', this.state.location.latitude + ',' + this.state.location.longitude]
+          ], () => {}
+        );
+      }
+
       this.props.navigation.navigate('SolicitarServicio3', this.props.navigation.state.params);
     }
   }
@@ -117,7 +133,7 @@ class SolicitarServicio2 extends React.Component {
                 let { dias } = this.state;
                 dias[dayIndex] = status;
                 this.setState({dias});
-                console.log(dias);
+                
               }}/>
               { this.state.diasError!=='' ? <Text style={{color: 'red'}}>{this.state.diasError}</Text> : <Text> </Text> }
             </View>
@@ -132,7 +148,11 @@ class SolicitarServicio2 extends React.Component {
             <GroupTitle label="Donde se realizara el servicio" />
             
             <DireccionMapa 
-              onChangeAddress={(address)=>{this.setState({direccion: address})}}
+              onChangeAddress={(address)=>{
+                this.setState({direccion: address});
+                console.log("Direccion cambio", address);
+                }}
+              onChangeCiudad={(ciudad)=>{this.setState({ciudad})}}
               onChangeLocation={(location)=>{ this.setState({location}) }}
               guardar_direccion={true}
               error={this.state.direccionError}

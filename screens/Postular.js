@@ -90,6 +90,8 @@ export default class Postular extends React.Component {
                         <Text style={{marginLeft: 30}}>Te estas postulando para este trabajo,</Text>
                         <Text style={{marginLeft: 30}}>calcula un presupuesto competitivo para</Text>
                         <Text style={{marginLeft: 30}}>tener una mejor oportunidad de realizarlo.</Text>
+                        
+
                         <GroupTitle title="Presupuesto"/>
                         <View style={{width: '90%'}}>
                             <ATextinputNumberWithIcon
