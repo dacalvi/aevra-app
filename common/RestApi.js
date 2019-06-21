@@ -355,10 +355,10 @@ export default class RestApi {
     return new Promise((resolve, reject)=>{
       let api = this.post(API_URL + 'ofertas/edicionfinal', params);
       api
-      //.then(this.handleErrors)
+      .then(this.handleErrors)
       .then((response) =>  response.json() )
       .then((responseJson) => {
-        //console.log("service request then", responseJson);
+        console.log("service request then", responseJson);
         if(responseJson.error){
           reject(responseJson);
         }else{

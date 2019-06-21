@@ -1,5 +1,5 @@
-import bugsnag from '@bugsnag/expo';
-const bugsnagClient = bugsnag();
+//import bugsnag from '@bugsnag/expo';
+//const bugsnagClient = bugsnag();
 
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
@@ -41,6 +41,10 @@ export default class App extends React.Component {
 
     if(typeof notification !== 'undefined'){
       console.log(notification);
+      /*if(notification.origin == 'received'){
+        return;
+      }
+      */
       if(typeof notification.data !== 'undefined' && notification.data !== null){
         if(typeof notification.data.page !== 'undefined' && notification.data.page !== null ){
           if(notification.data.page !== ''){

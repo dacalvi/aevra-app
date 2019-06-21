@@ -58,7 +58,7 @@ export default class Postular extends React.Component {
 
         api.presupuestoedicionfinal(registrationData).then((result)=>{
             this.setState({buttondisabled: false});
-            if(result.status == "postuled"){
+            if(result.status == "enproceso"){
                 this.props.navigation.navigate('EstimarTrabajoProfesionalGracias', {...this.props.navigation.state.params, precio: registrationData.monto});
             }
         }).catch((error)=>{
@@ -69,7 +69,6 @@ export default class Postular extends React.Component {
       }
     }
   
-
   render() {
     return (
             <KeyboardAvoidingView 

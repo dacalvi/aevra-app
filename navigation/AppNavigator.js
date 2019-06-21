@@ -44,6 +44,7 @@ import ElegirServicioMascota from '../screens/ElegirServicioMascota';
 import ElegirServicioProfesor from '../screens/ElegirServicioProfesor';
 import DetalleDeuda from '../screens/DetalleDeuda';
 import EstimarTrabajoProfesional from '../screens/EstimarTrabajoProfesional';
+import EstimarTrabajoProfesionalGracias from '../screens/EstimarTrabajoProfesionalGracias';
 
 export default createAppContainer(createSwitchNavigator( {
   AuthLoading: AuthLoadingScreen,
@@ -67,7 +68,8 @@ export default createAppContainer(createSwitchNavigator( {
         DescripcionTrabajoUbicacionReadOnly: DescripcionTrabajoUbicacionReadOnly,
         Postular: Postular,
         PostularGracias: PostularGracias,
-        EstimarTrabajoProfesional: EstimarTrabajoProfesional
+        EstimarTrabajoProfesional: EstimarTrabajoProfesional,
+        EstimarTrabajoProfesionalGracias: EstimarTrabajoProfesionalGracias
       },{initialRouteName: 'OfertasTrabajo'})},
       EnProceso: {navigationOptions: {drawerLabel: 'En proceso'}, screen: createStackNavigator({
           EnProcesoProfesional: EnProcesoProfesional,

@@ -80,15 +80,14 @@ export default class EstimarTrabajoProfesionalGracias extends React.Component {
 
                         <IconHeader 
                             source={require('../assets/images/icon-user-black.png')}
-                            topTitle="Descripcion del Trabajo"
-                            title={this.props.navigation.state.params.nombre}
+                            topTitle=""
+                            title="Edicion de presupuesto"
                             style={{marginBottom: 20}} />
 
-                        <GroupTitle label="Descripcion del trabajo a realizar"/>
-                        <Text style={{marginLeft: 10, marginRight: 10}}>{this.props.navigation.state.params.descripcion}</Text>
+                        
 
                         <View style={{flex: 1, flexDirection: 'column'}}>
-                            <GroupTitle label="Presupuesto"/>
+                            <GroupTitle label="Presupuesto editado correctamente"/>
                             
                             <View style={{flex:1, flexDirection:'row', marginLeft: 10}}>
                               <Image style={{width: 20, height: 20 }} source={require('../assets/images/icon-wallet.png')}/>
@@ -97,7 +96,7 @@ export default class EstimarTrabajoProfesionalGracias extends React.Component {
                             
                             <View style={{marginLeft: 10, marginTop: 20}}>
                               <Text>Muchas Gracias.</Text>
-                              <Text>En caso de seleccionar su presupuesto para el trabajo le notificaremos</Text>
+                              
                             </View>
                         </View>
  
