@@ -238,19 +238,19 @@ export default class RestApi {
   }
 
   serviceRequest(params){
-    //console.log('service request', params);
+    console.log('service request', params);
     return new Promise((resolve, reject)=>{
       let api = this.post(API_URL + 'servicerequest', params);
       api
       .then(this.handleErrors)
       .then((response) =>  response.json() )
       .then((responseJson) => {
-        //console.log("service request then", responseJson);
+        console.log("service request then", responseJson);
         if(responseJson.error){
-          //console.log("<<<<<<API GET RESPONSE:", responseJson);
+          console.log("<<<<<<API GET RESPONSE:", responseJson);
           reject(responseJson);
         }else{
-          //console.log("<<<<<<API GET RESPONSE:", responseJson);
+          console.log("<<<<<<API GET RESPONSE:", responseJson);
           resolve(responseJson);
         }
       })
@@ -330,6 +330,30 @@ export default class RestApi {
   postular(params){
     return new Promise((resolve, reject)=>{
       let api = this.post(API_URL + 'ofertas', params);
+      api
+      //.then(this.handleErrors)
+      .then((response) =>  response.json() )
+      .then((responseJson) => {
+        //console.log("service request then", responseJson);
+        if(responseJson.error){
+          reject(responseJson);
+        }else{
+          resolve(responseJson);
+        }
+      })
+      .catch((error) => {
+        //console.log("service request catch", error, params);
+        reject(error.error);
+        //bugsnag.notify(error.error);
+      });
+    });
+  }
+
+
+  
+  presupuestoedicionfinal(params){
+    return new Promise((resolve, reject)=>{
+      let api = this.post(API_URL + 'ofertas/edicionfinal', params);
       api
       //.then(this.handleErrors)
       .then((response) =>  response.json() )

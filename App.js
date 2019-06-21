@@ -40,14 +40,15 @@ export default class App extends React.Component {
   _handleNotification = (notification) => {
 
     if(typeof notification !== 'undefined'){
+      console.log(notification);
       if(typeof notification.data !== 'undefined' && notification.data !== null){
         if(typeof notification.data.page !== 'undefined' && notification.data.page !== null ){
           if(notification.data.page !== ''){
             
             if(typeof notification.data.payload !== 'undefined' && notification.data.payload !== null){
-              $payload = notification.data.payload;
+              payload = notification.data.payload;
             }else{
-              $payload = {};
+              payload = {};
             }
 
             switch (notification.data.page) {
@@ -59,17 +60,35 @@ export default class App extends React.Component {
                 });
                 break;
             
-              case 'pro_ver_solicitud':
+              case 'pro_ver_ofertas':
                   NavigationService.navigate({
                     routeName: 'ProfesionalApp',
                     action: NavigationActions.navigate({
                       routeName: 'ProfesionalAppStack',
                       action: NavigationActions.navigate({
-                        routeName: 'DescripcionTrabajoProfesional'
+                        routeName: 'OfertasTrabajo'
                       })
                     })
-                  }, $payload);
-                  break;
+                  });
+                break;
+
+              case 'pro_estimar_trabajo':
+                  NavigationService.navigate({
+                    routeName: 'ProfesionalApp',
+                    action: NavigationActions.navigate({
+                      routeName: 'EnProceso'
+                    })
+                  });
+                break;
+              
+              case 'cli_en_proceso':
+                  NavigationService.navigate({
+                    routeName: 'ClienteApp',
+                    action: NavigationActions.navigate({
+                      routeName: 'EnProceso'
+                    })
+                  });
+                break;
 
               default:
                 break;

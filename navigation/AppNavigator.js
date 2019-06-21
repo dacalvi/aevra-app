@@ -43,23 +43,7 @@ import ElegirServicioFlete from '../screens/ElegirServicioFlete';
 import ElegirServicioMascota from '../screens/ElegirServicioMascota';
 import ElegirServicioProfesor from '../screens/ElegirServicioProfesor';
 import DetalleDeuda from '../screens/DetalleDeuda';
-
-//profesional autenticados stack
-/*
-const ProfesionalAppStack = createStackNavigator({
-  OfertasTrabajo: OfertasTrabajo,
-  PerfilProfesionalPrivado: PerfilProfesional,
-  EnProcesoProfesional: EnProcesoProfesional,
-  TrabajosFinalizados: TrabajosFinalizados,
-  Postulaciones: Postulaciones,
-  AdherirCategoriaProfesional: AdherirCategoriaProfesional,
-  RegistroProfesionalValidado: RegistroProfesionalValidado,
-  DescripcionTrabajoProfesional: DescripcionTrabajoProfesional,
-  DescripcionTrabajoUbicacion: DescripcionTrabajoUbicacion,
-  Postular: Postular,
-  PostularGracias: PostularGracias
-},{initialRouteName: 'OfertasTrabajo'});
-*/
+import EstimarTrabajoProfesional from '../screens/EstimarTrabajoProfesional';
 
 export default createAppContainer(createSwitchNavigator( {
   AuthLoading: AuthLoadingScreen,
@@ -69,6 +53,7 @@ export default createAppContainer(createSwitchNavigator( {
         
         DetalleDeuda: DetalleDeuda,
       },{initialRouteName: 'PerfilProfesional123'})},
+      
       ProfesionalAppStack: {navigationOptions: {drawerLabel: 'Ofertas de trabajo'}, screen: createStackNavigator({
         OfertasTrabajo: OfertasTrabajo,
         PerfilProfesionalPrivado: MiPerfilProfesional,
@@ -81,7 +66,8 @@ export default createAppContainer(createSwitchNavigator( {
         DescripcionTrabajoUbicacion: DescripcionTrabajoUbicacion,
         DescripcionTrabajoUbicacionReadOnly: DescripcionTrabajoUbicacionReadOnly,
         Postular: Postular,
-        PostularGracias: PostularGracias
+        PostularGracias: PostularGracias,
+        EstimarTrabajoProfesional: EstimarTrabajoProfesional
       },{initialRouteName: 'OfertasTrabajo'})},
       EnProceso: {navigationOptions: {drawerLabel: 'En proceso'}, screen: createStackNavigator({
           EnProcesoProfesional: EnProcesoProfesional,

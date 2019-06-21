@@ -6,9 +6,9 @@ function setTopLevelNavigator(navigatorRef) {
   _navigator = navigatorRef;
 }
 
-function navigate(navObj, params) {
+function navigate(navObj) {
   _navigator.dispatch(
-    NavigationActions.navigate(navObj, params)
+    NavigationActions.navigate(navObj)
   );
 }
 

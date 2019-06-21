@@ -29,6 +29,12 @@ export default class EnProcesoProfesionalItem extends React.Component{
                         <Text>$ {this.props.item.monto}</Text>
                     </View>
                     <View style={{width: '80%', flex: 1, flexDirection: 'column'}}>
+                            
+                            <Button raised primary text="EDITAR PRESUPUESTO" style={styles.botonAevra} 
+                                onPress={() => { 
+                                    this.props.navigation.navigate("EstimarTrabajoProfesional", {"solicitud_id": this.props.item.solicitud_id});
+                                }}/>
+
                             <Button raised primary text="VER DETALLE" style={styles.botonAevra} 
                                 onPress={() => { 
                                     this.props.navigation.navigate("DescripcionTrabajoProfesionalReadOnly", this.props.item);
