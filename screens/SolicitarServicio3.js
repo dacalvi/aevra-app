@@ -162,7 +162,7 @@ class SolicitarServicio3 extends React.Component {
     const {isVisible} = this.state
     return (
         <ScrollView>
-        <View style={{marginleft: 20, marginRight:20, marginTop:20, paddingLeft: 10, paddingRight: 20}} >
+        <View style={{marginleft: 20, marginRight:20, marginTop:20, paddingLeft: 10}} >
             <IconHeaderAndTopTitle 
                 topTitle="Servicio solicitado" 
                 title={this.props.navigation.getParam('nombre')}
@@ -178,7 +178,7 @@ class SolicitarServicio3 extends React.Component {
             
             <GroupTitle label="Presupuesto a domicilio" />
             
-            <View style={{marginBottom: 20}}>
+            <View style={{marginBottom: 30}}>
               <Tilde 
                 label="Este presupuesto tiene un valor de $200 que se descuentan al finalizar el trabajo."
                 checked={false}
@@ -195,70 +195,73 @@ class SolicitarServicio3 extends React.Component {
               <View style={{ marginLeft: 10 }}>
                 <Text>Indique cuanto considera que deberia costar un trabajo de este tipo.</Text>
                 <Text>(Esta informacion no sera compartida con nadie y tiene como fin incentivar al profesional a proponer presupuestos reales)</Text>
-                <View>
+                
+
+              </View>
+
+              <View style={{marginTop: 10, marginLeft: 10}}>
                   <RadioButton.Group
                     onValueChange={rango_presupuesto => this.setState({ rango_presupuesto })}
                     value={this.state.rango_presupuesto} >
                     
-                    <View>
+                    <View style={{ marginBottom: 5}}>
                       <View style={{flex:1, flexDirection: 'row'}}>
-                        <Text style={{width: '80%'}}>$500 a $1.500</Text>
+                        <Text style={{width: '80%', marginTop: 8}}>$500 a $1.500</Text>
                         <RadioButton  style={{width: '20%'}} value="500a1500" />
                       </View>
                     </View>
 
-                    <View>
+                    <View style={{ marginBottom: 5}}>
                       <View style={{flex:1, flexDirection: 'row'}}>
-                        <Text style={{width: '80%'}}>$1.500 a $3.000</Text>
+                        <Text style={{width: '80%', marginTop: 8}}>$1.500 a $3.000</Text>
                         <RadioButton  style={{width: '20%'}} value="1500a3000" />
                       </View>
                     </View>
 
-                    <View>
+                    <View style={{ marginBottom: 5}}>
                       <View style={{flex:1, flexDirection: 'row'}}>
-                        <Text style={{width: '80%'}}>$3.000 a $5.000</Text>
+                        <Text style={{width: '80%', marginTop: 8}}>$3.000 a $5.000</Text>
                         <RadioButton  style={{width: '20%'}} value="3000a5000" />
                       </View>
                     </View>
 
-                    <View>
+                    <View style={{ marginBottom: 5}}>
                       <View style={{flex:1, flexDirection: 'row'}}>
-                        <Text style={{width: '80%'}}>$5.000 a $10.000</Text>
+                        <Text style={{width: '80%', marginTop: 8}}>$5.000 a $10.000</Text>
                         <RadioButton  style={{width: '20%'}} value="5000a10000" />
                       </View>
                     </View>
 
-                    <View>
+                    <View style={{ marginBottom: 5}}>
                       <View style={{flex:1, flexDirection: 'row'}}>
-                        <Text style={{width: '80%'}}>$10.000 a $20.000</Text>
+                        <Text style={{width: '80%', marginTop: 8}}>$10.000 a $20.000</Text>
                         <RadioButton  style={{width: '20%'}} value="10000a20000" />
                       </View>
                     </View>
 
-                    <View>
+                    <View style={{ marginBottom: 5}}>
                       <View style={{flex:1, flexDirection: 'row'}}>
-                        <Text style={{width: '80%'}}>$20.000 a $40.000</Text>
+                        <Text style={{width: '80%', marginTop: 8}}>$20.000 a $40.000</Text>
                         <RadioButton  style={{width: '20%'}} value="20000a40000" />
                       </View>
                     </View>
 
-                    <View>
+                    <View style={{ marginBottom: 5}}>
                       <View style={{flex:1, flexDirection: 'row'}}>
-                        <Text style={{width: '80%'}}>$40.000 a $70.000</Text>
+                        <Text style={{width: '80%', marginTop: 8}}>$40.000 a $70.000</Text>
                         <RadioButton  style={{width: '20%'}} value="40000a70000" />
                       </View>
                     </View>
 
-                    <View>
+                    <View style={{ marginBottom: 5}}>
                       <View style={{flex:1, flexDirection: 'row'}}>
-                        <Text style={{width: '80%'}}>$70.000 o mas</Text>
+                        <Text style={{width: '80%', marginTop: 8}}>$70.000 o mas</Text>
                         <RadioButton  style={{width: '20%'}} value="70000omas" />
                       </View>
                     </View>
                   </RadioButton.Group>
                 </View>
 
-              </View>
 
               <GroupTitle label="Elegir un prestador conocido" />
 
@@ -276,7 +279,6 @@ class SolicitarServicio3 extends React.Component {
                 : <Text></Text>  
               }
 
-
               <View style={{marginLeft: 10, marginRight: 10}}>
                 <RadioButton.Group
                   onValueChange={ prestador_favorito => this.setState({ prestador_favorito }) }
@@ -287,7 +289,7 @@ class SolicitarServicio3 extends React.Component {
                           <Avatar.Image 
                             size={40} 
                             source={{uri: API_URL + recomendado.avatar}} />
-                          <Text style={{width: '65%', marginLeft: 10, marginTop:10}}>{recomendado.nombre}</Text>
+                          <Text style={{width: '66%', marginLeft: 10, marginTop:10}}>{recomendado.nombre}</Text>
                           <RadioButton
                             style={{width: '20%'}} 
                             value={recomendado.user_id} />
@@ -295,7 +297,6 @@ class SolicitarServicio3 extends React.Component {
                       );
                   })}
 
-                  
                 </RadioButton.Group>
               </View>
 
