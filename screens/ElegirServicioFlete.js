@@ -42,7 +42,8 @@ class ElegirServicioFlete extends React.Component {
         desea_traigan_materiales: false,
         observaciones_materiales: '',
         destino: '', 
-        destino_location: ''
+        destino_location: '',
+        ciudad: ''
     }
 
     isSignedIn()
@@ -55,10 +56,12 @@ class ElegirServicioFlete extends React.Component {
   btnContinuarClick(){
     //console.log(this.state);
     const descripcionError = validate('descripcion', this.state.descripcion);
+    const ciudadError = validate('ciudad', this.state.descripcion);
     this.setState({
-      descripcionError: descripcionError
+      descripcionError: descripcionError,
+      ciudadError: ciudadError,
     })
-    if(!descripcionError){
+    if(!descripcionError && !ciudadError){
       //Save to store
       let serviceRequestData = {
         descripcion: this.state.descripcion,
@@ -116,7 +119,8 @@ class ElegirServicioFlete extends React.Component {
 
             <GroupTitle label="Destino del Flete" />
             
-            <DireccionMapa 
+            <DireccionMapa
+              onChangeCiudad={(ciudad)=>{this.setState({ciudad})}}
               onChangeAddress={(address)=>{this.setState({destino: address})}}
               onChangeLocation={(destino_location)=>{ this.setState({destino_location}) }}
               guardar_direccion={false}
@@ -124,6 +128,8 @@ class ElegirServicioFlete extends React.Component {
               onChangeGuardarDireccion={(guardar_direccion_flete) => {
                 this.setState({guardar_direccion_flete});
               }} />
+
+              { this.state.ciudadError ? <Text style={{color: 'red'}}>{this.state.ciudadError}</Text> : <Text> </Text> }
             
             <MultilineText 
                 label="Observaciones"

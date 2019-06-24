@@ -309,14 +309,14 @@ export default class RestApi {
     return new Promise((resolve, reject)=>{
       let api = this.get(API_URL + 'ofertas');
       api
-      //.then(this.handleErrors)
+      .then(this.handleErrors)
       .then((response) => response.json())
       .then((responseJson) => {
         if(responseJson.error){
-          //console.log("then", responseJson);
+          console.log("then", responseJson);
           reject(responseJson);
         }else{
-          //console.log("<<<<<<API GET RESPONSE:", responseJson);
+          console.log("<<<<<<API GET RESPONSE:", responseJson);
           resolve(responseJson);
         }
       })
@@ -866,6 +866,27 @@ export default class RestApi {
       });
     });
   }
+
   
+  changePassword(params){
+    return new Promise((resolve, reject)=>{
+      let api = this.post(API_URL + 'auth/changePassword', params);
+      api
+      .then((response) =>  response.json() )
+      .then((responseJson) => {
+        if(responseJson.error){
+          reject(responseJson);
+        }else{
+          resolve(responseJson.status);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        //console.log("Problem saving expo token", error, params);
+        reject(error.error);
+        //bugsnag.notify(error.error);
+      });
+    });
+  }
 
 };

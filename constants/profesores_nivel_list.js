@@ -1,1 +1,1 @@
-export default profesores_nivel_list = ["Nivel Inicial", "Primaria", "Secundaria", "Terciaria", "Universidad"];
+export default profesores_nivel_list = ["Nivel inicial", "Educación Primaria", "Educación Secundaria", "Terciario", "Universitario"];

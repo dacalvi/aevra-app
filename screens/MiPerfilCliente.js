@@ -13,7 +13,8 @@ import {
   ScrollView, 
   ImageEditor, 
   ImageStore, 
-  RefreshControl 
+  RefreshControl,
+  TouchableOpacity
 } from 'react-native';
 import { GroupTitle, AevraRating } from '../components';
 import AvatarCliente from '../components/AvatarCliente';
@@ -171,11 +172,9 @@ export default class MiPerfilCliente extends React.Component {
               estrellas={this.state.perfil.rating_promedio}/>
             
             
-            <Text style={{
-              textDecorationLine: 'underline',
-              marginBottom: 20
-              
-              }}>Cambiar contraseña</Text>
+            <TouchableOpacity onPress={()=> { this.props.navigation.navigate("CambiarContrasena") }}>
+              <Text style={{textDecorationLine: 'underline',marginBottom: 20}}>Cambiar contraseña</Text>
+            </TouchableOpacity>
             
             <Tilde 
               label="Recibir Notificaciones"

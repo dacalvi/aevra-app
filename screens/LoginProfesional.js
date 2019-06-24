@@ -37,7 +37,16 @@ export default class LoginProfesional extends React.Component {
     })
     .then((response)=>{
       //console.log(response);
-      this.props.navigation.navigate('ProfesionalApp');
+      if(response.type == 'profesional'){
+        this.props.navigation.navigate('ProfesionalApp');
+      }else{
+        Alert.alert("Importante", 'Esta cuenta no es una cuenta de profesional.');
+        if(response.type == 'cliente'){
+          this.props.navigation.navigate('ClienteApp');
+        }
+      }
+
+      
     })
     .catch((err)=>{
       //console.log("ERROR?"+err);

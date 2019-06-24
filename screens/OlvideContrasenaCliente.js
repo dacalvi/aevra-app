@@ -49,7 +49,7 @@ class OlvideContrasenaCliente extends React.Component {
           buttonRecuperarDisabled: true,
           buttonRecuperarText: "ENVIADO" 
         });
-
+        this.props.navigation.navigate('LoginCliente');
       })
       .catch((error)=>{
         Alert.alert('Error!', error);

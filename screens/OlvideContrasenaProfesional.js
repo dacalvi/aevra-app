@@ -13,39 +13,42 @@ import {
 } from 'react-native';
 import { TextInput, Colors } from 'react-native-paper';
 import { connect } from 'react-redux';
+import validate from '../constants/validate_wrapper';
 
 class OlvideContrasenaProfesional extends React.Component { 
 
 
   btnIngresarClick = () => {
 
-    let promResponse = fetch('http://aevra.96.lt/auth/recoverpasswordclient', {
-      method: 'POST',   
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: this.state.username
-      }),
-    });
+    const emailError = validate('email', this.state.email);
+    this.setState({emailError});
 
-    promResponse
-    .then((response) => response.json())
-    .then((responseJson) => {
-      if( responseJson && responseJson.error && responseJson.error == "Unauthorised"){
-        Alert.alert('Usuario o contrasena incorrectas');
-        this.state.password = '';
-        this.inputPassword.focus();
-      }else{
-        this.props.login(responseJson.token);
-        //console.log(responseJson);
-        this.props.navigation.navigate('ElegirServicio');
-      }
-    })
-    .catch((error) =>{
-      console.error(error);
-    });
+    if(!emailError){
+      this.setState({
+        buttonRecuperarDisabled: true,
+        buttonRecuperarText: "ENVIANDO..."
+      });
+      
+      let api = new RestApi();
+      api.olvideContrasenaCliente({'email': this.state.email })
+      .then((responseJson) => {
+        
+        Alert.alert('Listo!', responseJson);
+        this.setState({
+          buttonRecuperarDisabled: true,
+          buttonRecuperarText: "ENVIADO" 
+        });
+
+      })
+      .catch((error)=>{
+        Alert.alert('Error!', error);
+        this.setState({
+          buttonRecuperarDisabled: false,
+          buttonRecuperarText: "RECUPERAR CONTRASEÑA"
+        });
+      })
+      
+    }
   }
   
   static navigationOptions = {
@@ -83,7 +86,11 @@ class OlvideContrasenaProfesional extends React.Component {
 
             <View style={styles.welcomeContainer}>
             	<Button raised primary text="RECUPERAR CONTRASEÑA" style={styles.botonAevra} onPress={this.btnIngresarClick} />
-              <Text style={{marginTop:20, color: '#777777'}}>Ingrese el email con el que se registro y le enviaremos un enlace para restablecer su contraseña</Text>
+              <Text style={{
+                marginTop:20, 
+                color: '#777777',
+                marginLeft: 40
+                }}>Ingrese el email con el que se registro y le enviaremos un enlace para restablecer su contraseña</Text>
               <Text style={{marginTop:15, color: '#00AAB3'}} onPress={ ()=> this.props.navigation.navigate('LoginProfesional') }>Ir a Login</Text>
             </View>
 

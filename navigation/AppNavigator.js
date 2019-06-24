@@ -45,6 +45,7 @@ import ElegirServicioProfesor from '../screens/ElegirServicioProfesor';
 import DetalleDeuda from '../screens/DetalleDeuda';
 import EstimarTrabajoProfesional from '../screens/EstimarTrabajoProfesional';
 import EstimarTrabajoProfesionalGracias from '../screens/EstimarTrabajoProfesionalGracias';
+import CambiarContrasena from '../screens/CambiarContrasena';
 
 export default createAppContainer(createSwitchNavigator( {
   AuthLoading: AuthLoadingScreen,
@@ -91,7 +92,8 @@ export default createAppContainer(createSwitchNavigator( {
     },{drawerPosition : 'right', drawerType : 'slide', drawerLabel: 'Profesional', initialRouteName: 'ProfesionalAppStack'}),
   ClienteApp: createDrawerNavigator({
       PerfilClienteStack: {navigationOptions: { drawerLabel: 'Mi perfil'}, screen: createStackNavigator({
-        MiPerfilCliente1 : MiPerfilCliente
+        MiPerfilCliente1 : MiPerfilCliente,
+        CambiarContrasena: CambiarContrasena
         },{initialRouteName: 'MiPerfilCliente1'})},
       ElegirServicio: {navigationOptions: {drawerLabel: 'Solicitar Servicio'}, screen: createStackNavigator({
         ElegirServicio: ElegirServicio,

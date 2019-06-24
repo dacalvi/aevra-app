@@ -8,6 +8,16 @@ const validation = {
       }
     },
     
+    oldpassword: {
+      presence: {
+        message: '^Por favor ingrese la contraseña anterior'
+      },
+      length: {
+        minimum: 8,
+        message: '^La contraseña anterior debe tener al menos 8 caracteres'
+      }
+    },
+
     password: {
       presence: {
         message: '^Por favor ingrese una contraseña'
@@ -75,6 +85,16 @@ const validation = {
       length: {
         minimum: 1,
         message: '^El numero de casa debe tener al menos 1 caracter'
+      }
+    },
+
+    ciudad: {
+      presence: {
+        message: '^Por favor ingrese una ciudad'
+      },
+      length: {
+        minimum: 1,
+        message: '^La ciudad debe tener al menos 1 caracter'
       }
     },
 

@@ -6,7 +6,8 @@ import {
     Platform,
     Button, 
     TouchableOpacity,
-    AsyncStorage
+    AsyncStorage,
+    Alert
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Tilde from '../components/Tilde';
@@ -116,7 +117,13 @@ export default class DireccionMapa extends React.Component {
             this.setState({ latitude: location.lat, longitude: location.lng });
             this.props.onChangeLocation({ latitude: location.lat, longitude: location.lng });
 		})
-		.catch(error => console.warn(error));
+		.catch((error)=> {
+            if(error.code == 4){
+                Alert.alert("Donde?", "No se encontaron resultados para esa ubicación");
+            }else{
+                error => console.warn(error)
+            }
+        });
 
     }
 
@@ -227,12 +234,13 @@ export default class DireccionMapa extends React.Component {
                             longitudeDelta: 0.001,
                     }}>
                     <MapView.Marker
-                    coordinate={{latitude: this.state.latitude,
+                        coordinate={{latitude: this.state.latitude,
                         longitude: this.state.longitude}}
-                    title={this.state.address}
-                    image={require('../assets/images/marker.png')}
-                    
-                    description={"Ubicacion de la direccion indicada"}
+                        title={this.state.address}
+                        image={require('../assets/images/marker.png')}
+                        style={{width: 100}}
+                        
+                        description={"Ubicacion de la direccion indicada"}
                     />
                     </MapView>
                 </View>

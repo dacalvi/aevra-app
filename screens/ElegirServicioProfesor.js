@@ -39,10 +39,22 @@ class ElegirServicioProfesor extends React.Component {
         descripcion: '',
         horas: '1',
         a_domicilio: '',
-        observaciones: ''
+        observaciones: '',
+        materias_list: profesores_categorias_list
     }
+    
     //Autenticado
     isSignedIn().then(()=>{}).catch(()=>{ this.props.navigation.navigate('Auth') });
+  }
+
+  filtrarMaterias(){
+    if(this.state.nivel !== ''){
+      let materiasFiltradas = profesores_categorias_list.filter(materia => materia.startsWith(this.state.nivel));
+      console.log(materiasFiltradas);
+      this.setState({materias_list: materiasFiltradas});
+    }else{
+      this.setState({materias_list: profesores_categorias_list})
+    }
   }
 
   btnContinuarClick(){
@@ -86,7 +98,7 @@ class ElegirServicioProfesor extends React.Component {
   }
 
   render() {
-    const {isVisible} = this.state
+    const {isVisible, materias_list} = this.state
     return (
 
       <KeyboardAvoidingView 
@@ -114,8 +126,11 @@ class ElegirServicioProfesor extends React.Component {
                       mode="dropdown" 
                       selectedValue={this.state.nivel}
                       onValueChange={(nivel) =>{
-                              this.setState({nivel}, ()=>{console.log(this.state)})
-                          }
+                          this.setState({nivel}, ()=>{
+                            this.filtrarMaterias();
+                            console.log(this.state)
+                            })
+                        }
                       }
                       >
                       <Picker.Item label="Seleccione un nivel" value="" key={0}/>
@@ -143,8 +158,8 @@ class ElegirServicioProfesor extends React.Component {
                       }
                       >
                       <Picker.Item label="Seleccione una materia" value="" key={0}/>
-                      {Object.keys(profesores_categorias_list).map((key) => {
-                          return (<Picker.Item label={profesores_categorias_list[key]} value={profesores_categorias_list[key]} key={key}/>) //if you have a bunch of keys value pair
+                      {materias_list.map((value, i) => {
+                          return (<Picker.Item label={value} value={value} key={i}/>) //if you have a bunch of keys value pair
                       })}
                   </Picker>
                 </View>
@@ -170,7 +185,13 @@ class ElegirServicioProfesor extends React.Component {
                 </View>
                 { this.state.horasError !== '' ? <Text style={{color: 'red', marginLeft: 10}}>{this.state.horasError}</Text> : <Text> </Text> }
 
-
+                <Tilde 
+              label="¿Puede trasladarse al domicilio del profesor?"
+              checked={this.state.a_domicilio}
+              onPress={(checked) => {
+                this.setState({a_domicilio: checked});
+              }}
+              />
 
             <MultilineText 
                 label="Descripcion los temas a capacitar"
@@ -183,13 +204,7 @@ class ElegirServicioProfesor extends React.Component {
             
 
             
-            <Tilde 
-              label="¿Puede trasladarse al domicilio del profesor?"
-              checked={this.state.a_domicilio}
-              onPress={(checked) => {
-                this.setState({a_domicilio: checked});
-              }}
-              />
+            
             
             <MultilineText 
                 label="Observaciones"

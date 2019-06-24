@@ -24,7 +24,14 @@ class LoginCliente extends React.Component {
       "password": this.state.password
     })
     .then((response)=>{
-      this.props.navigation.navigate('ClienteApp');
+      if(response.type == 'cliente'){
+        this.props.navigation.navigate('ClienteApp');
+      }else{
+        Alert.alert("Importante", 'Esta cuenta no es una cuenta de cliente.');
+        if(response.type == 'profesional'){
+          this.props.navigation.navigate('ProfesionalApp');
+        }
+      }
     })
     .catch((err)=>{
       //console.log("ERROR?"+err);
@@ -42,6 +49,8 @@ class LoginCliente extends React.Component {
     });
   }
   
+
+
   
 
   static navigationOptions = {
