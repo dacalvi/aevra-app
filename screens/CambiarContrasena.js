@@ -47,7 +47,7 @@ class CambiarContrasena extends React.Component {
     const oldpasswordError = validate('oldpassword', this.state.oldpassword);
     const newpasswordError = validate('password', this.state.newpassword);
     const renewpasswordError = validate('repassword', this.state.renewpassword);
-    const passwordMatchError = this.state.newpassword === this.state.renewpassword ? "Las contraseñas deben coincidir" : false;
+    const passwordMatchError = this.state.newpassword !== this.state.renewpassword ? "Las contraseñas deben coincidir" : false;
 
 
     this.setState({

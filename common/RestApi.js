@@ -870,7 +870,7 @@ export default class RestApi {
   
   changePassword(params){
     return new Promise((resolve, reject)=>{
-      let api = this.post(API_URL + 'auth/changePassword', params);
+      let api = this.post(API_URL + 'changePassword', params);
       api
       .then((response) =>  response.json() )
       .then((responseJson) => {
