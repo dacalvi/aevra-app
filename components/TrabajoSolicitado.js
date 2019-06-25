@@ -87,7 +87,7 @@ export default class TrabajoSolicitado extends React.Component{
                     
                 
 
-                <View style={{marginLeft: 20, borderTopWidth: 1, borderColor: `rgba(216, 216, 216, 1)`}}>
+                <View style={{marginLeft: 20, borderTopWidth: 0, borderColor: `rgba(216, 216, 216, 1)`}}>
                     <Postulantes 
                         navigation={navigation}
                         solicitud_status={this.props.solicitud.status} 

@@ -98,7 +98,7 @@ export default class TrabajosSolicitados extends React.Component {
           <IconHeader 
             source={require('../assets/images/icon-user-black.png')}
             topTitle=""
-            title="Trabajos Solicitados"
+            title="Trabajos Solicitados."
             style={{marginBottom: 20}} />
           
             {this.state.solicitudes.length == 0 ? 

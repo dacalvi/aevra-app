@@ -66,7 +66,7 @@ export default class MiPerfilCliente extends React.Component {
       this.setState({refreshing: true});
       api.miperfilcliente()
         .then((responseJson)=>{
-          //console.log(">>>>>RESPONSE PERFIL>>>", responseJson);
+          console.log(responseJson);
           this.setState({refreshing: false, perfil : responseJson}, ()=>{   
             //console.log("newstate:",this.state) 
           });
@@ -77,13 +77,13 @@ export default class MiPerfilCliente extends React.Component {
           alert(err);
         });
 
-
         //Notificaciones
         let api2 = new RestApi();
         api2.notificacionesStatus()
         .then((responseJson)=>{
-          this.setState({recibir_notificaciones : responseJson.status == 1? true:false}, ()=>{   
-          });
+          console.log(responseJson);
+          let recibir_notificaciones = responseJson.status == "1"? true : false;
+          this.setState({recibir_notificaciones});
         })
         .catch((err)=>{
           alert(err);
@@ -93,12 +93,15 @@ export default class MiPerfilCliente extends React.Component {
         let api3 = new RestApi();
         api3.privadosStatus()
         .then((responseJson)=>{
-          this.setState({mensajes_privados : responseJson.status == 1? true:false}, ()=>{   
+          console.log(responseJson);
+          this.setState({mensajes_privados : responseJson.status == "1"? true:false}, ()=>{
+            console.log(this.state);   
           });
         })
         .catch((err)=>{
           alert(err);
         });
+        
     })
     .catch(()=>{ 
       this.props.navigation.navigate('Auth') 
@@ -107,6 +110,7 @@ export default class MiPerfilCliente extends React.Component {
   
   componentWillMount(){
     this._onRefresh();
+    console.log(this.state);
   }
 
   actualizar_avatar(avatar){
@@ -182,6 +186,7 @@ export default class MiPerfilCliente extends React.Component {
 
 
   render() {
+    const {recibir_notificaciones, mensajes_privados} = this.state;
     return (
       <KeyboardAvoidingView 
             style={{ flex: 1, backgroundColor: '#fff' }} 
@@ -219,23 +224,40 @@ export default class MiPerfilCliente extends React.Component {
               <Text style={{textDecorationLine: 'underline',marginBottom: 20}}>Cambiar contraseña</Text>
             </TouchableOpacity>
             
-            <Tilde 
-              label="Recibir Notificaciones"
-              checked={this.state.recibir_notificaciones}
-              onPress={(checked) => {
-                this.setState({recibir_notificaciones: checked});
-                this.recibirNotificaciones(checked);
-              }}
-              />
+            {recibir_notificaciones ?
+              <TouchableOpacity onPress={() => {
+                this.setState({recibir_notificaciones: false});
+                this.recibirNotificaciones(false);
+              }}>
+                <Text style={{textDecorationLine: 'underline',marginBottom: 20}}>Dejar de recibir notificaciones</Text>
+              </TouchableOpacity>:
+              <TouchableOpacity onPress={() => {
+                this.setState({recibir_notificaciones: true});
+                this.recibirNotificaciones(true);
+              }}>
+                <Text style={{textDecorationLine: 'underline',marginBottom: 20}}>Recibir notificaciones</Text>
+              </TouchableOpacity>
+            }
+            
+            {mensajes_privados ? 
+              <TouchableOpacity onPress={() => {
+                this.setState({mensajes_privados: false});
+                this.recibirMensajesPrivados(false);
+              }}>
+                <Text style={{textDecorationLine: 'underline',marginBottom: 20}}>Dejar de recibir Mensajes Privados</Text> 
+              </TouchableOpacity>
+              
+              : 
+              <TouchableOpacity onPress={() => {
+                this.setState({mensajes_privados: true});
+                this.recibirMensajesPrivados(true);
+              }}>
+                <Text style={{textDecorationLine: 'underline',marginBottom: 20}}>Recibir mensajes privados</Text>
+              </TouchableOpacity>
+                
+            }
 
-            <Tilde 
-              label="Mensajes privados"
-              checked={this.state.mensajes_privados}
-              onPress={(checked) => {
-                this.setState({mensajes_privados: checked});
-                this.recibirMensajesPrivados(checked);
-              }}
-              />
+            
           
           </View>
         </ScrollView>

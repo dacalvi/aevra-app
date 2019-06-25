@@ -558,7 +558,9 @@ export default class RestApi {
   terminartrabajo(params){
     return new Promise((resolve, reject)=>{
       let api = this.post(API_URL + 'finishservice', params);
-      api.then((response) =>  response.json() )
+      api
+      .then(this.handleErrors)
+      .then((response) =>  response.json() )
       .then((responseJson) => {
         //console.log("service request then", responseJson);
         if(responseJson.error){
@@ -578,7 +580,9 @@ export default class RestApi {
   trabajosterminados(params){
     return new Promise((resolve, reject)=>{
       let api = this.get(API_URL + 'finishedservices');
-      api.then((response) => response.json())
+      api
+      .then(this.handleErrors)
+      .then((response) => response.json())
       .then((responseJson) => {
         if(responseJson.error){
           reject(responseJson);
@@ -688,7 +692,7 @@ export default class RestApi {
     return new Promise((resolve, reject)=>{
       let api = this.get(API_URL + 'perfil/miperfilcliente');
       api
-      .then(this.handleErrors)
+      //.then(this.handleErrors)
       .then((response) => response.json()) 
       .then((responseJson) => {
         if(responseJson.error){

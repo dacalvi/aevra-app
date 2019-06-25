@@ -44,7 +44,7 @@ export default class DescripcionTrabajoUbicacionReadOnly extends React.Component
                         <GroupTitle label="Area donde se realizara el servicio"/>
 
                         <MapView
-                            style={{ alignSelf: 'stretch', height: 350, width: '100%', marginRight: -20, marginTop: 10, marginBottom: 10 }}
+                            style={{ alignSelf: 'stretch', height: 200 }}
                             provider = { MapView.PROVIDER_GOOGLE }
                             initialRegion={{
                                 latitude: parseFloat(this.props.navigation.state.params.coordenadas.split(",")[0]),
@@ -55,11 +55,26 @@ export default class DescripcionTrabajoUbicacionReadOnly extends React.Component
                             >
                             <MapView.Marker
                                 image={require('../assets/images/marker.png')}
+                                style={{width: 100}}
+                                title=""
                                 coordinate={{
                                     latitude: parseFloat(this.props.navigation.state.params.coordenadas.split(",")[0]),
                                     longitude: parseFloat(this.props.navigation.state.params.coordenadas.split(",")[1])
                                 }}
                             />
+
+                    <MapView.Marker
+                        coordinate={{
+                                    latitude: parseFloat(this.props.navigation.state.params.coordenadas.split(",")[0]),
+                                    longitude: parseFloat(this.props.navigation.state.params.coordenadas.split(",")[1])
+                                }}
+                        title={''}
+                        image={require('../assets/images/marker.png')}
+                        style={{width: 100}}
+                        
+                        description={"Ubicacion de la direccion indicada"}
+                    />
+
                         </MapView>
                     </View>
                 </ScrollView>

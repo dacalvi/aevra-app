@@ -100,9 +100,10 @@ export default class DescripcionTrabajoProfesionalReadOnly extends React.Compone
                 <Text style={{width: '20%'}}>{this.props.navigation.state.params.urgencia == 1 ? 'SI': 'NO'}</Text>
             </View>
 
-            <View style={{flex:1, flexDirection: 'row', marginLeft: 10, marginRight: 10, marginBottom: 10, marginTop: 20}}>
-                <IconText icon="perm-contact-calendar" text="Dias en los que puede realizar el trabajo" />
+            <View style={{flex:1, flexDirection: 'row', marginLeft: 10, marginRight: 10, marginBottom: 0, marginTop: 20}}>
+                <IconText icon="perm-contact-calendar" text="Dias en los que puede realizar el trabajo" />    
             </View>
+            <Text style={{width: '100%', marginTop: 10, paddingHorizontal: 20, marginBottom: 20}}>{this.props.navigation.state.params.dias}</Text>
 
             <View style={{flex:1, flexDirection: 'row', marginLeft: 20, marginRight: 10}}>
                 <Text style={{width: '50%'}}>Horarios Disponibles</Text>

@@ -12,7 +12,7 @@ import {
   ScrollView, 
   Dimensions, 
   Alert,
-  Platform  
+  Platform
 } from 'react-native';
 import { Button } from 'react-native-material-ui';
 import {IconHeader, OpenDrawerProfesional, EnProcesoClienteItem} from '../components';
@@ -96,7 +96,8 @@ export default class EnprocesoCliente extends React.Component {
                 this.api.terminartrabajo(finalizarTrabajoData)
                     .then((responseJson)=>{
                     //console.log(responseJson);
-                    this.props.navigation.navigate('TrabajosFinalizadosStack');
+                    Alert.alert("Gracias", "Ha finalizado el trabajo correctamente, gracias por usar AEVRA");
+                    this.props.navigation.navigate('EnProcesoCliente');
                     //this.setState({refreshing: false});
                     //this.setState({postulaciones : responseJson.data});
                     })

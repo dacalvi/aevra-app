@@ -4,15 +4,24 @@ import { Checkbox } from 'react-native-paper';
 
 export default class Tilde extends React.Component {
 
-  state = {
-    checked: this.props.checked
-  };
+
+  constructor(props){
+    super(props);
+    console.log("Checked first?", props.checked);
+    this.state = {
+      checked: false
+    }
+  }
+
 
   
-
+  componentWillMount(){
+    console.log("Checked?", this.props.checked);
+    this.setState({checked: this.props.checked})
+  }
 
   render(){
-    let { checked }  = this.state;
+    const { checked }  = this.state;
     return (
       <View style={{flex: 1,flexDirection: 'row',maxHeight: 50,height: 50}}>
         <View style={{ 

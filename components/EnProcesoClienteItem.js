@@ -51,11 +51,11 @@ export default class EnProcesoClienteItem extends React.Component{
                             </View>
                         </View>
 
-                        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
-                            <View style={{width: '100%'}}>
+                        <View style={{ flex: 1, flexDirection: 'row', }}>
+                            <View style={{width: '50%'}}>
                                 <Button raised primary text="CANCELAR TRABAJO" style={{
                                         container: { backgroundColor: '#888888'},
-                                        text: {color: 'white'},
+                                        text: {color: 'white', textAlign: 'center'},
                                     }} 
                                     onPress={() => { 
                                         Alert.alert(
@@ -78,10 +78,10 @@ export default class EnProcesoClienteItem extends React.Component{
                                         );
                                     }}/>
                             </View>  
-                            <View style={{width: '100%'}}>  
+                            <View style={{width: '50%'}}>  
                                 <Button raised primary text="TRABAJO TERMINADO" style={{
                                         container: { backgroundColor: '#000000'},
-                                        text: {color: 'white'},
+                                        text: {color: 'white', textAlign: 'center'},
                                     }} 
                                     onPress={() => {
                                         this.props.navigation.navigate('FinalizarTrabajo', {'solicitud': this.props.item});
