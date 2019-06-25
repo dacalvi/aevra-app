@@ -53,6 +53,13 @@ export default class EnprocesoCliente extends React.Component {
     this._onRefresh();
   }
 
+  componentDidMount(){
+    this._onFocusListener = this.props.navigation.addListener('didFocus', (payload) => {
+      
+      this._onRefresh();
+    });
+  }
+
 
   render() {
     const { navigation } = this.props;

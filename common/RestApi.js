@@ -75,7 +75,7 @@ export default class RestApi {
     return new Promise((resolve, reject)=>{
       let api = this.get(API_URL + 'comisiones');
       api
-      //.then(this.handleErrors)
+      .then(this.handleErrors)
       .then((response) => response.json())
       .then((responseJson) => {
         if(responseJson.error){
@@ -88,6 +88,28 @@ export default class RestApi {
       })
       .catch((error) => {
         reject(error);
+      });
+    });
+  }
+
+  pagar(listado){
+    return new Promise((resolve, reject)=>{
+      let api = this.post(API_URL + 'pago', {'solicitudes': listado});
+      api
+      //.then(this.handleErrors)
+      .then((response) =>  response.json() )
+      .then((responseJson) => {
+        //console.log("service request then", responseJson);
+        if(responseJson.error){
+          reject(responseJson);
+        }else{
+          resolve(responseJson);
+        }
+      })
+      .catch((error) => {
+        //console.log("service request catch", error, params);
+        reject(error.error);
+        //bugsnag.notify(error.error);
       });
     });
   }

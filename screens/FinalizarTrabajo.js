@@ -97,7 +97,9 @@ export default class EnprocesoCliente extends React.Component {
                     .then((responseJson)=>{
                     //console.log(responseJson);
                     Alert.alert("Gracias", "Ha finalizado el trabajo correctamente, gracias por usar AEVRA");
-                    this.props.navigation.navigate('EnProcesoCliente');
+                    
+                    this.props.navigation.push('EnProcesoCliente');
+                    //this.props.navigation.navigate('EnProcesoCliente');
                     //this.setState({refreshing: false});
                     //this.setState({postulaciones : responseJson.data});
                     })

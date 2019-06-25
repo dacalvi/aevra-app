@@ -39,7 +39,7 @@ export default class ADeudaItem extends React.Component{
                             status={checked ? 'checked' : 'unchecked'}
                             onPress={() => { 
                             if(this.props.onPress){
-                                this.props.onPress(this.props.item.comision_calculada, !checked); 
+                                this.props.onPress(this.props.item.comision_calculada, !checked, this.props.item.id); 
                             }
                             this.setState({ checked: !checked });
                             }} 

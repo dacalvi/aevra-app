@@ -38,12 +38,26 @@ export default class DetalleDeuda extends React.Component {
     this.state = {
         refreshing: false,
         listadocomisiones : [],
-        a_pagar: 0.0
+        a_pagar: 0.0,
+        solicitudes_a_pagar: []
     }
   }
 
   pagar(){
-   
+    isSignedIn()
+    .then(()=>{ 
+      this.api = new RestApi();
+      this.api.pagar(this.state.solicitudes_a_pagar)
+        .then((responseJson)=>{
+          console.log(responseJson);
+        })
+        .catch((err)=>{
+          alert(err);
+        });
+    })
+    .catch(()=>{ 
+      this.props.navigation.navigate('Auth') 
+    });
   }
 
   _onRefresh = () => {
@@ -102,26 +116,36 @@ export default class DetalleDeuda extends React.Component {
 
                         { this.state.listadocomisiones.map((comision, i)=>{
                           return (
-                            <ADeudaItem key={i} item={comision} onPress={(monto, checked)=>{
+                            <ADeudaItem key={i} item={comision} onPress={(monto, checked, solicitud_id)=>{
                               let a_pagar;
+                              let { solicitudes_a_pagar } = this.state;
                               if(checked){
+                                if(this.state.solicitudes_a_pagar.indexOf(solicitud_id) == -1){
+                                  solicitudes_a_pagar.push(solicitud_id);
+                                }
                                 a_pagar = this.state.a_pagar + parseFloat(monto);
                               }else{
+                                let pos = this.state.solicitudes_a_pagar.indexOf(solicitud_id);
+                                if(pos > -1){
+                                  solicitudes_a_pagar.splice(pos, 1);
+                                }
                                 a_pagar = this.state.a_pagar - parseFloat(monto);
                               }
-
-                              this.setState({a_pagar});
+                              this.setState({a_pagar, solicitudes_a_pagar}, ()=>{
+                                console.log(this.state);
+                              });
+                              
                             }} />
                           );
                         })}
                         
                         
-                    </View>
-                </ScrollView>
-                <View style={{flexDirection: 'row',justifyContent: 'center', height: 40}}>
+                <View style={{flexDirection: 'row',justifyContent: 'center', height: 50, marginBottom: 50}}>
                     <Button disabled={this.state.buttondisabled} raised primary text="PAGAR" style={{color: 'white',backgroundColor: '#00AAB4', borderRadius: 30}} 
                     onPress={ () => { this.pagar() } }/>
                 </View>
+                    </View>
+                </ScrollView>
 
             </KeyboardAvoidingView>
     );
