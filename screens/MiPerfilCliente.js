@@ -59,9 +59,6 @@ export default class MiPerfilCliente extends React.Component {
     }
   }
 
-
-
-
   _onRefresh = () => {
     isSignedIn()
     .then(()=>{ 
@@ -79,13 +76,34 @@ export default class MiPerfilCliente extends React.Component {
           this.setState({refreshing: false});
           alert(err);
         });
+
+
+        //Notificaciones
+        let api2 = new RestApi();
+        api2.notificacionesStatus()
+        .then((responseJson)=>{
+          this.setState({recibir_notificaciones : responseJson.status == 1? true:false}, ()=>{   
+          });
+        })
+        .catch((err)=>{
+          alert(err);
+        });
+
+        //Privados
+        let api3 = new RestApi();
+        api3.privadosStatus()
+        .then((responseJson)=>{
+          this.setState({mensajes_privados : responseJson.status == 1? true:false}, ()=>{   
+          });
+        })
+        .catch((err)=>{
+          alert(err);
+        });
     })
     .catch(()=>{ 
       this.props.navigation.navigate('Auth') 
     });
   }
-
-
   
   componentWillMount(){
     this._onRefresh();
@@ -138,6 +156,31 @@ export default class MiPerfilCliente extends React.Component {
     });
   }
 
+  recibirNotificaciones(checked){
+    let api = new RestApi();
+    api.recibirNotificaciones(checked)
+    .then((responseJson)=>{
+      //console.log(">>>>>RESPONSE PERFIL>>>", responseJson);
+    })
+    .catch((err)=>{
+      //console.log(err);
+      alert(err);
+    });
+  }
+
+  recibirMensajesPrivados(checked){
+    let api = new RestApi();
+    api.recibirMensajesPrivados(checked)
+    .then((responseJson)=>{
+      //console.log(">>>>>RESPONSE PERFIL>>>", responseJson);
+    })
+    .catch((err)=>{
+      //console.log(err);
+      alert(err);
+    });
+  }
+
+
   render() {
     return (
       <KeyboardAvoidingView 
@@ -181,7 +224,7 @@ export default class MiPerfilCliente extends React.Component {
               checked={this.state.recibir_notificaciones}
               onPress={(checked) => {
                 this.setState({recibir_notificaciones: checked});
-                //console.log(this.state);
+                this.recibirNotificaciones(checked);
               }}
               />
 
@@ -190,7 +233,7 @@ export default class MiPerfilCliente extends React.Component {
               checked={this.state.mensajes_privados}
               onPress={(checked) => {
                 this.setState({mensajes_privados: checked});
-                //console.log(this.state);
+                this.recibirMensajesPrivados(checked);
               }}
               />
           

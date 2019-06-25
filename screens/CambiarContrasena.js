@@ -67,7 +67,7 @@ class CambiarContrasena extends React.Component {
       api.changePassword(registrationData)
       .then((result)=>{
         Alert.alert("Correcto!", "La contraseña se ha cambiado correctamente");
-        this.props.navigation.navigate('PerfilCliente');
+        this.props.navigation.navigate('MiPerfilCliente1');
       })
       .catch((err)=>{
         if(err){
