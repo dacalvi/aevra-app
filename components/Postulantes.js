@@ -29,7 +29,11 @@ export default class Postulantes extends React.Component {
                     { this.props.postulantes.map((postulante, i)=>{
                         return (
                             <View key={i}>
-                                <Avatar.Image size={64} source={{uri: API_URL + postulante.avatar}} /> 
+
+                                {postulante.avatar !== ''? 
+                                    <Avatar.Image size={64} source={{uri: API_URL + postulante.avatar}} /> :
+                                    <Avatar.Image size={64} source={require('../assets/images/icon-user-black-bg-white.png')} />
+                                }
                                 
                                 <TextoDosColumnas columna1="Prestador" columna2={postulante.first_name} />
                                 <TextoDosColumnas columna1="Presupuesto" columna2={'$' + postulante.monto} />

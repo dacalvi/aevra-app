@@ -86,7 +86,7 @@ class TrabajosSolicitados extends React.Component {
       }
     }
     this.agregarImagen(categoria);
-    this.setState({selectedCategorias});
+    this.setState({selectedCategorias}, ()=>{ console.log(this.state)});
 }
 
   agregarImagen(categoria){
@@ -105,10 +105,41 @@ class TrabajosSolicitados extends React.Component {
     this.setState({selectedCategoriasImages});
   }
 
+
+  validarCategoriasLicencias(){
+    categoriasConLicenciasRequeridas = [
+      {id: 1, name: "Electricidad"},
+      {id: 4, name: "Gasista"}
+    ];
+    stringCategoriasInvalidas = '';
+    categoriasConLicenciasRequeridas.forEach(categoriaRequerida => {
+      if(this.state.selectedCategorias.indexOf(categoriaRequerida.id) > -1){
+        foundImage = false;
+        this.state.selectedCategoriasImages.forEach(imagen => {
+          if(imagen.id == categoriaRequerida.id){
+            foundImage = true;
+          }
+        });
+        if(!foundImage){
+          stringCategoriasInvalidas = stringCategoriasInvalidas + categoriaRequerida.name + ', ';
+        }
+      }
+    });
+    if(stringCategoriasInvalidas !== ''){
+      stringCategoriasInvalidas = 'Las categorias ' + stringCategoriasInvalidas + ' necesitan que se suba una imagen con la licencia/habilitacion';
+    }
+    return stringCategoriasInvalidas;
+  }
+
   btnSiguienteClick(){
-    let {selectedCategorias, selectedCategoriasImages} = this.state;
-    this.props.saveSolicitudData({selectedCategorias, selectedCategoriasImages});
-    this.props.navigation.navigate('RegistroProfesionalValidado');
+    licenciasError = this.validarCategoriasLicencias();
+    if(licenciasError == ''){
+      let {selectedCategorias, selectedCategoriasImages} = this.state;
+      this.props.saveSolicitudData({selectedCategorias, selectedCategoriasImages});
+      this.props.navigation.navigate('RegistroProfesionalValidado');
+    }else{
+      Alert.alert("Licencias", licenciasError);
+    }
   }
 
   render() {

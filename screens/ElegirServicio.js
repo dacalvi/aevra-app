@@ -1,6 +1,12 @@
 import React from 'react';
 import  LogoTitle  from './LogoTitle';
-import { Image, View, ScrollView, Text } from 'react-native';
+import { 
+  Image, 
+  View, 
+  ScrollView, 
+  Text,
+  Alert
+} from 'react-native';
 import styles from '../constants/Styles';
 import layout from '../constants/Layout';
 import { connect } from 'react-redux';
@@ -8,6 +14,7 @@ import CategoriaButton from '../components/CategoriaButton';
 import OpenDrawerProfesional from '../components/OpenDrawerProfesional';
 import RestApi from '../common/RestApi';
 import { isSignedIn } from '../common/auth';
+import { Permissions } from 'expo';
 
 
 const imageHeight = layout.window.height / 2.5;
@@ -37,6 +44,7 @@ class ElegirServicio extends React.Component {
   constructor(){
     super();
   
+    this.pedirPermisos();
     isSignedIn()
     .then(()=>{ 
       this.api = new RestApi();
@@ -50,6 +58,34 @@ class ElegirServicio extends React.Component {
         });
     })
     .catch(()=>{ this.props.navigation.navigate('Auth') });
+  }
+
+  pedirPermisos = () => {
+    let permPromise = Permissions.askAsync(Permissions.LOCATION, Permissions.CAMERA);
+    permPromise
+    .then((result)=>{
+      
+      console.log(result);
+
+      if (result.permissions.camera.status !== 'granted') {
+        Alert.alert("Aviso", "Debe permitir a AEVRA utilizar su camara para poder acceder a los servicios");
+      }
+
+      if (result.permissions.location.status !== 'granted') {
+        Alert.alert("Aviso", "Debe permitir a AEVRA utilizar su ubicacion para poder acceder a los servicios");
+      }
+
+      if (result.status !== 'granted') {
+        Alert.alert("Aviso", "Faltan algunos permisos, verifique de otorgar estos permisos e intente nuevamente");
+        this.props.navigation.navigate('Auth')
+      }
+      
+    })
+    .catch((error)=>{
+      alert(error);
+    })
+    ;
+    
   }
 
   render() {

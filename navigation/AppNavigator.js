@@ -46,14 +46,15 @@ import DetalleDeuda from '../screens/DetalleDeuda';
 import EstimarTrabajoProfesional from '../screens/EstimarTrabajoProfesional';
 import EstimarTrabajoProfesionalGracias from '../screens/EstimarTrabajoProfesionalGracias';
 import CambiarContrasena from '../screens/CambiarContrasena';
+import CambiarContrasenaProfesional from '../screens/CambiarContrasenaProfesional';
 
 export default createAppContainer(createSwitchNavigator( {
   AuthLoading: AuthLoadingScreen,
   ProfesionalApp: createDrawerNavigator({
       PerfilProfesionalPrivadoStack: {navigationOptions: {drawerLabel: 'Mi perfil'}, screen: createStackNavigator({
         PerfilProfesional123: MiPerfilProfesional,
-        
         DetalleDeuda: DetalleDeuda,
+        CambiarContrasena: CambiarContrasenaProfesional
       },{initialRouteName: 'PerfilProfesional123'})},
       
       ProfesionalAppStack: {navigationOptions: {drawerLabel: 'Ofertas de trabajo'}, screen: createStackNavigator({

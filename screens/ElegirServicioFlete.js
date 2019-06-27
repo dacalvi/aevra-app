@@ -57,11 +57,13 @@ class ElegirServicioFlete extends React.Component {
     //console.log(this.state);
     const descripcionError = validate('descripcion', this.state.descripcion);
     const ciudadError = validate('ciudad', this.state.descripcion);
+    const destinoError = validate('direccion', this.state.destino);
+
     this.setState({
       descripcionError: descripcionError,
       ciudadError: ciudadError,
     })
-    if(!descripcionError && !ciudadError){
+    if(!descripcionError && !ciudadError && !destinoError){
       //Save to store
       let serviceRequestData = {
         descripcion: this.state.descripcion,
@@ -130,6 +132,7 @@ class ElegirServicioFlete extends React.Component {
               }} />
 
               { this.state.ciudadError ? <Text style={{color: 'red'}}>{this.state.ciudadError}</Text> : <Text> </Text> }
+              { this.state.destinoError ? <Text style={{color: 'red'}}>{this.state.destinoError}</Text> : <Text> </Text> }
             
             <MultilineText 
                 label="Observaciones"

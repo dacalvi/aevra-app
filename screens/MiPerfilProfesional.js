@@ -3,8 +3,18 @@ import  LogoTitle  from './LogoTitle';
 import layout from '../constants/Layout';
 import IconHeader from '../components/IconHeader';
 import OpenDrawerProfesional from '../components/OpenDrawerProfesional';
-import { Image, View, Text, StyleSheet, 
-  KeyboardAvoidingView, ScrollView, ImageEditor, ImageStore, RefreshControl } from 'react-native';
+import { 
+  Image, 
+  View, 
+  Text, 
+  StyleSheet, 
+  KeyboardAvoidingView, 
+  ScrollView, 
+  ImageEditor, 
+  ImageStore, 
+  RefreshControl,
+  TouchableOpacity
+} from 'react-native';
 import { GroupTitle, AevraRating } from '../components';
 import AvatarProfesional from '../components/AvatarProfesional';
 import RestApi from '../common/RestApi';
@@ -160,6 +170,10 @@ export default class MiPerfilProfesional extends React.Component {
                   <Comentario key={i} titulo={comentario.nombre} texto={comentario.comentarios}/>
                 );
             })}
+
+            <TouchableOpacity onPress={()=> { this.props.navigation.navigate("CambiarContrasena") }}>
+              <Text style={{textDecorationLine: 'underline',marginBottom: 20}}>Cambiar contraseña</Text>
+            </TouchableOpacity>
 
             <View style={{ flex:1, flexDirection: 'column', alignItems: "center"}}>
               <Button raised primary 

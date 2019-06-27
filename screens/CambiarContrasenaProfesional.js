@@ -22,7 +22,7 @@ const imageWidth = layout.window.width;
 import validate from '../constants/validate_wrapper';
 import RestApi from '../common/RestApi';
 
-class CambiarContrasena extends React.Component {
+class CambiarContrasenaProfesional extends React.Component {
   
   static navigationOptions = {
     headerTitle: <LogoTitle />,
@@ -69,7 +69,7 @@ class CambiarContrasena extends React.Component {
         console.log(status);
         if(status == 'ok'){
           Alert.alert("Correcto!", "La contraseña se ha cambiado correctamente");
-          this.props.navigation.navigate('MiPerfilCliente1');
+          this.props.navigation.navigate('PerfilProfesional123');
         }else if(status == 'fail'){
           Alert.alert("Error!", "La contraseña no es la correcta");
         }else{
@@ -158,7 +158,7 @@ function mapDispatchToProps(dispatch){
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CambiarContrasena);
+export default connect(mapStateToProps, mapDispatchToProps)(CambiarContrasenaProfesional);
 
 
   

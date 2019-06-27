@@ -198,6 +198,16 @@ const validation = {
       }
     },
 
+    localidad: {
+      presence: {
+        message: '^Por favor ingrese la localidad'
+      },
+      length: {
+        minimum: 1,
+        message: '^Por favor ingrese la localidad'
+      }
+    },
+
     comentarios: {
       presence: {
         message: '^Por favor ingrese algun comentario'

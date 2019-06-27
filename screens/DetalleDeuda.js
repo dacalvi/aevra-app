@@ -3,14 +3,23 @@ import  LogoTitle  from './LogoTitle';
 import layout from '../constants/Layout';
 import moment from 'moment';
 import {
-        IconHeader, 
-        OpenDrawerProfesional, 
-        GroupTitle, 
-        MultilineText,
-        ATextinputNumberWithIcon
+  IconHeader, 
+  OpenDrawerProfesional, 
+  GroupTitle, 
+  MultilineText,
+  ATextinputNumberWithIcon
 } from '../components';
 import validate from '../constants/validate_wrapper';
-import { View, Text, KeyboardAvoidingView, ScrollView, RefreshControl, Image } from 'react-native';
+import { 
+  View, 
+  Text, 
+  KeyboardAvoidingView, 
+  ScrollView, 
+  RefreshControl, 
+  Image,
+  Alert,
+  Linking
+} from 'react-native';
 import { Button  } from 'react-native-material-ui';
 import RestApi from '../common/RestApi';
 import { isSignedIn } from '../common/auth';
@@ -49,7 +58,10 @@ export default class DetalleDeuda extends React.Component {
       this.api = new RestApi();
       this.api.pagar(this.state.solicitudes_a_pagar)
         .then((responseJson)=>{
-          console.log(responseJson);
+          Linking.openURL(responseJson.payment_link);
+          //Alert.alert("Aviso", "Sera redirigido al sitio de Mercado Pago para realizar el pago alli");
+          this.props.navigation.navigate('PerfilProfesional123');
+          //console.log(responseJson.payment_link);
         })
         .catch((err)=>{
           alert(err);
@@ -86,6 +98,13 @@ export default class DetalleDeuda extends React.Component {
     this._onRefresh();
   }
   
+  componentDidMount(){
+    this._onFocusListener = this.props.navigation.addListener('didFocus', (payload) => {
+      
+      this._onRefresh();
+    });
+  }
+
 
   render() {
     return (

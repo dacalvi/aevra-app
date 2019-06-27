@@ -1,7 +1,16 @@
 import React from 'react';
 import styles from '../constants/Styles';
 import  LogoTitle  from './LogoTitle';
-import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView, RefreshControl} from 'react-native';
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  KeyboardAvoidingView, 
+  ScrollView, 
+  RefreshControl,
+  Alert
+} from 'react-native';
+import { Permissions } from 'expo';
 import { Button } from 'react-native-material-ui';
 import layout from '../constants/Layout';
 import IconHeader from '../components/IconHeader';
@@ -38,6 +47,35 @@ export default class OfertasTrabajo extends React.Component {
       refreshing: false,
       ofertas : []
     };
+    this.pedirPermisos();
+  }
+
+  pedirPermisos = () => {
+    let permPromise = Permissions.askAsync(Permissions.LOCATION, Permissions.CAMERA);
+    permPromise
+    .then((result)=>{
+      
+      console.log(result);
+
+      if (result.permissions.camera.status !== 'granted') {
+        Alert.alert("Aviso", "Debe permitir a AEVRA utilizar su camara para poder trabajar");
+      }
+
+      if (result.permissions.location.status !== 'granted') {
+        Alert.alert("Aviso", "Debe permitir a AEVRA utilizar su ubicacion para poder trabajar");
+      }
+
+      if (result.status !== 'granted') {
+        Alert.alert("Aviso", "Faltan algunos permisos, verifique de otorgar estos permisos e intente nuevamente");
+        this.props.navigation.navigate('Auth')
+      }
+      
+    })
+    .catch((error)=>{
+      alert(error);
+    })
+    ;
+    
   }
 
   _onRefresh = () => {

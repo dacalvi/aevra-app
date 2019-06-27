@@ -8,7 +8,9 @@ import {
   KeyboardAvoidingView, 
   ImageEditor, 
   ImageStore,
-  Text
+  Text,
+  TouchableOpacity,
+  Alert
 } from 'react-native';
 import { Button, Snackbar  } from 'react-native-material-ui';
 import RestApi from '../common/RestApi';
@@ -32,7 +34,9 @@ class RegistroProfesional2 extends React.Component {
             calleError: '',
             numerocasaError: '',
             terminosError: '',
-            deptoError: ''
+            deptoError: '',
+            localidad: '',
+            localidadError: ''
         }
     }
 
@@ -92,18 +96,20 @@ class RegistroProfesional2 extends React.Component {
       const calleError = validate('calle', this.state.calle);
       const numerocasaError = validate('numerocasa', this.state.numerocasa);
       const terminosError = validate('terminos', this.state.terminos);
+      const localidadError = validate('localidad', this.state.localidad);
     
       this.setState({
         calleError: calleError,
         numerocasaError: numerocasaError,
-        terminosError: terminosError
+        terminosError: terminosError,
+        localidadError: localidadError
       })
 
 
-      if (!calleError && !numerocasaError && !terminosError) {
-        let data = {calle, numerocasa, depto, aceptatarjeta, terminos } = this.state;
+      if (!calleError && !numerocasaError && !terminosError && !localidadError) {
+        let data = {calle, numerocasa, depto, aceptatarjeta, terminos, localidad } = this.state;
         this.props.saveRegistrationData(data);
-        let registrationData = { apellido, email, nombre, password, telefono } = this.props.register.registrationData;
+        let registrationData = { apellido, email, nombre, password, telefono, localidad } = this.props.register.registrationData;
         let registrationDataID = { dni: dni_numero, fecha_nacimiento: fechanacimiento, nacionalidad: paisnacimiento, dni_frente_persona:fotofrente, dni_frente:fotodnifrente, dni_dorso:fotodnidorso} = this.props.register.registrationDataID;
         
         let { aceptatarjeta: acepta_tarjeta } = this.state;
@@ -122,6 +128,7 @@ class RegistroProfesional2 extends React.Component {
     }
 
     render() {
+        let { terminos } = this.state;
         return (
           <KeyboardAvoidingView 
             style={{ flex: 1, backgroundColor: '#fff' }} 
@@ -160,6 +167,13 @@ class RegistroProfesional2 extends React.Component {
                   </View>
                 </View>
                 <View>
+                  <ATextinputWithIcon
+                    onChangeText={(localidad)=> this.setState({localidad})} 
+                    iconSource={require('../assets/images/icon-user.png')}
+                    placeholder="LOCALIDAD"
+                    error={this.state.localidadError}/>
+                </View>
+                <View>
                   <Tilde 
                     label="Acepta pagos con tarjeta?" 
                     checked={this.state.aceptatarjeta} 
@@ -168,11 +182,41 @@ class RegistroProfesional2 extends React.Component {
                     }} />
                   <Tilde 
                     label="Acepta terminos y condiciones de Aevra?" 
-                    checked={this.state.terminos}
+                    checked={terminos}
                     error={this.state.terminosError}
                     onPress={(terminos) => { 
                       this.setState({ terminos }) 
                       }}/>
+                      <TouchableOpacity onPress={()=>{
+                        Alert.alert("Terminos y condiciones", `
+                        Nulla facilisi. Sed tincidunt lacus rutrum diam pulvinar, tempor hendrerit quam maximus. Etiam et nisl vel erat eleifend lobortis. Sed porta vitae mi id porta. Fusce eu dictum metus, in pulvinar leo. Proin tincidunt sit amet libero non varius. Donec sed odio dignissim, porttitor neque placerat, malesuada eros.
+
+Suspendisse vitae laoreet diam, nec gravida turpis. Aenean porta nulla vel dui eleifend, sed iaculis velit convallis. Praesent turpis mauris, fermentum et hendrerit nec, ultrices at diam. Vestibulum lacinia, velit sit amet ullamcorper cursus, eros mi blandit ligula, at eleifend dui leo sed ex. Pellentesque rutrum ac neque ac tristique. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc rhoncus, erat non placerat bibendum, arcu erat hendrerit ante, vel aliquet leo sem quis nisl. Vestibulum porttitor massa sit amet tellus tempus luctus. Vivamus lectus nibh, egestas id nisl et, consectetur molestie neque. Maecenas commodo orci nec urna lacinia dictum.
+
+Cras nec varius libero. Nulla interdum porttitor sem, at imperdiet mi porta a. Proin maximus tortor et sapien tempus congue. Pellentesque mattis mollis arcu, vitae elementum ex tempor eu. Phasellus aliquet nisl volutpat, facilisis enim et, pulvinar quam. Donec ac nulla ac neque interdum tempor in et turpis. Praesent maximus mattis nisi sit amet ornare.
+
+Sed at posuere nibh. In nec interdum lacus. Sed interdum sit amet ex nec volutpat. Sed eu eros sed velit tincidunt tincidunt eget ac ante. Phasellus in orci quis enim iaculis bibendum. Suspendisse sapien dolor, ullamcorper sed viverra a, fringilla ut quam. In auctor, nunc ut cursus aliquet, leo magna placerat lacus, at egestas orci tellus nec mi.
+
+Aliquam fringilla ultricies mauris, nec condimentum diam semper nec. Phasellus mollis ultricies eros. Mauris id tellus magna. In hac habitasse platea dictumst. Proin consequat tristique arcu nec vestibulum. Phasellus rhoncus id odio a placerat. Aliquam eleifend fermentum pulvinar. Vestibulum vulputate quam eget leo venenatis, id accumsan tortor fringilla. Aliquam id congue enim. Cras et placerat est. Nullam rutrum, tellus eu aliquam venenatis, odio odio facilisis tellus, non dictum mi nibh sed mi. Fusce aliquam congue orci id efficitur.
+
+Nulla molestie a metus ut ullamcorper. Mauris quis elit vel nisl tristique ultrices eget ut nisi. Praesent id lacus commodo, consequat nisi sed, dapibus tellus. In eu enim sollicitudin nulla blandit ullamcorper. Aliquam commodo libero finibus elit vulputate pretium. Nunc nisl nisl, placerat tristique consequat quis, posuere in lacus. Sed non pellentesque quam, eu vehicula mauris. Morbi velit leo, sodales vitae ex et, hendrerit malesuada lacus. Duis tincidunt, sem ac porttitor bibendum, tortor magna efficitur metus, eget tristique arcu dui ut nisi. Nam ut metus lacus. Pellentesque in lectus eu libero imperdiet auctor ac semper lacus.
+
+Pellentesque in lorem et enim pretium porta sit amet quis quam. Nullam feugiat tellus ornare, semper tortor at, accumsan odio. Mauris consequat tortor vel enim imperdiet, eu suscipit urna blandit. Ut nec felis lectus. Maecenas laoreet sapien et orci suscipit dapibus sed eget lacus. Aliquam ornare, lacus eu facilisis faucibus, neque nisi ultricies dui, facilisis cursus augue libero sodales purus. Etiam in turpis accumsan, ullamcorper sapien nec, egestas nisi. Nunc hendrerit lorem a augue fermentum, nec volutpat tortor lacinia. Mauris molestie vitae lectus ut tristique. Praesent quis sodales tellus. Nunc a ex eget justo convallis facilisis. Aenean non dui volutpat, consequat erat id, porttitor elit. Pellentesque nec maximus elit. Aenean placerat augue et magna dictum sollicitudin.
+
+Aliquam felis orci, malesuada vel ex id, blandit rhoncus nisi. Nullam pulvinar, neque eget porta posuere, lorem nibh pharetra nisi, quis efficitur nisl diam ac sapien. In hendrerit sed lorem a fringilla. Praesent non neque laoreet, lobortis tortor et, finibus tortor. Phasellus eu posuere est, et imperdiet leo. Proin eget tellus congue, elementum lorem at, ornare nibh. Quisque eu nulla sit amet metus ullamcorper tempor at vulputate sapien. In tincidunt ipsum a urna feugiat fermentum. Vivamus vitae dignissim ante. Nunc turpis ex, mattis nec ipsum ac, sagittis suscipit velit.
+
+Suspendisse gravida id dui non rhoncus. Quisque urna elit, volutpat eu facilisis a, pellentesque eget felis. Aenean quis odio lobortis, ornare justo et, luctus tellus. Proin eget lorem placerat, ornare risus mollis, egestas sapien. Sed ut faucibus est. Nunc pellentesque libero in est lacinia dapibus. Etiam iaculis diam lectus, eget commodo neque tempus vitae. Suspendisse id consectetur nibh. Sed imperdiet justo justo, nec porta libero placerat a. Nam gravida neque tellus, semper pharetra nulla vestibulum sit amet. Etiam dictum varius euismod. Curabitur fringilla commodo est et varius. Cras vel dui vulputate, gravida diam in, viverra sem. Praesent libero massa, hendrerit a viverra nec, viverra a felis.
+
+Curabitur eu bibendum enim, a aliquam dui. Ut volutpat, odio vel vestibulum scelerisque, velit dui ullamcorper eros, semper cursus ante sem et lorem. Cras elementum pellentesque enim, sit amet sodales ligula. Aenean ac aliquam quam, nec aliquam nulla. In hac habitasse platea dictumst. Ut urna risus, lacinia et placerat non, convallis sit amet orci. Sed viverra orci dictum, porta tellus nec, ultrices sem. Aliquam bibendum turpis a suscipit finibus. Mauris ultrices metus turpis, a iaculis nulla lobortis eget. Nulla a blandit mauris. Nam quis risus quis tortor facilisis congue non et eros. Nullam augue odio, sodales sed pharetra eu, cursus eget arcu. Nullam rhoncus est eros, vel varius tortor scelerisque eu. Ut hendrerit velit non magna luctus, a efficitur neque cursus. Suspendisse molestie eleifend risus, sit amet pulvinar lacus sodales vitae.
+                        `, [
+    {text: 'Aceptar terminos', onPress: () => {this.setState({terminos: true})}}]);
+                      }}>
+                        <Text style={{
+                          textDecorationLine: 'underline', 
+                          color: 'blue',
+                          marginLeft: 45
+                          }}>Ver terminos y condiciones de AEVRA</Text>
+                      </TouchableOpacity>
                 </View>
 
 
