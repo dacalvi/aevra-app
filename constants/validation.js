@@ -53,8 +53,8 @@ const validation = {
         message: '^Por favor ingrese un nombre'
       },
       length: {
-        minimum: 3,
-        message: '^La nombre debe tener al menos 3 caracteres'
+        minimum: 1,
+        message: '^Por favor ingrese un apellido'
       }
     },
     
@@ -63,8 +63,8 @@ const validation = {
         message: '^Por favor ingrese un apellido'
       },
       length: {
-        minimum: 3,
-        message: '^La apellido debe tener al menos 3 caracteres'
+        minimum: 1,
+        message: '^Por favor ingrese un apellido'
       }
     },
     
