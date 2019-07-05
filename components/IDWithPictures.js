@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, Image, TextInput } from 'react-native';
 import { Avatar, Checkbox } from 'react-native-paper';
 import  ACamera  from './ACamera';
-
+import PropTypes from 'prop-types';
 
 export default IDWithPictures = (props) => {
     
@@ -36,7 +36,7 @@ export default IDWithPictures = (props) => {
                 <View style={{ width: `15%` }}>
                 <Text>Frente</Text>
                     <ACamera 
-                        initialImage=""
+                        initialImage={props.initialImage1.uri}
                         onPictureTaken={(image)=>{ 
                             if(props.onPictureFrenteTaken){
                                 props.onPictureFrenteTaken(image);
@@ -46,7 +46,7 @@ export default IDWithPictures = (props) => {
                 <View style={{ width: `15%`, flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
                 <Text>Dorso</Text>
                     <ACamera 
-                        initialImage=""
+                        initialImage={props.initialImage2.uri}
                         onPictureTaken={(image)=>{ 
                             if(props.onPictureDorsoTaken){
                                 props.onPictureDorsoTaken(image);
@@ -64,3 +64,18 @@ export default IDWithPictures = (props) => {
         
     )};
 
+    /*
+    IDWithPictures.propTypes = {
+        initialImage1: PropTypes.object,
+        initialImage2: PropTypes.object
+    }
+    */
+    IDWithPictures.propTypes = {
+        initialImage1: PropTypes.object,
+        initialImage2: PropTypes.object
+    }
+      
+    IDWithPictures.defaultProps = {
+        initialImage1: {uri: ''},
+        initialImage2: {uri: ''}
+    };

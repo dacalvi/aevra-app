@@ -7,7 +7,7 @@ import {
   ScrollView, 
   KeyboardAvoidingView,
   DatePickerAndroid,
-  Text 
+  Text, 
 } from 'react-native';
 import { Button } from 'react-native-material-ui';
 import IconHeader from '../components/IconHeader';
@@ -22,10 +22,12 @@ class RegistroProfesional1 extends React.Component {
 
     constructor(props){
         super(props);
+
+        console.log("Lo que vino del store es:", props.register);
         this.state = {
-            fotofrente: '',
-            fotodnifrente: '',
-            fotodnidorso: '',            
+            fotofrente: {uri:''},
+            fotodnifrente: {uri:''},
+            fotodnidorso: {uri:''},            
             dni: '',            
             fechanacimiento: '',            
             paisnacimiento: 'Argentina',
@@ -35,6 +37,51 @@ class RegistroProfesional1 extends React.Component {
             fotodnidorsoError: '',
             fechanacimientoError: ''
         }
+    }
+
+    componentDidMount(){
+      console.log("componentDidMount", this.props.register);
+      let newState = {};
+      if(typeof this.props.register.registrationDataID.fotofrente !== 'undefined'){
+        newState.fotofrente = this.props.register.registrationDataID.fotofrente;
+      }else{
+        newState.fotofrente = {uri:''};
+      }
+
+      if(typeof this.props.register.registrationDataID.fotodnifrente !== 'undefined'){
+        newState.fotodnifrente = this.props.register.registrationDataID.fotodnifrente;
+      }else{
+        newState.fotodnifrente = {uri:''};
+      }
+
+      if(typeof this.props.register.registrationDataID.fotodnidorso !== 'undefined'){
+        newState.fotodnidorso = this.props.register.registrationDataID.fotodnidorso;
+      }else{
+        newState.fotodnidorso = {uri:''};
+      }
+
+      if(typeof this.props.register.registrationDataID.fechanacimiento !== 'undefined'){
+        newState.fechanacimiento = this.props.register.registrationDataID.fechanacimiento;
+      }else{
+        newState.fechanacimiento = '';
+      }
+
+      if(typeof this.props.register.registrationDataID.paisnacimiento !== 'undefined'){
+        newState.paisnacimiento = this.props.register.registrationDataID.paisnacimiento;
+      }else{
+        newState.paisnacimiento = '';
+      }
+
+      if(typeof this.props.register.registrationDataID.dni !== 'undefined'){
+        newState.dni = this.props.register.registrationDataID.dni;
+      }else{
+        newState.dni = '';
+      }
+      this.setState(newState);
+    }
+
+    componentWillUnmount(){
+      this.save();
     }
 
     static navigationOptions = {
@@ -64,17 +111,21 @@ class RegistroProfesional1 extends React.Component {
       })
 
       if (!fotofrenteError && !fotodnifrenteError && !fotodnidorsoError && !fechanacimientoError && !dniError) {
-        let registrationData = {
-          "fotofrente": this.state.fotofrente,
-          "fotodnifrente": this.state.fotodnifrente,
-          "fotodnidorso": this.state.fotodnidorso,
-          "fechanacimiento": this.state.fechanacimiento,
-          "paisnacimiento": this.state.paisnacimiento,
-          "dni": this.state.dni
-        }
-        this.props.saveRegistrationData(registrationData);
+        this.save();
         this.props.navigation.navigate('RegistroProfesional2');
       }
+    }
+
+    save(){
+      let registrationData = {
+        "fotofrente": this.state.fotofrente,
+        "fotodnifrente": this.state.fotodnifrente,
+        "fotodnidorso": this.state.fotodnidorso,
+        "fechanacimiento": this.state.fechanacimiento,
+        "paisnacimiento": this.state.paisnacimiento,
+        "dni": this.state.dni
+      }
+      this.props.saveRegistrationData(registrationData);
     }
 
     render() {
@@ -91,25 +142,32 @@ class RegistroProfesional1 extends React.Component {
                     topTitle="Registro"
                     title="Prestador"
                     style={{marginBottom: 20}} />
-                <IDAndPerson 
+                <IDAndPerson
+                  initialImage={this.state.fotofrente}
                   onPictureTaken={fotofrente => this.setState({fotofrente})}
                   error={this.state.fotofrenteError}
                 />
 
                 <IDWithPictures
+                  initialImage1={this.state.fotodnifrente}
+                  initialImage2={this.state.fotodnidorso}
                   placeholder="DNI"
                   errorFrente={this.state.fotodnifrenteError}
                   errorDorso={this.state.fotodnidorsoError}
                   keyboardType="numeric"
+                  value={this.state.dni}
                   errorDNI={this.state.dniError}
                   onChangeText={(dni)=>{this.setState({dni})}}
                   onPictureFrenteTaken={(fotodnifrente)=>{this.setState({fotodnifrente})}}
                   onPictureDorsoTaken={(fotodnidorso)=>{this.setState({fotodnidorso})}}
                 />
 
-                <FechaNacimiento 
+                <FechaNacimiento
+                  value={this.state.fechanacimiento}
                   placeholder="Fecha de Nacimiento"
-                  onDateChange={(fechanacimiento)=>{ this.setState({fechanacimiento}) }}
+                  onDateChange={(fechanacimiento)=>{ 
+                      console.log(fechanacimiento);
+                    this.setState({fechanacimiento}) }}
                   error={this.state.fechanacimientoError}
                   />
 

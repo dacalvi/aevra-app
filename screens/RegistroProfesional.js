@@ -21,12 +21,13 @@ class RegistroProfesional extends React.Component {
 
     constructor(props){
         super(props);
+        console.log('constructor props.register', props.register);
         this.state = {
-            nombre: '',
-            apellido: '',
-            email: '',            
-            telefono: '',            
-            password: '',            
+            nombre: props.register.registrationData.nombre,
+            apellido: props.register.registrationData.apellido,
+            email: props.register.registrationData.email,            
+            telefono: props.register.registrationData.telefono,            
+            password: props.register.registrationData.password,            
             repassword: '',
             isVisible: false,
             errorMsg: '',
@@ -38,6 +39,8 @@ class RegistroProfesional extends React.Component {
             repasswordError: '',
         }
     }
+
+
 
     static navigationOptions = {
         headerTitle: <LogoTitle />,
@@ -69,28 +72,28 @@ class RegistroProfesional extends React.Component {
 
 
       if (!emailError && !telefonoError && !nombreError && !apellidoError && !passwordError && !repasswordError) {
-        let registrationData = {
-          "nombre": this.state.nombre,
-          "apellido": this.state.apellido,
-          "email": this.state.email,
-          "telefono": this.state.telefono,
-          "password": this.state.password
-        }
-        this.props.saveRegistrationData(registrationData);
+        this.save(); 
         this.props.navigation.navigate('RegistroProfesional1');
       }
     }
 
-    
+    save(){
+      let registrationData = {
+        "nombre": this.state.nombre,
+        "apellido": this.state.apellido,
+        "email": this.state.email,
+        "telefono": this.state.telefono,
+        "password": this.state.password
+      }
+      console.log("Guardando DATOS pagina 1", registrationData);
+      this.props.saveRegistrationData(registrationData);
+    }
+
     render() {
         const {isVisible} = this.state
 
         return (
-          <KeyboardAvoidingView 
-            style={{ flex: 1, backgroundColor: '#fff' }} 
-            behavior="position" 
-            keyboardVerticalOffset={-200}
-            enabled>  
+          <View style={styles.container}>  
             <ScrollView>
               <View style={{marginleft: 20, marginRight:20, marginTop:20}} >
                 <IconHeader 
@@ -102,6 +105,7 @@ class RegistroProfesional extends React.Component {
                 <ATextInput 
                   source={ require('../assets/images/icon-user.png') }
                   placeholder="Nombre"
+                  value={this.state.nombre}
                   onChangeText={value => this.setState({nombre: value.trim()})}
                   onBlur={() => {
                     this.setState({
@@ -113,6 +117,7 @@ class RegistroProfesional extends React.Component {
                 <ATextInput 
                   source={ require('../assets/images/icon-user.png') }
                   placeholder="Apellido"
+                  value={this.state.apellido}
                   onChangeText={value => this.setState({apellido: value.trim()})}
                   onBlur={() => {
                     this.setState({
@@ -124,6 +129,7 @@ class RegistroProfesional extends React.Component {
                 <ATextInput 
                   source={ require('../assets/images/icon-wallet.png') }
                   placeholder="Telefono"
+                  value={this.state.telefono}
                   keyboardType="phone-pad"
                   onChangeText={value => this.setState({telefono: value.trim()})}
                   onBlur={() => {
@@ -136,6 +142,7 @@ class RegistroProfesional extends React.Component {
                 <ATextInput 
                   source={ require('../assets/images/icon-mail.png') }
                   placeholder="Email"
+                  value={this.state.email}
                   keyboardType="email-address"
                   onChangeText={value => this.setState({email: value.trim()})}
                   autoCapitalize ={false}
@@ -172,19 +179,19 @@ class RegistroProfesional extends React.Component {
                     })
                   }}
                   error={this.state.repasswordError}/>
-                  {Platform.OS === 'android' ? <KeyboardSpacer /> : null }
               </View>
-
-              <View style={{flexDirection: `row`,justifyContent: `center`}}>      
-                <Button raised primary text="REGISTRARME" style={styles.botonAevra} 
-                  onPress={() => { this.btnRegistrarClick();}}/>
-                <Snackbar visible={isVisible} message={this.state.errorMsg} onRequestClose={() => this.setState({ isVisible: false })} />
-              </View>
-
-
             </ScrollView>
+
+            <View style={{flexDirection: `row`,justifyContent: `center`}}>      
+              <Button raised primary text="CONTINUAR" style={styles.botonAevra} 
+                onPress={() => { this.btnRegistrarClick();}}/>
+              <Snackbar visible={isVisible} message={this.state.errorMsg} onRequestClose={() => this.setState({ isVisible: false })} />
+            </View>
+
+            {Platform.OS === 'android' ? <KeyboardSpacer /> : null }
+
       
-          </KeyboardAvoidingView>
+          </View>
           
         );
       }
@@ -193,6 +200,7 @@ class RegistroProfesional extends React.Component {
 
 function mapStateToProps(state){
   return {
+    register : state.register, 
     userType : state.userType
   } 
 }

@@ -2,12 +2,30 @@ import React from 'react';
 import {View, Text, Image, TextInput, TouchableHighlight, DatePickerAndroid } from 'react-native';
 import { Avatar, Checkbox } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
+import PropTypes from 'prop-types';
 
-
-export default class FechaNacimiento extends React.Component{
+class FechaNacimiento extends React.Component{
     
     state = {
         fechanacimiento: ''
+    }
+
+
+    constructor(props){
+        super(props);
+        
+    }
+
+    componentDidMount(){
+        if(this.props.value){
+            this.setState({fechanacimiento: this.props.value})
+        }
+    }
+
+    componentWillMount(){
+        if(this.props.value){
+            this.setState({fechanacimiento: this.props.value})
+        }
     }
 
     async pickDate(){
@@ -39,7 +57,7 @@ export default class FechaNacimiento extends React.Component{
                 <TextInput 
                         placeholderTextColor={'rgba(114, 114, 114, 0.32)'}
                         placeholder={this.props.placeholder}
-                        value={this.state.fechanacimiento}
+                        value={this.props.value}
                         style={{borderBottomWidth: 1, width: '100%', borderBottomColor: 'rgba(124, 124, 124, 1)'}}
                         keyboardType='default'
                         onFocus={()=>{this.pickDate();}}
@@ -58,3 +76,12 @@ export default class FechaNacimiento extends React.Component{
     }
 };
 
+FechaNacimiento.propTypes = {
+    value: PropTypes.string
+}
+  
+FechaNacimiento.defaultProps = {
+    value: ''
+};
+
+export default FechaNacimiento;

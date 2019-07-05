@@ -7,15 +7,20 @@ import {
   ScrollView, 
   StyleSheet, 
   Text, 
-  View
+  View,
+  Alert
 } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import LocalStore from '../common/localstore';
 import { connect } from 'react-redux';
+import { Permissions } from 'expo';
 
 class HomeScreen extends React.Component {
 
-  
+  constructor(props){
+    super(props);
+    this.pedirPermisos();
+  }
 
   checkSession(){
     return LocalStore.getData('session_token') !== null;
@@ -27,6 +32,40 @@ class HomeScreen extends React.Component {
 
   isUserCliente(){
     return LocalStore.getData('session_type') == 'cliente';
+  }
+
+  pedirPermisos = () => {
+    let permPromise = Permissions.askAsync(Permissions.LOCATION, Permissions.CAMERA);
+    permPromise
+    .then((result)=>{
+      
+      console.log(result);
+
+      if (result.permissions.camera.status !== 'granted') {
+        Alert.alert("Aviso", "Debe permitir a AEVRA utilizar su camara para poder acceder a los servicios");
+      }
+
+      if (result.permissions.location.status !== 'granted') {
+        Alert.alert("Aviso", "Debe permitir a AEVRA utilizar su ubicacion para poder acceder a los servicios");
+      }
+
+      if (result.status !== 'granted') {
+        Alert.alert(
+          "Aviso", 
+          "Faltan algunos permisos, verifique de otorgar estos permisos e intente nuevamente",
+          [
+            {text: 'Otorgar permisos', onPress: () => this.pedirPermisos()}
+          ],
+          {cancelable: false},);
+        this.props.navigation.navigate('Auth')
+      }
+      
+    })
+    .catch((error)=>{
+      alert(error);
+    })
+    ;
+    
   }
 
   render() {

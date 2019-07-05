@@ -51,7 +51,7 @@ export default class ACamera extends Component {
                     //Alert.alert('Modal has been closed.');
                 }}>
                 <View style={{flex: 1}}>
-                <Text>{this.props.initialImage}</Text>
+                
                     <Camera 
                         style={{ flex: 1 }} type={this.state.type}
                         ref={ref => { this.camera = ref; }} 
@@ -90,13 +90,13 @@ export default class ACamera extends Component {
                     </Camera>
                 </View>
                 </Modal>
-
+                
                 <TouchableHighlight onPress={() => { this.setModalVisible(true); }}>
                 
                     { this.state.image == '' ?
-                        this.props.initialImage == '' ?
+                        this.props.initialImage == '' || typeof this.props.initialImage === 'undefined' ?
                             <Image  style={{ width: 50, height: 50 }} source={require('../assets/images/camera.png')}/> : 
-                            <Image  style={{ width: 50, height: 50 }} source={{uri: API_URL + this.props.initialImage}}/> : 
+                            <Image  style={{ width: 50, height: 50 }} source={{uri: this.props.initialImage}}/> : 
 
                         <TouchableHighlight onPress={
                             () => { Alert.alert(

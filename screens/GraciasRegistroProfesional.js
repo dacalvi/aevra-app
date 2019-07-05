@@ -1,5 +1,6 @@
 import React from 'react';
 import  LogoTitle  from './LogoTitle';
+import IconHeader from '../components/IconHeader';
 import { Button } from 'react-native-material-ui';
 import {
 	Dimensions,
@@ -56,6 +57,7 @@ class GraciasRegistroProfesional extends React.Component {
   
   static navigationOptions = {
     headerTitle: <LogoTitle />,
+    headerLeft: null,
     headerRight: <Text></Text>,
     headerStyle: {
       backgroundColor: '#00AAB4',
@@ -72,38 +74,30 @@ class GraciasRegistroProfesional extends React.Component {
   render() {
     return (
       <KeyboardAvoidingView 
-        style={styles.welcomeContainer} 
+        style={{ flex: 1, backgroundColor: '#fff' }} 
         behavior="position" 
         keyboardVerticalOffset={-200}
         enabled>  
-            <ScrollView>
-                <Image 
-                    source={ require('../assets/images/header_registro_profesional.png') }
-                    resizeMode='contain'
-                    style={{ 
-                            flex: 1,
-                            width: '100%',
-                            marginTop: -80,
-                            marginBottom: -80
-                        }} />
-                
-                <Text>Muchas Gracias</Text>
-        <Text>Una vez que validemos su registro su cuenta sera activada</Text>
-        <Text>Luego recibira un correo de confirmacion para poder completar su perfil</Text>
-          
-              <Button raised primary text="IR A LOGIN" style={styles.botonAevra} 
-              onPress={() => {this.props.navigation.navigate('LoginProfesional');}}
-              />
-                
-    
-            
-               
-                <View style={{ height: 150 }} />
+        <ScrollView>
+          <View style={{marginTop:20, marginLeft: 20, marginRight: 20}} >
+            <IconHeader 
+              source={require('../assets/images/icon-user-black.png')}
+              topTitle="Registro"
+              title="Prestador"
+              style={{marginBottom: 20}} />
 
-            </ScrollView>
-  
+              <GroupTitle label="Muchas Gracias"/>
+              <Text style={{marginLeft: 10, marginRight: 10}}>
+                Una vez que validemos su registro su cuenta sera activada.
+                Luego recibira un correo de confirmacion para poder completar su perfil
+              </Text>
+          </View>
+        </ScrollView>
+        <View style={{flexDirection: 'row',justifyContent: 'center', height: 40}}>
+          <Button raised primary text="IR A LOGIN" style={{color: 'white',backgroundColor: '#00AAB4', borderRadius: 30}} 
+          onPress={() => {this.props.navigation.navigate('LoginProfesional');}}/>
+        </View>
       </KeyboardAvoidingView>
-      
     );
   }
 }

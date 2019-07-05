@@ -25,18 +25,21 @@ class RegistroProfesional2 extends React.Component {
 
     constructor(props){
         super(props);
+        console.log("Lo que vino del store es:", props.register);
         this.state = {
-            calle: '',
-            numerocasa: '',
-            aceptatarjeta: false,
-            depto: '',            
-            terminos: false,
+            calle: props.register.registrationDataLocation.calle,
+            numerocasa: props.register.registrationDataLocation.numerocasa,
+            aceptatarjeta: props.register.registrationDataLocation.aceptatarjeta,
+            depto: props.register.registrationDataLocation.depto,            
+            terminos: props.register.registrationDataLocation.terminos,
             calleError: '',
             numerocasaError: '',
             terminosError: '',
             deptoError: '',
-            localidad: '',
-            localidadError: ''
+            localidad: props.register.registrationDataLocation.localidad,
+            localidadError: '',
+            btnEnviarDisabled: false,
+            btnEnviarText: 'REGISTRARME'
         }
     }
 
@@ -50,6 +53,31 @@ class RegistroProfesional2 extends React.Component {
         headerTitleStyle: {flex: 1, textAlign: 'center'}
     };
 
+
+    save(){
+
+      let registrationData = {
+        "calle": this.state.calle,
+        "numerocasa": this.state.numerocasa,
+        "aceptatarjeta": this.state.aceptatarjeta,
+        "depto": this.state.depto,
+        "terminos": this.state.terminos,
+        "localidad": this.state.localidad
+      }
+      console.log(registrationData);
+      this.props.saveRegistrationData(registrationData);
+    }
+
+    componentDidMount(){
+      console.log("Montando componente, cargando estado previo...", this.props.register.registrationDataLocation);
+      this.setState(this.props.register.registrationDataLocation);
+      
+    }
+
+    componentWillUnmount(){
+      console.log("Desmontando componente, guardando estado...");
+      this.save();
+    }
 
     resizeImage(image, width, height){
       return new Promise((resolve, reject)=>{
@@ -107,6 +135,10 @@ class RegistroProfesional2 extends React.Component {
 
 
       if (!calleError && !numerocasaError && !terminosError && !localidadError) {
+        this.setState({
+          btnEnviarDisabled: true,
+          btnEnviarText: 'REGISTRANDO...'
+        });
         let data = {calle, numerocasa, depto, aceptatarjeta, terminos, localidad } = this.state;
         this.props.saveRegistrationData(data);
         let registrationData = { apellido, email, nombre, password, telefono, localidad } = this.props.register.registrationData;
@@ -122,8 +154,13 @@ class RegistroProfesional2 extends React.Component {
           ...registrationDataLocation};
 
         
-
+        
         this.resizeImagesAndSend(registrationCompleteSet);
+        this.props.saveRegistrationDataClear();
+        this.setState({
+          btnEnviarDisabled: false,
+          btnEnviarText: 'REGISTRARME'
+        });
       }
     }
 
@@ -145,6 +182,7 @@ class RegistroProfesional2 extends React.Component {
 
                 <View>
                   <ATextinputWithIcon
+                    value={this.state.calle}
                     onChangeText={(calle)=> this.setState({calle})} 
                     iconSource={require('../assets/images/icon-user.png')}
                     placeholder="CALLE"
@@ -153,6 +191,7 @@ class RegistroProfesional2 extends React.Component {
                 <View style={{flexDirection: 'row' }} >
                   <View style={{ width: `50%` }}>
                     <ATextinputWithIcon
+                      value={this.state.numerocasa}
                       onChangeText={(numerocasa)=> this.setState({numerocasa})} 
                       iconSource={require('../assets/images/icon-user.png')}
                       placeholder="NUMERO"
@@ -160,6 +199,7 @@ class RegistroProfesional2 extends React.Component {
                   </View>
                   <View style={{ width: `50%` }}>
                   <ATextinputWithIcon
+                    value={this.state.depto}
                     onChangeText={(depto)=> this.setState({depto})} 
                     iconSource={require('../assets/images/icon-user.png')}
                     placeholder="DEPTO"
@@ -168,13 +208,15 @@ class RegistroProfesional2 extends React.Component {
                 </View>
                 <View>
                   <ATextinputWithIcon
+                    value={this.state.localidad}
                     onChangeText={(localidad)=> this.setState({localidad})} 
                     iconSource={require('../assets/images/icon-user.png')}
                     placeholder="LOCALIDAD"
                     error={this.state.localidadError}/>
                 </View>
                 <View>
-                  <Tilde 
+                  <Tilde
+                    value={this.state.aceptatarjeta}
                     label="Acepta pagos con tarjeta?" 
                     checked={this.state.aceptatarjeta} 
                     onPress={(aceptatarjeta) => { 
@@ -187,7 +229,7 @@ class RegistroProfesional2 extends React.Component {
                     onPress={(terminos) => { 
                       this.setState({ terminos }) 
                       }}/>
-                      <TouchableOpacity onPress={()=>{
+                      <TouchableOpacity style={{marginTop: 50}} onPress={()=>{
                         Alert.alert("Terminos y condiciones", `
                         Nulla facilisi. Sed tincidunt lacus rutrum diam pulvinar, tempor hendrerit quam maximus. Etiam et nisl vel erat eleifend lobortis. Sed porta vitae mi id porta. Fusce eu dictum metus, in pulvinar leo. Proin tincidunt sit amet libero non varius. Donec sed odio dignissim, porttitor neque placerat, malesuada eros.
 
@@ -214,7 +256,8 @@ Curabitur eu bibendum enim, a aliquam dui. Ut volutpat, odio vel vestibulum scel
                         <Text style={{
                           textDecorationLine: 'underline', 
                           color: 'blue',
-                          marginLeft: 45
+                          marginLeft: 45,
+                          
                           }}>Ver terminos y condiciones de AEVRA</Text>
                       </TouchableOpacity>
                 </View>
@@ -222,7 +265,9 @@ Curabitur eu bibendum enim, a aliquam dui. Ut volutpat, odio vel vestibulum scel
 
               </View>
                 <View style={{flexDirection: `row`,justifyContent: `center`}}>
-                  <Button raised primary 
+                  <Button raised primary
+                    disabled={this.state.btnEnviarDisabled}
+                    text={this.state.btnEnviarText}
                     text="REGISTRARME" 
                     style={{color: 'white',backgroundColor: '#00AAB4', borderRadius: 30}} 
                     onPress={() => { this.btnRegistrarmeClick();}}/>
@@ -245,7 +290,8 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
   return {
-    saveRegistrationData : (registrationData) => dispatch({type: 'SAVE_REGISTRATION_DATA_LOCATION_PROFESIONAL', payload: registrationData})
+    saveRegistrationData : (registrationData) => dispatch({type: 'SAVE_REGISTRATION_DATA_LOCATION_PROFESIONAL', payload: registrationData}),
+    saveRegistrationDataClear : () => dispatch({type: 'SAVE_REGISTRATION_DATA_PROFESIONAL_CLEAR', payload: {}})
   }
 }
 

@@ -181,7 +181,11 @@ class RegistroProfesionalValidado extends React.Component {
             }} />
           </View>
 
-          <Horario onChangeValue={(horario => this.setState({horario}))}/>
+          <Horario 
+            onChangeValue={(horario => this.setState({horario}))}
+            multiple={true}
+
+            />
 
           <View style={{flexDirection: 'row',justifyContent: 'center', marginBottom: 40}}>      
             <Button raised primary text="TERMINAR" style={styles.botonAevra} 

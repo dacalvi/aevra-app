@@ -143,7 +143,14 @@ class SolicitarServicio2 extends React.Component {
                 this.setState({horario: itemValue});
               }}
               selectedValue={this.state.horario} 
-              items={[{label: '9 a 12', value: '9a12'}, {label: '13 a 18', value: '13a18'}]} />
+              items={[
+                {label: '00:00 a 04:00', value: '0a4'}, 
+                {label: '04:00 a 08:00', value: '4a8'}, 
+                {label: '08:00 a 12:00', value: '8a12'}, 
+                {label: '12:00 a 16:00', value: '12a16'}, 
+                {label: '16:00 a 20:00', value: '16a20'}, 
+                {label: '20:00 a 24:00', value: '20a24'}
+                ]} />
 
             <GroupTitle label="Donde se realizara el servicio" />
             

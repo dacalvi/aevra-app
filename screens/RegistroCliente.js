@@ -7,7 +7,8 @@ import {
   ScrollView, 
   KeyboardAvoidingView, 
   Text,
-  Alert 
+  Alert, 
+  Platform
 } from 'react-native';
 import { Button, Snackbar  } from 'react-native-material-ui';
 import RestApi from '../common/RestApi';
@@ -16,7 +17,7 @@ import IconHeader from '../components/IconHeader';
 import Tilde from '../components/Tilde';
 import validate from '../constants/validate_wrapper';
 import { connect } from 'react-redux';
-
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 class RegistroCliente extends React.Component {
 
@@ -97,11 +98,7 @@ class RegistroCliente extends React.Component {
     render() {
         const {isVisible} = this.state
         return (
-          <KeyboardAvoidingView 
-            style={{ flex: 1, backgroundColor: '#fff' }} 
-            behavior="position" 
-            keyboardVerticalOffset={-200}
-            enabled>  
+          <View style={styles.container}>  
             <ScrollView>
               <View style={{marginleft: 20, marginRight:20, marginTop:20}} >
                 <IconHeader 
@@ -180,15 +177,15 @@ class RegistroCliente extends React.Component {
                     this.setState({ terminos }) 
                     }}/>
               </View>    
+            </ScrollView>
 
               <View style={{flexDirection: `row`,justifyContent: `center`, marginTop: 20}}>      
                 <Button raised primary text="REGISTRARME" style={styles.botonAevra} 
                   onPress={() => { this.btnRegistrarClick();}}/>
               </View>
-                <Snackbar visible={isVisible} message={this.state.errorMsg} onRequestClose={() => this.setState({ isVisible: false })} />
-            </ScrollView>
-      
-          </KeyboardAvoidingView>
+              <Snackbar visible={isVisible} message={this.state.errorMsg} onRequestClose={() => this.setState({ isVisible: false })} />
+              {Platform.OS === 'android' ? <KeyboardSpacer /> : null }
+          </View>
           
         );
       }

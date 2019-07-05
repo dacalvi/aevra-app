@@ -7,12 +7,17 @@ const register = (state = initialState, action) => {
     switch (action.type) {
         case 'SAVE_REGISTRATION_DATA_PROFESIONAL':
 
-            return { registrationData: action.payload};
+            return { 
+                registrationData: action.payload,
+                registrationDataID: state.registrationDataID,
+                registrationDataLocation: state.registrationDataLocation,
+            };
             break;
         case 'SAVE_REGISTRATION_DATA_ID_PROFESIONAL':
             return { 
+                registrationDataID: action.payload,
                 registrationData: state.registrationData,
-                registrationDataID: action.payload
+                registrationDataLocation: state.registrationDataLocation,
             };
             break;
         case 'SAVE_REGISTRATION_DATA_LOCATION_PROFESIONAL':
@@ -20,6 +25,13 @@ const register = (state = initialState, action) => {
                 registrationData: state.registrationData,
                 registrationDataID: state.registrationDataID,
                 registrationDataLocation: action.payload
+            };
+            break;
+        case 'SAVE_REGISTRATION_DATA_PROFESIONAL_CLEAR':
+            return { 
+                registrationData: {},
+                registrationDataID: {},
+                registrationDataLocation: {}
             };
             break;
         default:

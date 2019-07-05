@@ -20,10 +20,18 @@ let store;
 
 AsyncStorage.getItem('state', (err, persistedState)=>{
   if(persistedState == null){
-    store = createStore(rootReducer);
+    store = createStore(
+      rootReducer,
+      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+      );
     //console.log('crating empty store');
   }else{
-    store = createStore(rootReducer, JSON.parse(persistedState));
+    
+    store = createStore(
+      rootReducer, 
+      JSON.parse(persistedState),
+      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+      );
     //console.log("loading previous state into store", JSON.parse(persistedState));
   }
 
