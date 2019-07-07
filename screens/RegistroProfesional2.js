@@ -25,7 +25,6 @@ class RegistroProfesional2 extends React.Component {
 
     constructor(props){
         super(props);
-        console.log("Lo que vino del store es:", props.register);
         this.state = {
             calle: props.register.registrationDataLocation.calle,
             numerocasa: props.register.registrationDataLocation.numerocasa,
@@ -60,22 +59,18 @@ class RegistroProfesional2 extends React.Component {
         "calle": this.state.calle,
         "numerocasa": this.state.numerocasa,
         "aceptatarjeta": this.state.aceptatarjeta,
-        "depto": this.state.depto,
+        "depto": typeof this.state.depto !== 'undefined'? this.state.depto: '' ,
         "terminos": this.state.terminos,
         "localidad": this.state.localidad
       }
-      console.log(registrationData);
       this.props.saveRegistrationData(registrationData);
     }
 
     componentDidMount(){
-      console.log("Montando componente, cargando estado previo...", this.props.register.registrationDataLocation);
       this.setState(this.props.register.registrationDataLocation);
-      
     }
 
     componentWillUnmount(){
-      console.log("Desmontando componente, guardando estado...");
       this.save();
     }
 
@@ -98,6 +93,8 @@ class RegistroProfesional2 extends React.Component {
           console.error(reason);
           reject(reason);
         });
+
+
       });
     }
 
@@ -108,16 +105,28 @@ class RegistroProfesional2 extends React.Component {
       dataset.fotofrente = ff;
       dataset.fotodnifrente = fdf;
       dataset.fotodnidorso = fdd;
-      //console.log(dataset);
       let api = new RestApi();
       api.registerProfesional(dataset)
       .then((response)=>{
         this.props.navigation.navigate('GraciasRegistroProfesional');
+        this.props.saveRegistrationDataClear();
+        this.setState({
+          btnEnviarDisabled: false,
+          btnEnviarText: 'REGISTRARME'
+        });
       })
       .catch((error)=>{
-        alert(error.error);
-       //console.logog(error);
+        if(typeof error !== 'undefined'){
+          if(typeof error.error !== 'undefined'){
+            Alert.alert('Error', error.error);
+            this.setState({
+              btnEnviarDisabled: false,
+              btnEnviarText: 'REGISTRARME'
+            });
+          }
+        }
       });
+      
     }
 
     btnRegistrarmeClick(){
@@ -156,11 +165,7 @@ class RegistroProfesional2 extends React.Component {
         
         
         this.resizeImagesAndSend(registrationCompleteSet);
-        this.props.saveRegistrationDataClear();
-        this.setState({
-          btnEnviarDisabled: false,
-          btnEnviarText: 'REGISTRARME'
-        });
+        
       }
     }
 

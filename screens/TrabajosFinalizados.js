@@ -48,12 +48,10 @@ export default class TrabajosFinalizados extends React.Component {
       this.api = new RestApi();
       this.api.trabajosterminados()
         .then((responseJson)=>{
-         //console.log(responseJson);
           this.setState({refreshing: false});
           this.setState({trabajos : responseJson.data});
         })
         .catch((err)=>{
-         //console.log(err);
           this.setState({refreshing: false});
           alert(err);
         });

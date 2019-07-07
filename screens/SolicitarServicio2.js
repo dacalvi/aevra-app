@@ -157,7 +157,6 @@ class SolicitarServicio2 extends React.Component {
             <DireccionMapa 
               onChangeAddress={(address)=>{
                 this.setState({direccion: address});
-                console.log("Direccion cambio", address);
                 }}
               onChangeCiudad={(ciudad)=>{this.setState({ciudad})}}
               onChangeLocation={(location)=>{ this.setState({location}) }}

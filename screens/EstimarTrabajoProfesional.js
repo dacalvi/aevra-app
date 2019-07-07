@@ -62,7 +62,6 @@ export default class Postular extends React.Component {
                 this.props.navigation.navigate('EstimarTrabajoProfesionalGracias', {...this.props.navigation.state.params, precio: registrationData.monto});
             }
         }).catch((error)=>{
-            //console.log(error);
         });
         
      

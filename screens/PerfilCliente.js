@@ -43,7 +43,6 @@ export default class PerfilCliente extends React.Component {
       this.api = new RestApi();
       this.api.postulaciones()
         .then((responseJson)=>{
-          //console.log(responseJson);
           this.setState({refreshing: false});
           this.setState({postulaciones : responseJson.data});
         })

@@ -66,7 +66,6 @@ class CambiarContrasenaProfesional extends React.Component {
       let api = new RestApi();
       api.changePassword(registrationData)
       .then((status)=>{
-        console.log(status);
         if(status == 'ok'){
           Alert.alert("Correcto!", "La contraseña se ha cambiado correctamente");
           this.props.navigation.navigate('PerfilProfesional123');
@@ -79,7 +78,6 @@ class CambiarContrasenaProfesional extends React.Component {
       })
       .catch((err)=>{
         if(err){
-          console.log(err);
           Alert.alert("Aviso", err.error);
           
         }

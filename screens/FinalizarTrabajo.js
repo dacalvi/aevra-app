@@ -62,10 +62,8 @@ export default class EnprocesoCliente extends React.Component {
                 'Esta calificando al profesional con un puntaje muy bajo en todos los aspectos. Para calificarlo toque las estrellas grises hasta lograr el puntaje deseado. Recuerde que siempre hay algo bueno que rescatar.',
                 [
                     {text: 'Ups!, modificar calificacion', onPress: () => {
-                        //console.log('Cancelando');
                     }},
                     {text: 'Calificar con 1 todo', onPress: () => {
-                        //console.log('Prestador pesimo!');
                         this.setState({confirmaMalaCalificacion: true});
                     }},
                 ],
@@ -95,7 +93,6 @@ export default class EnprocesoCliente extends React.Component {
                 this.api = new RestApi();
                 this.api.terminartrabajo(finalizarTrabajoData)
                     .then((responseJson)=>{
-                    //console.log(responseJson);
                     Alert.alert("Gracias", "Ha finalizado el trabajo correctamente, gracias por usar AEVRA");
                     
                     this.props.navigation.push('EnProcesoCliente');
@@ -104,7 +101,6 @@ export default class EnprocesoCliente extends React.Component {
                     //this.setState({postulaciones : responseJson.data});
                     })
                     .catch((err)=>{
-                    //console.log(err);
                     //this.setState({refreshing: false});
                     alert(err);
                     });

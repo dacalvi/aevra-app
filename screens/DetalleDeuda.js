@@ -61,7 +61,6 @@ export default class DetalleDeuda extends React.Component {
           Linking.openURL(responseJson.payment_link);
           //Alert.alert("Aviso", "Sera redirigido al sitio de Mercado Pago para realizar el pago alli");
           this.props.navigation.navigate('PerfilProfesional123');
-          //console.log(responseJson.payment_link);
         })
         .catch((err)=>{
           alert(err);
@@ -79,12 +78,10 @@ export default class DetalleDeuda extends React.Component {
       this.setState({refreshing: true});
       this.api.comisiones()
         .then((responseJson)=>{
-          //console.log(responseJson);
           this.setState({refreshing: false});
           this.setState({listadocomisiones : responseJson.data});
         })
         .catch((err)=>{
-          //console.log(err);
           this.setState({refreshing: false});
           alert(err);
         });
@@ -150,9 +147,8 @@ export default class DetalleDeuda extends React.Component {
                                 }
                                 a_pagar = this.state.a_pagar - parseFloat(monto);
                               }
-                              this.setState({a_pagar, solicitudes_a_pagar}, ()=>{
-                                console.log(this.state);
-                              });
+                              this.setState({a_pagar, solicitudes_a_pagar});
+                              
                               
                             }} />
                           );

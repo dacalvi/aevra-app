@@ -22,8 +22,6 @@ class RegistroProfesional1 extends React.Component {
 
     constructor(props){
         super(props);
-
-        console.log("Lo que vino del store es:", props.register);
         this.state = {
             fotofrente: {uri:''},
             fotodnifrente: {uri:''},
@@ -40,7 +38,6 @@ class RegistroProfesional1 extends React.Component {
     }
 
     componentDidMount(){
-      console.log("componentDidMount", this.props.register);
       let newState = {};
       if(typeof this.props.register.registrationDataID.fotofrente !== 'undefined'){
         newState.fotofrente = this.props.register.registrationDataID.fotofrente;
@@ -165,9 +162,7 @@ class RegistroProfesional1 extends React.Component {
                 <FechaNacimiento
                   value={this.state.fechanacimiento}
                   placeholder="Fecha de Nacimiento"
-                  onDateChange={(fechanacimiento)=>{ 
-                      console.log(fechanacimiento);
-                    this.setState({fechanacimiento}) }}
+                  onDateChange={(fechanacimiento)=>{ this.setState({fechanacimiento}) }}
                   error={this.state.fechanacimientoError}
                   />
 

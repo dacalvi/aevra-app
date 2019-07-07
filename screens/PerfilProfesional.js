@@ -62,13 +62,10 @@ export default class PerfilProfesional extends React.Component {
       this.setState({refreshing: true});
       api.perfilprofesional(this.props.navigation.state.params.user_id)
         .then((responseJson)=>{
-          //console.log(">>>>>RESPONSE PERFIL>>>", responseJson);
           this.setState({refreshing: false, perfil : responseJson}, ()=>{   
-            //console.log("newstate:",this.state) 
           });
         })
         .catch((err)=>{
-          //console.log(err);
           this.setState({refreshing: false});
           alert(err);
         });

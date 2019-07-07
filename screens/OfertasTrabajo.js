@@ -55,7 +55,6 @@ export default class OfertasTrabajo extends React.Component {
     permPromise
     .then((result)=>{
       
-      console.log(result);
 
       if (result.permissions.camera.status !== 'granted') {
         Alert.alert("Aviso", "Debe permitir a AEVRA utilizar su camara para poder trabajar");
@@ -93,11 +92,9 @@ export default class OfertasTrabajo extends React.Component {
             this.api.ofertas()
             .then((responseJson)=>{
               this.setState({refreshing: false});
-              //console.log("OFERTAS!!!", responseJson.data);
               this.setState({ofertas : responseJson.data});
             })
             .catch((err)=>{
-             //console.logog(err);
               this.setState({refreshing: false});
               alert(err);
             });

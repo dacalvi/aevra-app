@@ -21,7 +21,6 @@ class RegistroProfesional extends React.Component {
 
     constructor(props){
         super(props);
-        console.log('constructor props.register', props.register);
         this.state = {
             nombre: props.register.registrationData.nombre,
             apellido: props.register.registrationData.apellido,
@@ -37,6 +36,7 @@ class RegistroProfesional extends React.Component {
             apellidoError: '',
             passwordError: '',
             repasswordError: '',
+            passwordMatchError: '',
         }
     }
 
@@ -59,7 +59,7 @@ class RegistroProfesional extends React.Component {
       const apellidoError = validate('apellido', this.state.apellido);
       const passwordError = validate('password', this.state.password);
       const repasswordError = validate('repassword', this.state.repassword);
-
+      const passwordMatchError = this.state.password !== this.state.repassword ? 'Los passwords no coinciden': false; 
     
       this.setState({
         emailError: emailError,
@@ -67,11 +67,12 @@ class RegistroProfesional extends React.Component {
         nombreError: nombreError,
         apellidoError: apellidoError,
         passwordError: passwordError,
-        repasswordError: repasswordError
+        repasswordError: repasswordError,
+        passwordMatchError: passwordMatchError
       })
 
 
-      if (!emailError && !telefonoError && !nombreError && !apellidoError && !passwordError && !repasswordError) {
+      if (!emailError && !telefonoError && !nombreError && !apellidoError && !passwordError && !repasswordError && !passwordMatchError) {
         this.save(); 
         this.props.navigation.navigate('RegistroProfesional1');
       }
@@ -85,7 +86,6 @@ class RegistroProfesional extends React.Component {
         "telefono": this.state.telefono,
         "password": this.state.password
       }
-      console.log("Guardando DATOS pagina 1", registrationData);
       this.props.saveRegistrationData(registrationData);
     }
 
@@ -179,6 +179,10 @@ class RegistroProfesional extends React.Component {
                     })
                   }}
                   error={this.state.repasswordError}/>
+                { this.state.passwordMatchError ? <Text style={{
+                  color: 'red',
+                  marginHorizontal: 20
+                  }}>{this.state.passwordMatchError}</Text> : <Text> </Text> }
               </View>
             </ScrollView>
 

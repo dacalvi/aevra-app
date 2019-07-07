@@ -66,13 +66,10 @@ export default class MiPerfilCliente extends React.Component {
       this.setState({refreshing: true});
       api.miperfilcliente()
         .then((responseJson)=>{
-          console.log(responseJson);
           this.setState({refreshing: false, perfil : responseJson}, ()=>{   
-            //console.log("newstate:",this.state) 
           });
         })
         .catch((err)=>{
-          //console.log(err);
           this.setState({refreshing: false});
           alert(err);
         });
@@ -81,7 +78,6 @@ export default class MiPerfilCliente extends React.Component {
         let api2 = new RestApi();
         api2.notificacionesStatus()
         .then((responseJson)=>{
-          console.log(responseJson);
           let recibir_notificaciones = responseJson.status == "1"? true : false;
           this.setState({recibir_notificaciones});
         })
@@ -93,9 +89,7 @@ export default class MiPerfilCliente extends React.Component {
         let api3 = new RestApi();
         api3.privadosStatus()
         .then((responseJson)=>{
-          console.log(responseJson);
           this.setState({mensajes_privados : responseJson.status == "1"? true:false}, ()=>{
-            console.log(this.state);   
           });
         })
         .catch((err)=>{
@@ -110,17 +104,14 @@ export default class MiPerfilCliente extends React.Component {
   
   componentWillMount(){
     this._onRefresh();
-    console.log(this.state);
   }
 
   actualizar_avatar(avatar){
     let api = new RestApi();
     api.actualizaravatarprofesional()
     .then((responseJson)=>{
-      //console.log(">>>>>RESPONSE PERFIL>>>", responseJson);
     })
     .catch((err)=>{
-      //console.log(err);
       alert(err);
     });
   }
@@ -152,10 +143,8 @@ export default class MiPerfilCliente extends React.Component {
     let api = new RestApi();
     api.actualizaravatarcliente(avatarbase64)
     .then((responseJson)=>{
-      //console.log(">>>>>RESPONSE PERFIL>>>", responseJson);
     })
     .catch((err)=>{
-      //console.log(err);
       alert(err);
     });
   }
@@ -164,10 +153,8 @@ export default class MiPerfilCliente extends React.Component {
     let api = new RestApi();
     api.recibirNotificaciones(checked)
     .then((responseJson)=>{
-      //console.log(">>>>>RESPONSE PERFIL>>>", responseJson);
     })
     .catch((err)=>{
-      //console.log(err);
       alert(err);
     });
   }
@@ -176,10 +163,8 @@ export default class MiPerfilCliente extends React.Component {
     let api = new RestApi();
     api.recibirMensajesPrivados(checked)
     .then((responseJson)=>{
-      //console.log(">>>>>RESPONSE PERFIL>>>", responseJson);
     })
     .catch((err)=>{
-      //console.log(err);
       alert(err);
     });
   }

@@ -61,7 +61,6 @@ export default class ModificarPresupuesto extends React.Component {
             }
         }).catch((error)=>{
             //bugsnagClient.notify(new Error(error));
-            //console.log(error);
         });
         
      

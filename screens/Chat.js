@@ -35,10 +35,8 @@ export default class Chat extends React.Component {
     AsyncStorage.getItem('user_id')
       .then(res => {
         if (res !== null) {
-          //console.log('USER ID >>>:', res);
           this.setState({user_id: res});
         } else {
-         //console.log('No se pudo recuperar el user_id del localstorage, vino null');
         }
       })
       .catch(err => reject(err));
@@ -48,17 +46,14 @@ export default class Chat extends React.Component {
       this.api = new RestApi();
       this.api.getChatMessages(this.props.navigation.state.params.chat_id)
         .then((responseJson)=>{
-          //console.log(responseJson);
           this.setState({messages: responseJson});
         })
         .catch((err)=>{
-          //console.log(err);
           
           alert(err);
         });
     })
     .catch(()=>{ 
-      //console.log("NO ESTA LOGEADO en Chat");
       this.props.navigation.navigate('Auth') 
     });
   }
@@ -73,7 +68,6 @@ export default class Chat extends React.Component {
   }
 
   onSend(messages = []) {
-    //console.log(messages);
     this.api = new RestApi();
     this.api.sendChat(
       {

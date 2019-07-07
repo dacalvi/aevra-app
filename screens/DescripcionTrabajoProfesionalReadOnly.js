@@ -30,7 +30,6 @@ export default class DescripcionTrabajoProfesionalReadOnly extends React.Compone
   constructor(){
     super();
     
-    //console.log(this.props.navigation.state);
     /*
     
     props.navigation.state.params.imagenes.map((imagen, i)=>{

@@ -64,7 +64,6 @@ class TrabajosSolicitados extends React.Component {
           this.setState({loading: false});
         })
         .catch((err)=>{
-          //console.log(err);
           Alert.alert("Error", err);
         });
     })
@@ -86,7 +85,7 @@ class TrabajosSolicitados extends React.Component {
       }
     }
     this.agregarImagen(categoria);
-    this.setState({selectedCategorias}, ()=>{ console.log(this.state)});
+    this.setState({selectedCategorias});
 }
 
   agregarImagen(categoria){

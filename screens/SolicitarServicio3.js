@@ -70,13 +70,11 @@ class SolicitarServicio3 extends React.Component {
   }
 
   async resizeImagesAndSend(dataset){
-    //console.log("Dataset REACT", dataset);
     if(dataset.image1){dataset.image1 = dataset.image1 !== '' ? await this.resizeImage(dataset.image1, 500, 500) : '';}
     if(dataset.image2){dataset.image2 = dataset.image2 !== '' ? await this.resizeImage(dataset.image2, 500, 500) : '';}
     if(dataset.image3){dataset.image3 = dataset.image3 !== '' ? await this.resizeImage(dataset.image3, 500, 500) : '';}
     if(dataset.image4){dataset.image4 = dataset.image4 !== '' ? await this.resizeImage(dataset.image4, 500, 500) : '';}
     if(dataset.image5){dataset.image5 = dataset.image5 !== '' ? await this.resizeImage(dataset.image5, 500, 500) : '';}
-    //console.log(dataset);
 
     //Lets add the deep_link_base for push notifications
     dataset.deep_link_base = Expo.Linking.makeUrl();
@@ -86,21 +84,19 @@ class SolicitarServicio3 extends React.Component {
     api.serviceRequest(dataset)
     .then((result)=>{
       this.setState({buttondisabled: false});
-     //console.log(result);
       this.props.navigation.navigate('SolicitudServicioGracias', this.props.navigation.state.params);
     })
     .catch((error)=>{
-      //console.log(error)
     });
-    //console.log(result);
   }
 
   
 
   btnContinuarClick(){
-    const costo_presupuesto_aceptadoError = validate('costo_presupuesto_aceptado', this.state.costo_presupuesto_aceptado);
-    this.setState({costo_presupuesto_aceptadoError: costo_presupuesto_aceptadoError,})
-    if(!costo_presupuesto_aceptadoError){
+    //const costo_presupuesto_aceptadoError = validate('costo_presupuesto_aceptado', this.state.costo_presupuesto_aceptado);
+    //this.setState({costo_presupuesto_aceptadoError: costo_presupuesto_aceptadoError,})
+    //if(!costo_presupuesto_aceptadoError){
+    if(true){ //Kept this for the presupuesto stuff
       this.setState({continuar_button_text: 'SOLICITANDO...'})
       //Save to store
       let serviceRequestData = {
@@ -144,7 +140,6 @@ class SolicitarServicio3 extends React.Component {
 
   componentWillMount(){
 
-    //console.log(this.props.serviceRequest.serviceRequestData);
 
     let api = new RestApi();
     api.recomendedpros({
@@ -154,7 +149,6 @@ class SolicitarServicio3 extends React.Component {
       this.setState({recomendados});
     })
     .catch((error)=>{
-      //console.log(error)
     });
   }
 

@@ -39,7 +39,6 @@ class OlvideContrasenaCliente extends React.Component {
         buttonRecuperarDisabled: true,
         buttonRecuperarText: "ENVIANDO..."
       });
-      console.log("test");
       let api = new RestApi();
       api.olvideContrasenaCliente({'email': this.state.email })
       .then((responseJson) => {

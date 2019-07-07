@@ -36,19 +36,16 @@ export default class EnprocesoProfesional extends React.Component {
       this.setState({refreshing: true});
       this.api.enprocesoprofesional()
         .then((responseJson)=>{
-          //console.log(responseJson);
           this.setState({refreshing: false});
 
           this.setState({enprocesoprofesional : responseJson.data});
         })
         .catch((err)=>{
-          //console.log(err);
           this.setState({refreshing: false});
           alert(err);
         });
     })
     .catch(()=>{ 
-      //console.log("NO ESTA LOGEADO en EnProcesoCliente");
       this.props.navigation.navigate('Auth') 
     });
   }

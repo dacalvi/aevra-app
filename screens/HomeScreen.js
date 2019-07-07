@@ -39,8 +39,6 @@ class HomeScreen extends React.Component {
     permPromise
     .then((result)=>{
       
-      console.log(result);
-
       if (result.permissions.camera.status !== 'granted') {
         Alert.alert("Aviso", "Debe permitir a AEVRA utilizar su camara para poder acceder a los servicios");
       }

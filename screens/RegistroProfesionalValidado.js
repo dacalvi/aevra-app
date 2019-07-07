@@ -133,7 +133,6 @@ class RegistroProfesionalValidado extends React.Component {
       });
 
       this.sendAllRequests(categorias).then( (response) => {
-        //console.log(payload);
         this.saveWorkingArea(payload)
         .then( (response) => {
           this.props.navigation.navigate('OfertasTrabajo');

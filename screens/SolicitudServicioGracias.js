@@ -46,7 +46,6 @@ class SolicitudServicioGracias extends React.Component {
         this.inputPassword.focus();
       }else{
         this.props.login(responseJson.token);
-       //console.log(responseJson);
         this.props.navigation.navigate('ElegirServicio');
       }
     })

@@ -43,7 +43,6 @@ export default class TrabajosSolicitados extends React.Component {
         })
         .catch((err)=>{
           this.setState({refreshing: false});
-         //console.log(err);
           alert(err);
         });
     })
@@ -65,11 +64,9 @@ export default class TrabajosSolicitados extends React.Component {
       this.api = new RestApi();
       this.api.requestedPendingServices()
         .then((responseJson)=>{
-          console.log(responseJson.data);
           this.setState({solicitudes : responseJson.data});
         })
         .catch((err)=>{
-         //console.log(err);
           alert(err);
         });
     })

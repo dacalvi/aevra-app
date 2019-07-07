@@ -39,17 +39,14 @@ export default class AuthLoadingScreen extends React.Component {
   
     // Get the token that uniquely identifies this device
     let token = await Notifications.getExpoPushTokenAsync();
-    console.log("TOKEN!!!", token);
     // POST the token to your backend server from where you can retrieve it to send push notifications.
 
     this.api = new RestApi();
     return this.api.saveexpotoken({expotoken: token})
     .then((responseJson)=>{
-      //console.log(responseJson);
       //this.setState({categorias : responseJson.data});
     })
     .catch((err)=>{
-      //console.log(err);
       Alert.alert(err);
     });
   }
@@ -60,8 +57,6 @@ export default class AuthLoadingScreen extends React.Component {
     const token = await AsyncStorage.getItem('token');
     const usertype = await AsyncStorage.getItem('type');
     if(token && usertype){
-     //console.log("TOKEN: " + token);
-     //console.log("USERTYPE: " + usertype);
       this.registerForPushNotificationsAsync();
       this.props.navigation.navigate(usertype == 'profesional' ? 'ProfesionalApp' : 'ClienteApp');
     }else{

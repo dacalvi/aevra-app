@@ -50,7 +50,6 @@ class ElegirServicioProfesor extends React.Component {
   filtrarMaterias(){
     if(this.state.nivel !== ''){
       let materiasFiltradas = profesores_categorias_list.filter(materia => materia.startsWith(this.state.nivel));
-      console.log(materiasFiltradas);
       this.setState({materias_list: materiasFiltradas});
     }else{
       this.setState({materias_list: profesores_categorias_list})
@@ -93,7 +92,6 @@ class ElegirServicioProfesor extends React.Component {
           isVisible: true,
           errorMsg: 'Falta completar algunos campos'
         })
-        //console.log(this.state);
     }
   }
 
@@ -128,7 +126,6 @@ class ElegirServicioProfesor extends React.Component {
                       onValueChange={(nivel) =>{
                           this.setState({nivel}, ()=>{
                             this.filtrarMaterias();
-                            console.log(this.state)
                             })
                         }
                       }
@@ -153,7 +150,7 @@ class ElegirServicioProfesor extends React.Component {
                       mode="dropdown" 
                       selectedValue={this.state.categoria}
                       onValueChange={(categoria) =>{
-                              this.setState({categoria}, ()=>{console.log(this.state)})
+                              this.setState({categoria})
                           }
                       }
                       >

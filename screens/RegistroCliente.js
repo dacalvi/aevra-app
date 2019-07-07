@@ -52,7 +52,6 @@ class RegistroCliente extends React.Component {
     };
 
     btnRegistrarClick(){
-      //console.log("btnRegistrarClick");
       const emailError = validate('email', this.state.email);
       const nombreError = validate('nombre', this.state.nombre);
       const apellidoError = validate('apellido', this.state.apellido);
@@ -85,7 +84,6 @@ class RegistroCliente extends React.Component {
         })
         .catch((err)=>{
           if(err){
-            //console.log(err);
             Alert.alert("Aviso", err.error);
             this.setState({isVisible: true, errorMsg: err.error});
           }

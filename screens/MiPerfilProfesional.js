@@ -53,7 +53,9 @@ export default class MiPerfilProfesional extends React.Component {
         rating_amabilidad: 0,
         rating_calidad: 0,
         rating_orden: 0,
-        comentarios: []
+        comentarios: [],
+        recibir_notificaciones: true,
+        mensajes_privados: true
       }
     }
   }
@@ -66,23 +68,60 @@ export default class MiPerfilProfesional extends React.Component {
       this.setState({refreshing: true});
       api.miperfilprofesional()
         .then((responseJson)=>{
-          //console.log(">>>>>RESPONSE PERFIL>>>", responseJson);
           this.setState({refreshing: false, perfil : responseJson}, ()=>{   
-            //console.log("newstate:",this.state) 
           });
         })
         .catch((err)=>{
-          //console.log(err);
           this.setState({refreshing: false});
           alert(err);
         });
+
+        //Notificaciones
+        let api2 = new RestApi();
+        api2.notificacionesStatus()
+        .then((responseJson)=>{
+          let recibir_notificaciones = responseJson.status == "1"? true : false;
+          this.setState({recibir_notificaciones});
+        })
+        .catch((err)=>{
+          alert(err);
+        });
+
+        //Privados
+        let api3 = new RestApi();
+        api3.privadosStatus()
+        .then((responseJson)=>{
+          this.setState({mensajes_privados : responseJson.status == "1"? true:false});
+        })
+        .catch((err)=>{
+          alert(err);
+        });
+
     })
     .catch(()=>{ 
       this.props.navigation.navigate('Auth') 
     });
   }
 
+  recibirNotificaciones(checked){
+    let api = new RestApi();
+    api.recibirNotificaciones(checked)
+    .then((responseJson)=>{
+    })
+    .catch((err)=>{
+      alert(err);
+    });
+  }
 
+  recibirMensajesPrivados(checked){
+    let api = new RestApi();
+    api.recibirMensajesPrivados(checked)
+    .then((responseJson)=>{
+    })
+    .catch((err)=>{
+      alert(err);
+    });
+  }
   
   componentWillMount(){
     this._onRefresh();
@@ -92,10 +131,8 @@ export default class MiPerfilProfesional extends React.Component {
     let api = new RestApi();
     api.actualizaravatarprofesional()
     .then((responseJson)=>{
-      //console.log(">>>>>RESPONSE PERFIL>>>", responseJson);
     })
     .catch((err)=>{
-      //console.log(err);
       alert(err);
     });
   }
@@ -127,10 +164,8 @@ export default class MiPerfilProfesional extends React.Component {
     let api = new RestApi();
     api.actualizaravatarprofesional(avatarbase64)
     .then((responseJson)=>{
-      //console.log(">>>>>RESPONSE PERFIL>>>", responseJson);
     })
     .catch((err)=>{
-      //console.log(err);
       alert(err);
     });
   }
@@ -185,7 +220,39 @@ export default class MiPerfilProfesional extends React.Component {
                 style={styles.botonAevra} 
                 onPress={() => {this.props.navigation.navigate('AdherirCategoriaProfesional')} } />
             </View>
+            
+            {recibir_notificaciones ?
+              <TouchableOpacity onPress={() => {
+                this.setState({recibir_notificaciones: false});
+                this.recibirNotificaciones(false);
+              }}>
+                <Text style={{textDecorationLine: 'underline',marginBottom: 20}}>Dejar de recibir notificaciones</Text>
+              </TouchableOpacity>:
+              <TouchableOpacity onPress={() => {
+                this.setState({recibir_notificaciones: true});
+                this.recibirNotificaciones(true);
+              }}>
+                <Text style={{textDecorationLine: 'underline',marginBottom: 20}}>Recibir notificaciones</Text>
+              </TouchableOpacity>
+            }
+            
+            {mensajes_privados ? 
+              <TouchableOpacity onPress={() => {
+                this.setState({mensajes_privados: false});
+                this.recibirMensajesPrivados(false);
+              }}>
+                <Text style={{textDecorationLine: 'underline',marginBottom: 20}}>Dejar de recibir Mensajes Privados</Text> 
+              </TouchableOpacity>
               
+              : 
+              <TouchableOpacity onPress={() => {
+                this.setState({mensajes_privados: true});
+                this.recibirMensajesPrivados(true);
+              }}>
+                <Text style={{textDecorationLine: 'underline',marginBottom: 20}}>Recibir mensajes privados</Text>
+              </TouchableOpacity>
+                
+            }
               
           </View>
         </ScrollView>

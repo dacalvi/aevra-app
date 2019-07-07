@@ -54,7 +54,6 @@ class ElegirServicioFlete extends React.Component {
   }
 
   btnContinuarClick(){
-    //console.log(this.state);
     const descripcionError = validate('descripcion', this.state.descripcion);
     const ciudadError = validate('ciudad', this.state.descripcion);
     const destinoError = validate('direccion', this.state.destino);
@@ -115,7 +114,6 @@ class ElegirServicioFlete extends React.Component {
                 let newState = {};
                 newState['image'+imageIndex] = imageBase64;
                 this.setState(newState);
-                //console.log(this.state);
                 
             }} />
 
@@ -139,7 +137,6 @@ class ElegirServicioFlete extends React.Component {
                 placeholder=""
                 onChangeText={(text)=>{ 
                     this.setState({observaciones_materiales: text});
-                    //console.log(this.state);
                     }}/>
               <View style={{flexDirection: `row`,justifyContent: `center`, marginBottom: 40}}>      
                 <Button raised primary text="CONTINUAR" style={styles.botonAevra} 
