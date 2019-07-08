@@ -106,9 +106,14 @@ class TrabajosSolicitados extends React.Component {
 
 
   validarCategoriasLicencias(){
+    /*
     categoriasConLicenciasRequeridas = [
       {id: 1, name: "Electricidad"},
       {id: 4, name: "Gasista"}
+    ];
+    */
+    categoriasConLicenciasRequeridas = [
+      
     ];
     stringCategoriasInvalidas = '';
     categoriasConLicenciasRequeridas.forEach(categoriaRequerida => {

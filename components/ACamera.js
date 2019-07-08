@@ -115,7 +115,7 @@ export default class ACamera extends Component {
                                       text: 'Borrar imagen', 
                                       onPress: () => {
                                         this.setState({image: ''}, ()=>{
-                                            this.props.onPictureTaken(null);
+                                            this.props.onPictureTaken({uri:'',width: 0, height: 0});
                                         });
                                       },
                                       style: 'cancel'

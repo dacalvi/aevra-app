@@ -37,10 +37,10 @@ class FechaNacimiento extends React.Component{
             });
             if (action !== DatePickerAndroid.dismissedAction) {
               // Selected year, month (0-11), day
-            }
-            this.setState({fechanacimiento: day + "/" + month + "/" + year});
-            if(this.props.onDateChange){
-                this.props.onDateChange(day + "/" + month + "/" + year);
+              this.setState({fechanacimiento: day + "/" + (parseInt(month)+1) + "/" + year});
+              if(this.props.onDateChange){
+                  this.props.onDateChange(day + "/" + (parseInt(month)+1) + "/" + year);
+              }
             }
           } catch ({code, message}) {
             console.warn('Cannot open date picker', message);

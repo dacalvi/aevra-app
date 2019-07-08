@@ -108,14 +108,19 @@ class RegistroProfesional2 extends React.Component {
       let api = new RestApi();
       api.registerProfesional(dataset)
       .then((response)=>{
-        this.props.navigation.navigate('GraciasRegistroProfesional');
-        this.props.saveRegistrationDataClear();
-        this.setState({
-          btnEnviarDisabled: false,
-          btnEnviarText: 'REGISTRARME'
-        });
+        if(response.status == 'pending'){
+          this.props.navigation.navigate('GraciasRegistroProfesional');
+          this.props.saveRegistrationDataClear();
+          this.setState({
+            btnEnviarDisabled: false,
+            btnEnviarText: 'REGISTRARME'
+          });
+        }else{
+          Alert.alert("Error", "Ocurrio un error en la comunicacion, por favor intente de nuevo y si aparece un error diciendo 'Usuario ya existe' intente ingresar a traves del Login");
+        }
       })
       .catch((error)=>{
+        console.log(error);
         if(typeof error !== 'undefined'){
           if(typeof error.error !== 'undefined'){
             Alert.alert('Error', error.error);
