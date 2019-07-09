@@ -7,7 +7,7 @@ export default class Tilde extends React.Component {
 
   constructor(props){
     super(props);
-    console.log("Checked first?", props.checked);
+    //console.log("Checked first?", props.checked);
     this.state = {
       checked: props.checked
     }

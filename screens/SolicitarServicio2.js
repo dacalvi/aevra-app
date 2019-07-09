@@ -139,9 +139,10 @@ class SolicitarServicio2 extends React.Component {
             </View>
 
             <Horario label="Horarios"
-              onValueChange={(itemValue, itemIndex)=>{
-                this.setState({horario: itemValue});
-              }}
+              onChangeValue={(horario => {
+                console.log(horario);
+                this.setState({horario});
+              })}
               selectedValue={this.state.horario} 
               items={[
                 {label: '00:00 a 04:00', value: '0a4'}, 
