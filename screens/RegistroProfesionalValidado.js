@@ -181,7 +181,11 @@ class RegistroProfesionalValidado extends React.Component {
           </View>
 
           <Horario 
-            onChangeValue={(horario => this.setState({horario}))}
+            onChangeValue={(horario => {
+              console.log(horario);
+              this.setState({horario});
+              
+              })}
             multiple={true}
 
             />

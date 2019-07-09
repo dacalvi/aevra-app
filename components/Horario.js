@@ -8,9 +8,38 @@ export default class Horario extends React.Component {
     constructor(){
         super();
         this.state = {
-            horario: '8a12'
+            horario: ''
         }
     }
+
+    addHorario(horario){
+        if(this.state.horario == ''){
+            this.setState({horario}, ()=>{
+                this.props.onChangeValue(this.state.horario);
+            });
+        }else{
+            let array_horarios = this.state.horario.split(',');
+            if(array_horarios.indexOf(horario) == -1){
+                array_horarios.push(horario)
+            }
+            this.setState({horario: array_horarios.join(',')}, ()=>{
+                this.props.onChangeValue(this.state.horario);
+            })
+        }
+    }
+
+    removeHorario(horario){
+        if(this.state.horario != ''){
+            let array_horarios = this.state.horario.split(',');
+            if(array_horarios.indexOf(horario) > -1){
+                array_horarios.splice(array_horarios.indexOf(horario), 1);
+            }
+            this.setState({horario: array_horarios.join(',')}, ()=>{
+                this.props.onChangeValue(this.state.horario);
+            })
+        }
+    }
+
 
     render(){
         return (
@@ -31,7 +60,9 @@ export default class Horario extends React.Component {
                         selectedValue={this.state.horario}
                         style={{height: 50, width: 200}}
                         onValueChange={(itemValue, itemIndex) =>
-                            this.setState({horario: itemValue})
+                            this.setState({horario: itemValue}, ()=>{
+                                this.props.onChangeValue(this.state.horario);
+                            })
                         }>
                         
                         {this.props.items.map(((item, i)=>{
@@ -45,7 +76,13 @@ export default class Horario extends React.Component {
                             {this.props.items.map(((item, i)=>{
                                 return (
                                     <View key={i} style={{height: 30}}>
-                                        <Tilde key={i} label={item.label}/>
+                                        <Tilde key={i} label={item.label} onPress={(chequeado)=>{
+                                            if(chequeado){
+                                                this.addHorario(item.value);
+                                            }else{
+                                                this.removeHorario(item.value);
+                                            }
+                                        }}/>
                                     </View>
                                 );
                             }))}

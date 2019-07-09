@@ -171,6 +171,7 @@ export default class MiPerfilProfesional extends React.Component {
   }
 
   render() {
+    const {recibir_notificaciones, mensajes_privados} = this.state;
     return (
       <KeyboardAvoidingView 
             style={{ flex: 1, backgroundColor: '#fff' }} 
