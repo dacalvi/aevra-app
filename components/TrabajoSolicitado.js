@@ -56,7 +56,8 @@ export default class TrabajoSolicitado extends React.Component{
 
                 <View>
                     
-                    <View style={{flexDirection: 'row',justifyContent: 'flex-end', marginBottom: 10}}>      
+                    <View style={{
+                        flexDirection: 'row',justifyContent: 'flex-end', marginBottom: 10}}>      
                         <Button raised text="CANCELAR TRABAJO"  
                             style={
                                 {

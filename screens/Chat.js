@@ -1,7 +1,14 @@
 import React from "react";
 import  LogoTitle  from './LogoTitle';
-import { GiftedChat, Bubble } from "react-native-gifted-chat";
-import { View, Platform, AsyncStorage, Text, Image } from 'react-native';
+import { GiftedChat, Bubble, Send } from "react-native-gifted-chat";
+import { 
+  View, 
+  Platform, 
+  AsyncStorage, 
+  Text, 
+  Image,
+  TouchableOpacity
+} from 'react-native';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import RestApi from '../common/RestApi';
 import { isSignedIn, getStorageData } from '../common/auth';
@@ -93,6 +100,16 @@ export default class Chat extends React.Component {
       }
     }} />;
   }
+  
+  renderSend(props) {
+    return (
+      <Send {...props}>
+        <View style={{ marginBottom: 15, marginRight: 10 }}>
+          <Text style={{color: 'blue', fontWeight:'bold'}}>Enviar</Text>
+        </View>
+      </Send>
+    );
+  }
 
   render() {
     return (
@@ -146,6 +163,7 @@ export default class Chat extends React.Component {
           messages={this.state.messages}
           onSend={messages => this.onSend(messages)}
           placeholder="Escribe un mensaje"
+          renderSend={this.renderSend}
           renderBubble={this.renderBubble}
           user={{
             _id: this.state.user_id

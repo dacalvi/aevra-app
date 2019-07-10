@@ -76,6 +76,19 @@ export default class EnprocesoProfesional extends React.Component {
             title="Trabajos en Proceso"
             style={{marginBottom: 20}} />
           
+          { this.state.enprocesoprofesional.length == 0 ? 
+                    <View style={{
+                        flex:1,
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center'  
+                    }}>
+                    <Text>Todavia no tiene trabajos en proceso...</Text>
+                    
+                    </View>
+                    : <Text></Text>  
+                    }
+
             {this.state.enprocesoprofesional.map((item, i)=>{
                 return (
                   <EnProcesoProfesionalItem 

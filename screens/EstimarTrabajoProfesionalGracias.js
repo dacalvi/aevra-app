@@ -38,7 +38,7 @@ export default class EstimarTrabajoProfesionalGracias extends React.Component {
         comentario:''
     }
   }
-
+  /*
   btnEnviarClick(){
     const montoError = validate('montoPostulacion', this.state.precio);
     const comentarioError = validate('descripcion', this.state.comentario);
@@ -65,7 +65,7 @@ export default class EstimarTrabajoProfesionalGracias extends React.Component {
      
       }
     }
-  
+  */
 
   render() {
     return (
