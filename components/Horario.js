@@ -12,6 +12,10 @@ export default class Horario extends React.Component {
         }
     }
 
+    componentWillReceiveProps(props) {
+        this.setState({checked: props.checked});
+    }
+
     addHorario(horario){
         if(this.state.horario == ''){
             this.setState({horario}, ()=>{
