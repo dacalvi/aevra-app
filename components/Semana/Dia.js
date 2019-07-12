@@ -4,15 +4,17 @@ import PropTypes from 'prop-types';
 import {View, Text } from 'react-native';
 class Dia extends React.Component {
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
+        //console.log("+++++Dia.js+++++", props);
+        this.state = {
+            checked: props.checked
+        };
     }
 
-    
-    state = {
-        checked: false
-    };
-
+    componentWillReceiveProps(props) {
+        this.setState({checked: props.checked});
+    }
 
     render(){
         const { checked } = this.state;
@@ -22,6 +24,7 @@ class Dia extends React.Component {
                     status={checked ? 'checked' : 'unchecked'}
                     onPress={() => { 
                     this.setState({ checked: !checked }, ()=> { 
+                        //console.log('SETTING STATE', this.state);
                         if(this.props.onPress){
                             this.props.onPress(!checked); 
                         }

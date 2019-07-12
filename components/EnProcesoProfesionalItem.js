@@ -28,52 +28,72 @@ export default class EnProcesoProfesionalItem extends React.Component{
                     <View style={{width: '20%'}}>
                         <Text>$ {this.props.item.monto}</Text>
                     </View>
-                    <View style={{width: '80%', flex: 1, flexDirection: 'column'}}>
+                    
                             
-                            {this.props.item.monto_anterior == ''? 
-                                <Button raised primary text="EDITAR PRESUPUESTO" style={styles.botonAevra} 
-                                    onPress={() => { 
-                                        this.props.navigation.navigate("EstimarTrabajoProfesional", {"item": this.props.item});
-                                    }}/>:
-                                    null
-                            }
 
+                    <View style={{width: '100%', flex: 1, flexDirection: 'column'}}>
+                        <View style={{ flex: 1, flexDirection: 'row'}}>
+                            <View style={{width: '50%'}}>
+                                {this.props.item.monto_anterior == ''? 
+                                    <Button raised primary text="EDITAR PRESUPUESTO" style={styles.botonAevra} 
+                                        onPress={() => { 
+                                            this.props.navigation.navigate("EstimarTrabajoProfesional", {"item": this.props.item});
+                                        }}/>:
+                                        null
+                                }
+                            </View>
+                            <View style={{width: '50%'}}>
                             <Button raised primary text="VER DETALLE" style={styles.botonAevra} 
                                 onPress={() => { 
                                     this.props.navigation.navigate("DescripcionTrabajoProfesionalReadOnly", this.props.item);
                                 }}/>
+                            </View>
+                        </View>
+                        <View style={{ flex: 1, flexDirection: 'row'}}>
+                            <View style={{width: '50%'}}>
+                                <Button raised primary text="MENSAJES" style={styles.botonAevra} 
+                                    onPress={() => { 
+                                        this.props.navigation.navigate("Chat", 
+                                            {
+                                                chat_id: this.props.item.solicitud_id});
+                                    }}/>
+                            </View>
+                            <View style={{width: '50%'}}>
+                                <Button raised primary text="CANCELAR TRABAJO" style={styles.botonAevra} 
+                                    onPress={() => {
 
-                            <Button raised primary text="MENSAJES" style={styles.botonAevra} 
-                                onPress={() => { 
-                                    this.props.navigation.navigate("Chat", 
-                                        {
-                                            chat_id: this.props.item.solicitud_id});
-                                }}/>
-
-                            <Button raised primary text="CANCELAR TRABAJO" style={styles.botonAevra} 
-                                onPress={() => {
-
-                                    Alert.alert(
-                                        'Cancelar trabajo',
-                                        'Esta seguro que desea cancelar este trabajo?',
-                                        [
-                                            {text: 'Si, cancelar', onPress: () => {
-                                                
-                                                this.api = new RestApi();
-                                                this.api.cancelarTrabajoProfesional(this.props.item.solicitud_id)
-                                                  .then((responseJson)=>{
-                                                      this.props.onCancelTrabajo();
-                                                  })
-                                                  .catch((err)=>{
-                                                    //console.log(err);
-                                                    alert(err);
-                                                  });
-                                            }},
-                                        ],
-                                        {cancelable: true},
-                                    );
-                                }}/>
+                                        Alert.alert(
+                                            'Cancelar trabajo',
+                                            'Esta seguro que desea cancelar este trabajo?',
+                                            [
+                                                {text: 'Si, cancelar', onPress: () => {
+                                                    
+                                                    this.api = new RestApi();
+                                                    this.api.cancelarTrabajoProfesional(this.props.item.solicitud_id)
+                                                    .then((responseJson)=>{
+                                                        this.props.onCancelTrabajo();
+                                                    })
+                                                    .catch((err)=>{
+                                                        //console.log(err);
+                                                        alert(err);
+                                                    });
+                                                }},
+                                            ],
+                                            {cancelable: true},
+                                        );
+                                    }}/>
+                            </View>
+                        </View>
                     </View>
+                            
+
+
+                            
+
+                            
+
+                            
+                    
                 </View>
 
             </View>

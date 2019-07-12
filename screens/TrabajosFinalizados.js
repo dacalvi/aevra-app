@@ -106,7 +106,7 @@ export default class TrabajosFinalizados extends React.Component {
 
           {this.state.trabajos.map((trabajo, i)=>{
                 return (
-                  <TrabajoFinalizado trabajo={trabajo} key={i} />
+                  <TrabajoFinalizado trabajo={trabajo} key={i} navigation={this.props.navigation} />
                 );
             })}
 

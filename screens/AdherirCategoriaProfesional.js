@@ -61,7 +61,17 @@ class TrabajosSolicitados extends React.Component {
       this.api.categorias()
         .then((responseJson)=>{
           this.categorias = responseJson.data;
-          this.setState({loading: false});
+          let selectedCategorias = [];
+          this.categorias.map((categoria)=>{
+            if(categoria.suscrito){
+              selectedCategorias.push( parseInt(categoria.id) )
+            }
+          });
+
+          this.setState({
+            loading: false,
+            selectedCategorias
+          });
         })
         .catch((err)=>{
           Alert.alert("Error", err);
@@ -197,6 +207,7 @@ class TrabajosSolicitados extends React.Component {
                       imagen={categoria.imagen}
                       onChange={(categoria)=>{
                         this.toggleCategoria(categoria);
+                        console.log(this.state);
                       }}
                     />
                 );

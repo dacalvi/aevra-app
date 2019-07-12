@@ -27,28 +27,44 @@ class RegistroProfesionalValidado extends React.Component {
     headerTintColor: '#fff',
     headerTitleStyle: {flex: 1, textAlign: 'center'}
   };
-  
-  state = {};
 
   constructor(props){
     super(props);
     this.state = {
       epicentro: null,
       radio: null,
-      dias: [
-        false, //dom
-        false, //lun
-        false, //mar
-        false, //mier
-        false, //juev
-        false, //vier
-        false //Sabado
-      ],
+      dias: [false,false,false,false,false,false,false],
       horario: '9a12'
     }
   }
 
+  
+  componentDidMount(){
+    let api = new RestApi();
+    api.miperfilprofesional()
+    .then((responseJson)=>{
+      let nuevos_dias = this.convertStringDiasToArray(responseJson.dias);
+      this.setState({dias: nuevos_dias});
+      this.setState({horario: responseJson.horario});
+    })
+    .catch((err)=>{
+      console.log(err);
+    });
+  }
+  
 
+  convertStringDiasToArray(str_dias){
+    let dias = [false,false,false,false,false,false,false];
+    listado_dias = ['domingo','lunes','martes','miercoles','jueves','viernes','sabado'];
+    let days_parts = str_dias.split(',');
+    
+    if(days_parts.length > 0){
+      days_parts.map((day)=>{
+        dias[listado_dias.indexOf(day)] = true;
+      })
+    }
+    return dias;
+  }
 
   resizeImage(image, width, height){
     return new Promise((resolve, reject)=>{
@@ -116,10 +132,10 @@ class RegistroProfesionalValidado extends React.Component {
       }
   }
 
+
+
+
   btnTerminarClick(){
-
-    
-
     let payload = {...this.props.adherirCategorias.adherirCategorias, ...this.state};
     this.resizeImagesAndSend(payload.selectedCategoriasImages).then( (selectedCategoriasImages) => {
       payload.selectedCategoriasImages = selectedCategoriasImages;
@@ -144,7 +160,7 @@ class RegistroProfesionalValidado extends React.Component {
   }
 
   render() {
-    const {isVisible} = this.state
+    const {isVisible, dias, horario} = this.state
     return (
       
       <KeyboardAvoidingView 
@@ -173,18 +189,20 @@ class RegistroProfesionalValidado extends React.Component {
           }/>
 
           <View style={{marginLeft: 10, paddingRight: 10, marginTop: 15, width: '90%'}}>
-            <ADiaSemanaSelector onDayChange={(dayIndex, status)=> {
+            <ADiaSemanaSelector
+            selectedDays={dias}
+            onDayChange={(dayIndex, status)=> {
               let { dias } = this.state;
               dias[dayIndex] = status;
               this.setState({dias});
             }} />
           </View>
 
-          <Horario 
+          <Horario
+            selectedValue={horario}
             onChangeValue={(horario => {
               console.log(horario);
-              this.setState({horario});
-              
+                this.setState({horario});
               })}
             multiple={true}
 

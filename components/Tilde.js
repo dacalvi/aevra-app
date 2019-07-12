@@ -16,7 +16,7 @@ export default class Tilde extends React.Component {
 
   
   componentWillMount(){
-    console.log("Checked?", this.props.checked);
+    //console.log("Checked?", this.props.checked);
     this.setState({checked: this.props.checked})
   }
 
