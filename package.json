@@ -14,7 +14,7 @@
   "dependencies": {
     "@bugsnag/expo": "^6.2.0",
     "@expo/samples": "2.1.1",
-    "expo": "^32.0.0",
+    "expo": "^46.0.14",
     "expo-location": "^4.0.0",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
